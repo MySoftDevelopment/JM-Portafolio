@@ -11,8 +11,9 @@ body {
     height: 100%;
     overflow-x: hidden;
 
-    background-color: #FFFFFF;
-    color: #000000;
+    --tw-bg-opacity: 1;
+    background-color: rgb(2 6 23 / var(--tw-bg-opacity));
+    color: #FFFFFF;
 
     font-family: 'Open Sans', sans-serif;
 

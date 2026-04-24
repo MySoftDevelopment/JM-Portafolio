@@ -2,7 +2,7 @@
     "compilerOptions": {
         "target": "ES2020",
         "useDefineForClassFields": true,
-        "lib": [ "ES2020", "DOM", "DOM.Iterable" ],
+        "lib": ["ES2020", "DOM", "DOM.Iterable"],
         "module": "ESNext",
         "skipLibCheck": true,
         "moduleResolution": "bundler",
@@ -15,11 +15,10 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
-        "baseUrl": "src",
         "paths": {
-            "@configuration/*": [ "api/configuration/*" ],
-            "@components/*": [ "components/*" ],
-            "@includes/*": [ "components/includes/*" ]
+            "@configuration/*": ["./src/api/configuration/*"],
+            "@components/*": ["./src/components/*"],
+            "@includes/*": ["./src/components/includes/*"]
         }
     },
     "include": ["src"]

@@ -6,7 +6,7 @@ import { App } from './App';
 import 'animate.css';
 
 export const Main: FC = () => {
-    const [ isLoading, setIsLoading ] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
 
     const loadConfig = async () => {
         try {
@@ -14,7 +14,7 @@ export const Main: FC = () => {
             const configData: ConfigType = await response.json();
             (window as unknown as { Config: ConfigType }).Config = configData;
         } catch {
-            
+            // ignore.
         }
     };
 
@@ -24,6 +24,8 @@ export const Main: FC = () => {
         const initializeApp = async () => {
             try {
                 await loadConfig();
+
+                await new Promise((resolve) => setTimeout(resolve, 1500)); // Simulate a delay for loading
 
                 if (document.readyState === 'complete') {
                     if (isMounted) {
@@ -44,7 +46,6 @@ export const Main: FC = () => {
                         setIsLoading(false);
                     }
                 }, 5000);
-
             } catch {
                 if (isMounted) {
                     setIsLoading(false);

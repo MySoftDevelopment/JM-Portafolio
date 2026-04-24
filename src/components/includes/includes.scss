@@ -1,9 +1,9 @@
 .loader {
     background: url('@/assets/images/loader/loader.png');
-    background-size: 620px 486px;
+    background-size: cover;
     background-repeat: no-repeat;
-    width: 620px;
-    height: 486px;
+    width: 310px;
+    height: 243px;
 
     animation: animate 1.5s infinite;
     @keyframes animate {

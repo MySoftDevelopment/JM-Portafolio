@@ -32,15 +32,9 @@ export default tseslint.config(
         rules: {
             ...reactHooks.configs.recommended.rules,
             'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-            indent: ['error', 4],
             'react-hooks/exhaustive-deps': 'warn',
             'react/jsx-no-useless-fragment': 'warn',
             'no-console': 'warn',
-            'react/jsx-curly-spacing': ['error', { when: 'always', children: true, objectLiterals: 'always' }],
-            'object-curly-spacing': ['error', 'always'],
-            'array-bracket-spacing': ['error', 'always'],
-            quotes: ['error', 'single', { avoidEscape: true }],
-            'jsx-quotes': ['error', 'prefer-single'],
         },
     },
 );
