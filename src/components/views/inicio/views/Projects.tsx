@@ -6,8 +6,8 @@ const PROJECTS = [
         id: 1,
         title: 'Academia INCES',
         subtitle: 'Plataforma web + ERP académico',
-        description: 'Página web institucional para una academia de belleza profesional, complementada con un software de gestión empresarial completo: sistema de notas, matrículas, inventario, caja, facturación, control de asistencia y administración de estudiantes.',
-        tags: ['PHP', 'Laravel', 'MySQL', 'React', 'ERP'],
+        description: 'Página web institucional para una academia de belleza profesional, complementada con un software de gestión empresarial completo: sistema de notas, matrículas, facturación, control de asistencia y administración de estudiantes.',
+        tags: ['PHP', 'React', 'MariaDB', 'MySQLI', 'PDO'],
         links: [{ label: 'Ver sitio', url: 'https://www.academiainces.com' }],
         color: 'rose',
         icon: '🎓',
@@ -18,7 +18,7 @@ const PROJECTS = [
         title: 'Lilac by INCES',
         subtitle: 'E-commerce de productos de belleza',
         description: 'Submarca de Academia INCES orientada a la venta de productos cosméticos y de belleza. Plataforma de comercio electrónico con catálogo de productos, carrito de compras y gestión de pedidos.',
-        tags: ['PHP', 'E-commerce', 'MySQL'],
+        tags: ['PHP', 'MariaDB', 'MySQLI'],
         links: [{ label: 'Ver tienda', url: 'https://lilacbyinces.com' }],
         color: 'purple',
         icon: '🌸',
@@ -27,8 +27,8 @@ const PROJECTS = [
         id: 3,
         title: 'SEVE',
         subtitle: 'Sistema de Valoración Estudiantil',
-        description: 'Plataforma académica integral para la gestión educativa: manejo de notas y calificaciones, hojas de vida estudiantiles, consolidados académicos, plan de aula, gestión de clases, tareas y actividades, observador del alumno y generación de reportes.',
-        tags: ['PHP', 'Laravel', 'MySQL', 'React', 'Educación'],
+        description: 'Ecosistema educativo integral que integra múltiples soluciones dirigidas a administrativos, docentes, acudientes y estudiantes. Estos softwares permiten la gestión de: notas y calificaciones, hojas de vida, consolidados académicos, planificación mediante el plan de aula, gestión de clases, tareas y actividades, control de asistencias, observador del alumno y generación de reportes.',
+        tags: ['PHP', 'MariaDB', 'MySQLI', 'ODBC'],
         links: [],
         color: 'teal',
         icon: '📊',
@@ -36,20 +36,20 @@ const PROJECTS = [
     {
         id: 4,
         title: 'MySoft',
-        subtitle: 'ERP para PYMEs y Ópticas',
-        description: 'Sistema de gestión empresarial para pequeñas y medianas empresas con módulos de inventarios, caja, compras, recibos y facturación electrónica, historial de ventas, historial de caja. Versión especializada para ópticas con módulo de citas y historias clínicas.',
-        tags: ['PHP', 'Laravel', 'MySQL', 'React', 'ERP', 'Ópticas'],
-        links: [{ label: 'Ver demo', url: 'https://demo.mysoft.live' }],
+        subtitle: 'ERP para PYMEs',
+        description: 'Sistema de gestión empresarial para pequeñas y medianas empresas con módulos de inventarios, caja, compras, recibos y facturación, historial de ventas, historial de caja. Versión especializada para ópticas con módulo de citas y historias clínicas.',
+        tags: ['PHP', 'MariaDB', 'MySQLI'],
+        links: [{ label: 'Ver Demo', url: 'https://demo.mysoft.live' }],
         color: 'blue',
         icon: '🏢',
         highlight: true,
     },
     {
         id: 5,
-        title: 'MySoft CRM + WhatsApp Bot',
+        title: 'CRM + WhatsApp Bot',
         subtitle: 'Envío masivo & CRM con +500K contactos',
-        description: 'Selfbot de WhatsApp dinámico que soporta N líneas simultáneas para envío masivo de mensajes, con panel en PHP para escanear QR. Integrado con CRM propio que gestiona más de 500.000 números de Colombia. API disponible para integración con cualquier plataforma.',
-        tags: ['PHP', 'WhatsApp API', 'CRM', 'Node.js', 'MySQL'],
+        description: 'Selfbot de WhatsApp dinámico que soporta líneas simultáneas para envío masivo de mensajes, con panel en PHP para escanear QR. Integrado con CRM propio que gestiona más de 500.000 números de Colombia. API disponible para integración con cualquier plataforma.',
+        tags: ['PHP', 'MariaDB', 'MySQLI', 'Typescript', 'Websocket'],
         links: [{ label: 'Ver CRM', url: 'https://crm.mysoft.live' }],
         color: 'green',
         icon: '💬',
@@ -59,7 +59,7 @@ const PROJECTS = [
         title: 'Ganadores con Suerte',
         subtitle: 'Plataforma de sorteos online',
         description: 'Plataforma completa para la gestión de sorteos en línea con interfaz pública y panel administrativo. Permite crear y editar sorteos, gestionar pedidos, consultar clientes y personalizar todo el contenido visual desde el panel de administración.',
-        tags: ['PHP', 'MySQL', 'JavaScript', 'Admin Panel'],
+        tags: ['PHP', 'MariaDB', 'MySQLI'],
         links: [{ label: 'Ver plataforma', url: 'https://ganadoresconsuerte.com' }],
         color: 'amber',
         icon: '🎰',
@@ -125,7 +125,7 @@ export const Projects: FC = () => {
                 <Animation>
                     <div className='text-center mb-14'>
                         <p className='text-violet-400 text-sm font-mono mb-3 tracking-widest uppercase'>Portafolio</p>
-                        <h2 className='text-3xl md:text-4xl font-bold text-white mb-4'>Proyectos destacados</h2>
+                        <h2 className='text-3xl md:text-4xl font-bold text-white mb-4'>Proyectos Destacados</h2>
                         <p className='text-slate-500 max-w-xl mx-auto'>Sistemas reales en producción, construidos con tecnología moderna y orientados a resolver problemas empresariales.</p>
                     </div>
                 </Animation>

@@ -7,7 +7,7 @@ export const Footer: FC = () => {
                 <span className='font-mono'>
                     <span className='text-violet-500'>&lt;</span>JM<span className='text-violet-500'>/&gt;</span> Juan Molina — juanmolina.dev
                 </span>
-                <span>Desarrollado con React + TypeScript + Tailwind CSS 🇨🇴</span>
+                <span>Portafolio desarrollado con React + Typescript + Tailwind CSS.</span>
             </div>
         </footer>
     );

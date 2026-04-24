@@ -12,8 +12,8 @@ export const About: FC = () => {
                             <h2 className='text-3xl md:text-4xl font-bold text-white mb-6 leading-tight'>
                                 Soluciones de software que <span className='text-violet-400'>realmente funcionan</span>
                             </h2>
-                            <p className='text-slate-400 leading-relaxed mb-4'>Soy un desarrollador fullstack colombiano con especialización en PHP y un amplio ecosistema tecnológico. Me apasiona construir sistemas empresariales completos: desde ERPs hasta plataformas SaaS, siempre enfocado en la robustez y la experiencia de usuario.</p>
-                            <p className='text-slate-400 leading-relaxed mb-6'>Mi stack principal gira en torno a PHP/Laravel en el backend y React/TypeScript en el frontend, combinado con experiencia en Python, Java y arquitecturas de API. He desarrollado sistemas con miles de usuarios activos y bases de datos con más de 500.000 registros.</p>
+                            <p className='text-slate-400 leading-relaxed mb-4'>Soy un desarrollador fullstack con especialización en PHP y un amplio ecosistema tecnológico. Me apasiona construir sistemas empresariales complejos: desde ERPs hasta plataformas SaaS, siempre enfocado en los retos de alto nivel.</p>
+                            <p className='text-slate-400 leading-relaxed mb-6'>Mi stack principal gira en torno a PHP para desarrollo backend y React en el desarrollo frontend. He desarrollado sistemas con miles de usuarios activos y bases de datos con más de 500.000 registros.</p>
                             <div className='flex gap-4'>
                                 <a href='mailto:juan@mysoft.live' className='inline-flex items-center gap-2 text-violet-400 hover:text-violet-300 text-sm font-medium transition-colors'>
                                     <svg className='w-4 h-4' fill='currentColor' viewBox='0 0 20 20'>
@@ -32,11 +32,11 @@ export const About: FC = () => {
                         </div>
                         <div className='space-y-4'>
                             {[
-                                { label: 'PHP / Laravel', pct: 95 },
-                                { label: 'React / TypeScript', pct: 88 },
-                                { label: 'MySQL / Bases de datos', pct: 90 },
-                                { label: 'Python', pct: 72 },
-                                { label: 'Java', pct: 70 },
+                                { label: 'PHP', pct: 100 },
+                                { label: 'React / TypeScript', pct: 90 },
+                                { label: 'Java', pct: 80 },
+                                { label: 'Python', pct: 60 },
+                                { label: 'HTML / CSS / Javascript', pct: 100 },
                             ].map((s) => (
                                 <div key={s.label}>
                                     <div className='flex justify-between text-sm mb-1.5'>

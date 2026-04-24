@@ -32,9 +32,6 @@ export const Navbar: FC = () => {
                             {l.label}
                         </a>
                     ))}
-                    <a href='mailto:juan@mysoft.live' className='text-sm px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 text-white transition-colors duration-200 font-medium'>
-                        Contactar
-                    </a>
                 </div>
                 <button className='md:hidden text-slate-400 hover:text-white' onClick={() => setOpen(!open)}>
                     <svg className='w-6 h-6' fill='none' stroke='currentColor' viewBox='0 0 24 24'>

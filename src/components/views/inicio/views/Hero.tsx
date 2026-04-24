@@ -14,16 +14,16 @@ export const Hero: FC = () => {
             <div className='relative z-10 max-w-4xl mx-auto px-6 text-center'>
                 <div className='inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-900/40 border border-violet-700/40 text-violet-300 text-sm mb-8 backdrop-blur-sm'>
                     <span className='w-2 h-2 rounded-full bg-green-400 animate-pulse' />
-                    Disponible para proyectos freelance
+                    ¡Disponible para proyectos!
                 </div>
                 <h1 className='text-5xl md:text-7xl font-bold text-white mb-6 leading-tight tracking-tight'>
                     Juan <span className='bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent'>Molina</span>
                 </h1>
                 <p className='text-xl md:text-2xl text-slate-400 mb-4 font-light'>Desarrollador de Software Fullstack</p>
-                <p className='text-slate-500 text-lg mb-10 max-w-xl mx-auto leading-relaxed'>Construyo aplicaciones web y sistemas empresariales robustos desde Colombia 🇨🇴</p>
+                <p className='text-slate-500 text-lg mb-10 max-w-xl mx-auto leading-relaxed'>Construyo aplicaciones web/móviles y sistemas empresariales.</p>
                 <div className='flex flex-wrap items-center justify-center gap-4'>
                     <a href='#projects' className='px-8 py-3.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-medium transition-all duration-200 hover:scale-105 shadow-lg shadow-violet-900/50'>
-                        Ver proyectos
+                        Ver Proyectos
                     </a>
                     <a href='#contact' className='px-8 py-3.5 rounded-xl border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white font-medium transition-all duration-200 hover:scale-105'>
                         Hablemos
@@ -31,10 +31,9 @@ export const Hero: FC = () => {
                 </div>
                 <div className='mt-16 flex flex-wrap items-center justify-center gap-8 text-slate-600'>
                     {[
-                        { n: '6+', label: 'Años exp.' },
-                        { n: '10+', label: 'Proyectos' },
-                        { n: '1,658', label: 'Commits 2025' },
-                        { n: '500K+', label: 'Contactos CRM' },
+                        { n: '10+', label: 'Años de Experiencia' },
+                        { n: '20+', label: 'Proyectos Realizados' },
+                        { n: '1,658', label: 'Contribuciones en 2025 (Github)' },
                     ].map(({ n, label }) => (
                         <div key={label} className='text-center'>
                             <div className='text-2xl font-bold text-slate-300'>{n}</div>

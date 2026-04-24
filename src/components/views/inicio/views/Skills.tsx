@@ -3,10 +3,10 @@ import { FC } from 'react';
 
 export const Skills: FC = () => {
     const SKILLS = {
-        Backend: ['PHP', 'Laravel', 'Python', 'Java', 'Node.js'],
-        Frontend: ['React', 'TypeScript', 'JavaScript', 'Tailwind CSS', 'SCSS', 'Bootstrap'],
-        'Bases de datos': ['MySQL', 'PostgreSQL', 'SQLite'],
-        Otros: ['Git', 'REST APIs', 'WhatsApp API', 'Linux', 'Docker'],
+        Backend: ['PHP', 'Laravel', 'Java', 'Python'],
+        Frontend: ['React', 'Typescript', 'Javascript', 'CSS', 'SCSS', 'Tailwind CSS', 'Bootstrap'],
+        'Bases de datos': ['MySQL', 'MariaDB', 'ODBC'],
+        Otros: ['Git', 'IIS', 'Nginx', 'Debian', 'Proxmox'],
     };
 
     return (
@@ -15,7 +15,7 @@ export const Skills: FC = () => {
                 <Animation>
                     <div className='text-center mb-14'>
                         <p className='text-violet-400 text-sm font-mono mb-3 tracking-widest uppercase'>Tecnologías</p>
-                        <h2 className='text-3xl md:text-4xl font-bold text-white'>Stack tecnológico</h2>
+                        <h2 className='text-3xl md:text-4xl font-bold text-white'>Mi Stack Tecnológico</h2>
                     </div>
                     <div className='grid sm:grid-cols-2 lg:grid-cols-4 gap-6'>
                         {Object.entries(SKILLS).map(([cat, items]) => (
