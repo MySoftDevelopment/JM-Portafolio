@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+@font-face {
+	font-family: Nexa;
+	font-style: normal;
+	font-weight: 300;
+	src: local('Nexa'), url(@/assets/webfonts/NexaLight.woff) format('woff')
+}
+
+@font-face {
+	font-family: Nexa;
+	font-style: normal;
+	font-weight: 700;
+	src: local('Nexa'), url(@/assets/webfonts/NexaBold.woff) format('woff')
+}

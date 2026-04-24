@@ -1,0 +1,57 @@
+@import './assets/styles';
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+html,
+body {
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+
+    background-color: #FFFFFF;
+    color: #000000;
+
+    font-family: 'Open Sans', sans-serif;
+
+    * {
+        -webkit-font-smoothing: antialiased;
+    }
+}
+
+img {
+    object-fit: none;
+}
+
+.custom-scrollbar {
+    padding-right: 1px;
+
+    &::-webkit-scrollbar {
+        width: 9px;
+        height: 9px;
+    }
+    
+    &::-webkit-scrollbar-track {
+        border-image-slice: 5 fill;
+        border-image-width: 5px;
+        border-image-repeat: repeat repeat;
+        border-image-source: url('@/assets/images/scrollbar/scrollbar-track-bg.png');
+    }
+    
+    &::-webkit-scrollbar-thumb {
+        border-image-slice: 3 fill;
+        border-image-width: 3px;
+        border-image-repeat: repeat repeat;
+        border-image-source: url('@/assets/images/scrollbar/scrollbar-thumb-bg.png');
+    }
+    
+    &::-webkit-scrollbar-thumb:hover {
+        border-image-source: url('@/assets/images/scrollbar/scrollbar-thumb-hover-bg.png');
+    }
+
+    &::-webkit-scrollbar-thumb:active {
+        border-image-source: url('@/assets/images/scrollbar/scrollbar-thumb-active-bg.png');
+    }
+}

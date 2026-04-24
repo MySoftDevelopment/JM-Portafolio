@@ -1,0 +1,18 @@
+.fa-icon {
+    line-height: 0!important;
+}
+
+.icon {
+    display: inline-block;
+    outline: 0;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    &.icon-inces {
+        background-image: url('@/assets/images/icons/inces.svg');
+        background-size: 20px 20px;
+        width: 20px;
+        height: 20px;
+    }
+}
