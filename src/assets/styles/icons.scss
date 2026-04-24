@@ -1,5 +1,5 @@
 .fa-icon {
-    line-height: 0!important;
+    line-height: 0 !important;
 }
 
 .icon {
@@ -9,10 +9,10 @@
     background-repeat: no-repeat;
     background-position: center;
 
-    &.icon-inces {
-        background-image: url('@/assets/images/icons/inces.svg');
-        background-size: 20px 20px;
-        width: 20px;
-        height: 20px;
+    &.icon-mysoft {
+        background-image: url('@/assets/images/icons/mysoft.png');
+        background-size: 620px 486px;
+        width: 620px;
+        height: 486px;
     }
 }
