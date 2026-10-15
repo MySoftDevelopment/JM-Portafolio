@@ -1,58 +1,675 @@
-@import './assets/styles';
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/geist-mono';
+
+/*
+ * Color de la escena actual. Registrado como <color> para que el navegador pueda
+ * interpolarlo: al cambiar de proyecto, el ambiente, el robot y los escenarios
+ * pasan de un color a otro en vez de saltar.
+ */
+@property --brand {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: #e07a5f;
+}
 
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-html,
+/*
+ * Paleta "Atelier": carbón cálido + crema, con terracota como acento principal
+ * y arena, salvia y pizarra como acompañantes (cada proyecto toma uno).
+ * Radios: tarjetas 20px, botones y pastillas redondos.
+ * Las líneas van precalculadas sobre el fondo para poder usar opacidades de Tailwind.
+ */
+:root,
+:root[data-theme='dark'] {
+    --canvas: 20 20 20;
+    --surface: 27 26 25;
+    --surface-2: 23 22 21;
+    --raised: 36 35 33;
+    --ink: 244 241 222;
+    --muted: 161 157 140;
+    --faint: 109 106 96;
+    --line: 35 34 32;
+    --line-strong: 54 53 49;
+    --accent: 224 122 95;
+    --accent-ink: 20 20 20;
+    --sand: 242 204 143;
+    --sage: 129 178 154;
+    --slate: 61 64 91;
+    --glow: 0.08;
+
+    color-scheme: dark;
+}
+
+:root[data-theme='light'] {
+    --canvas: 247 244 234;
+    --surface: 255 253 246;
+    --surface-2: 251 248 239;
+    --raised: 236 232 218;
+    --ink: 27 26 25;
+    --muted: 94 90 80;
+    --faint: 134 129 116;
+    --line: 226 222 211;
+    --line-strong: 208 203 190;
+    --accent: 181 82 58;
+    --accent-ink: 255 251 242;
+    --sand: 166 114 36;
+    --sage: 58 120 92;
+    --slate: 61 64 91;
+    --glow: 0.1;
+
+    color-scheme: light;
+}
+
+:root {
+    --brand: #e07a5f;
+    transition: --brand 1100ms cubic-bezier(0.65, 0, 0.35, 1);
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 88px;
+    -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
 body {
-    padding: 0;
-    width: 100%;
-    height: 100%;
+    @apply bg-canvas font-sans text-ink antialiased;
     overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+}
 
-    --tw-bg-opacity: 1;
-    background-color: rgb(2 6 23 / var(--tw-bg-opacity));
-    color: #FFFFFF;
+/* Brillos de fondo fijos (terracota arriba a la izquierda, salvia a la derecha). */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(60% 50% at 10% 0%, color-mix(in srgb, var(--brand) calc(var(--glow) * 100%), transparent), transparent 70%),
+        radial-gradient(45% 40% at 96% 6%, rgb(var(--sage) / calc(var(--glow) * 0.75)), transparent 70%);
+}
 
-    font-family: 'Open Sans', sans-serif;
+#root {
+    position: relative;
+    z-index: 1;
+}
 
-    * {
-        -webkit-font-smoothing: antialiased;
+::selection {
+    background: rgb(var(--sand));
+    color: rgb(20 20 20);
+}
+
+:focus-visible {
+    outline: 2px solid rgb(var(--sand));
+    outline-offset: 3px;
+    border-radius: 10px;
+}
+
+@layer components {
+    .container-page {
+        @apply mx-auto w-full max-w-page px-4 sm:px-6 lg:px-10;
+    }
+
+    /* Etiqueta pequeña en mono con el cuadrito que gira (como en la referencia). */
+    .kicker {
+        @apply flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.22em] text-muted;
+    }
+
+    .kicker::before {
+        content: '';
+        @apply inline-block h-2 w-2 shrink-0 rounded-[2px] bg-accent;
+        animation: kick 2.4s ease-in-out infinite;
+    }
+
+    .btn {
+        @apply inline-flex h-11 items-center justify-center gap-2 whitespace-nowrap rounded-full px-5 text-sm font-medium;
+        transition:
+            transform 160ms var(--ease-out),
+            background-color 200ms ease,
+            border-color 200ms ease,
+            color 200ms ease;
+    }
+
+    .btn:active {
+        transform: scale(0.97);
+    }
+
+    .btn-primary {
+        @apply btn bg-ink text-canvas;
+    }
+
+    .btn-ghost {
+        @apply btn border border-line-strong bg-ink/[0.03] font-mono text-[12px] uppercase tracking-[0.12em] text-ink;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        .btn-primary:hover {
+            @apply bg-accent text-accent-ink;
+        }
+
+        .btn-ghost:hover {
+            @apply border-ink/30 bg-ink/[0.07];
+        }
+    }
+
+    .chip {
+        @apply inline-flex items-center rounded-full border border-line px-2.5 py-1 font-mono text-[11px] leading-none text-muted;
+    }
+
+    /* Tarjeta de la galería: degradado sutil y brillo del color del proyecto al pasar. */
+    .card {
+        --tono: var(--accent);
+        @apply relative overflow-hidden rounded-[20px] border border-line;
+        background: linear-gradient(180deg, rgb(var(--surface)), rgb(var(--surface-2)));
+        transition:
+            transform 300ms var(--ease-out),
+            border-color 300ms ease,
+            box-shadow 300ms ease;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        /* Solo las tarjetas que son enlace se levantan: así el hover no promete un clic que no existe. */
+        a.card:hover,
+        .card.interactiva:hover {
+            transform: translateY(-3px);
+            border-color: rgb(var(--tono) / 0.45);
+            box-shadow: 0 22px 50px -24px rgb(var(--tono) / 0.45);
+        }
+    }
+
+    /* Escenario con rejilla de puntos que se desvanece hacia los bordes. */
+    .stage {
+        @apply relative isolate overflow-hidden;
+    }
+
+    .stage::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: radial-gradient(circle at 1px 1px, rgb(var(--ink) / 0.09) 1px, transparent 1.4px) 0 0 / 16px 16px;
+        mask: radial-gradient(70% 70% at 50% 50%, #000, transparent);
+    }
+
+    .stage::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: radial-gradient(55% 50% at 50% 50%, rgb(var(--tono) / 0.16), transparent 70%);
+        opacity: 0;
+        transition: opacity 600ms ease;
+    }
+
+    .card:hover .stage::after,
+    .stage.encendido::after {
+        opacity: 1;
     }
 }
 
-img {
-    object-fit: none;
+@keyframes kick {
+    0%,
+    100% {
+        transform: rotate(0);
+    }
+    50% {
+        transform: rotate(90deg);
+        border-radius: 50%;
+    }
 }
 
-.custom-scrollbar {
-    padding-right: 1px;
+/* Los tres puntos que saltan al final del titular. */
+@keyframes hop {
+    0%,
+    60%,
+    100% {
+        transform: translateY(0);
+    }
+    30% {
+        transform: translateY(-0.22em);
+    }
+}
 
-    &::-webkit-scrollbar {
-        width: 9px;
-        height: 9px;
+.puntos i {
+    display: inline-block;
+    width: 0.13em;
+    height: 0.13em;
+    border-radius: 50%;
+    animation: hop 1.3s cubic-bezier(0.3, 0, 0.3, 1) infinite;
+}
+
+.puntos i:nth-child(1) {
+    background: rgb(var(--accent));
+}
+
+.puntos i:nth-child(2) {
+    background: rgb(var(--sand));
+    animation-delay: 0.14s;
+}
+
+.puntos i:nth-child(3) {
+    background: rgb(var(--sage));
+    animation-delay: 0.28s;
+}
+
+@keyframes marquee {
+    from {
+        transform: translateX(0);
     }
-    
-    &::-webkit-scrollbar-track {
-        border-image-slice: 5 fill;
-        border-image-width: 5px;
-        border-image-repeat: repeat repeat;
-        border-image-source: url('@/assets/images/scrollbar/scrollbar-track-bg.png');
+    to {
+        transform: translateX(-50%);
     }
-    
-    &::-webkit-scrollbar-thumb {
-        border-image-slice: 3 fill;
-        border-image-width: 3px;
-        border-image-repeat: repeat repeat;
-        border-image-source: url('@/assets/images/scrollbar/scrollbar-thumb-bg.png');
+}
+
+.animate-marquee {
+    animation: marquee 52s linear infinite;
+}
+
+.group:hover .animate-marquee {
+    animation-play-state: paused;
+}
+
+/* ---------- Bit, el robot ---------- */
+@keyframes robot-flota {
+    0%,
+    100% {
+        transform: translateY(0);
     }
-    
-    &::-webkit-scrollbar-thumb:hover {
-        border-image-source: url('@/assets/images/scrollbar/scrollbar-thumb-hover-bg.png');
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+@keyframes robot-sombra {
+    0%,
+    100% {
+        transform: scaleX(1);
+        opacity: 0.35;
+    }
+    50% {
+        transform: scaleX(0.86);
+        opacity: 0.25;
+    }
+}
+
+@keyframes robot-parpadeo {
+    0%,
+    92%,
+    100% {
+        transform: scaleY(1);
+    }
+    95% {
+        transform: scaleY(0.1);
+    }
+}
+
+@keyframes robot-saludo {
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(-22deg);
+    }
+}
+
+@keyframes robot-tecleo {
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(-7deg);
+    }
+}
+
+@keyframes robot-barra {
+    0%,
+    100% {
+        transform: scaleY(0.35);
+    }
+    50% {
+        transform: scaleY(1);
+    }
+}
+
+@keyframes robot-antena {
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(0.82);
+        opacity: 0.75;
+    }
+}
+
+@keyframes robot-llama {
+    0%,
+    100% {
+        transform: scaleY(1);
+        opacity: 0.9;
+    }
+    50% {
+        transform: scaleY(0.7);
+        opacity: 0.6;
+    }
+}
+
+@keyframes robot-idea {
+    0%,
+    100% {
+        opacity: 0.25;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes robot-codigo {
+    0% {
+        transform: scaleX(0);
+    }
+    60%,
+    100% {
+        transform: scaleX(1);
+    }
+}
+
+@keyframes robot-confeti {
+    0% {
+        transform: translate(0, 0) rotate(0);
+        opacity: 0;
+    }
+    15% {
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--dx), -46px) rotate(220deg);
+        opacity: 0;
+    }
+}
+
+.robot-flota {
+    animation: robot-flota 2.6s ease-in-out infinite;
+}
+
+.robot-sombra {
+    transform-origin: 60px 144px;
+    transform-box: view-box;
+    animation: robot-sombra 2.6s ease-in-out infinite;
+}
+
+.robot-parpadeo {
+    transform-origin: center;
+    transform-box: fill-box;
+    animation: robot-parpadeo 4.2s ease-in-out infinite;
+}
+
+.robot-saludo {
+    animation: robot-saludo 0.9s ease-in-out infinite;
+}
+
+.robot-tecleo {
+    animation: robot-tecleo 0.32s ease-in-out infinite;
+}
+
+.robot-barra {
+    animation: robot-barra 1.1s ease-in-out infinite;
+}
+
+.robot-antena {
+    animation: robot-antena 1.8s ease-in-out infinite;
+}
+
+.robot-llama {
+    transform-origin: 60px 124px;
+    transform-box: view-box;
+    animation: robot-llama 0.35s ease-in-out infinite;
+}
+
+.robot-idea {
+    animation: robot-idea 1.2s ease-in-out infinite;
+}
+
+.robot-codigo {
+    transform-origin: left;
+    transform-box: fill-box;
+    animation: robot-codigo 1.6s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+}
+
+.robot-confeti {
+    animation: robot-confeti 1.4s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+}
+
+.robot-ladeo {
+    transform: rotate(-6deg);
+    transition: transform 500ms cubic-bezier(0.34, 1.45, 0.64, 1);
+}
+
+/* ---------- El taller (diorama del hero) ---------- */
+@keyframes giro {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes led {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.2;
+    }
+}
+
+@keyframes burbuja {
+    0% {
+        transform: translateY(8px) scale(0.85);
+        opacity: 0;
+    }
+    20%,
+    70% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-46px) scale(1);
+        opacity: 0;
+    }
+}
+
+@keyframes respira {
+    0%,
+    100% {
+        transform: scale(1, 1);
+    }
+    50% {
+        transform: scale(1.03, 1.07);
+    }
+}
+
+@keyframes zzz {
+    0% {
+        transform: translate(0, 0);
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+    }
+    100% {
+        transform: translate(10px, -26px);
+        opacity: 0;
+    }
+}
+
+@keyframes titila {
+    0%,
+    100% {
+        opacity: 0.25;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes notificacion {
+    0%,
+    55%,
+    100% {
+        transform: scale(0);
+    }
+    62%,
+    90% {
+        transform: scale(1);
+    }
+}
+
+@keyframes neon {
+    0%,
+    18%,
+    22%,
+    100% {
+        opacity: 1;
+    }
+    20% {
+        opacity: 0.35;
+    }
+}
+
+@keyframes vapor {
+    0% {
+        transform: translateY(0) scale(0.6);
+        opacity: 0;
+    }
+    30% {
+        opacity: 0.5;
+    }
+    100% {
+        transform: translateY(-30px) scale(1.4);
+        opacity: 0;
+    }
+}
+
+.taller .giro {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: giro 9s linear infinite;
+}
+
+.taller .giro-inverso {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: giro 6s linear infinite reverse;
+}
+
+.taller .led {
+    animation: led 1.4s steps(2, jump-none) infinite;
+}
+
+.taller .burbuja {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: burbuja 3.6s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+}
+
+.taller .respira {
+    transform-box: fill-box;
+    transform-origin: bottom center;
+    animation: respira 3.2s ease-in-out infinite;
+}
+
+.taller .zzz {
+    animation: zzz 3.2s ease-out infinite;
+}
+
+.taller .titila {
+    animation: titila 2.8s ease-in-out infinite;
+}
+
+.taller .notificacion {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: notificacion 4s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+}
+
+.taller .neon {
+    animation: neon 5s linear infinite;
+}
+
+.taller .vapor {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: vapor 2.8s ease-out infinite;
+}
+
+.taller .codigo {
+    transform-box: fill-box;
+    transform-origin: left;
+    animation: robot-codigo 2.4s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+}
+
+@keyframes flotar {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+.flotar {
+    animation: flotar 5s ease-in-out infinite;
+}
+
+.anillo {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: giro 30s linear infinite;
+}
+
+/* Fuera de pantalla, el diorama se congela para no gastar batería. */
+.pausado *,
+.pausado *::before,
+.pausado *::after {
+    animation-play-state: paused !important;
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--line-strong)) transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        transition: none;
     }
 
-    &::-webkit-scrollbar-thumb:active {
-        border-image-source: url('@/assets/images/scrollbar/scrollbar-thumb-active-bg.png');
+    .animate-marquee,
+    .puntos i,
+    .kicker::before,
+    .flotar,
+    .anillo,
+    [class*='robot-'],
+    .taller * {
+        animation: none !important;
+    }
+
+    .card,
+    .card:hover {
+        transform: none;
     }
 }

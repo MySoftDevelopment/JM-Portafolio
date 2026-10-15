@@ -2,39 +2,143 @@
 <html lang="es">
     <head>
         <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <!-- Tema antes de pintar: el guardado o, por defecto, el oscuro (evita el parpadeo). -->
+        <script>
+            (function () {
+                var tema = null;
+                try {
+                    tema = localStorage.getItem('tema');
+                } catch (e) {}
+                if (tema !== 'light' && tema !== 'dark') tema = 'dark';
+                document.documentElement.dataset.theme = tema;
+            })();
+        </script>
+
+        <title>Juan Molina | Desarrollador Fullstack en Colombia</title>
+        <meta name="description" content="Desarrollador fullstack en Colombia. Plataformas web, apps móviles iOS y Android, ERPs a medida e integraciones con WhatsApp y pagos en línea." />
+        <meta name="author" content="Juan Molina" />
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+        <meta name="color-scheme" content="dark light" />
+        <meta name="theme-color" content="#141414" />
 
         <link rel="icon" type="image/png" href="/favicon.png" />
-        <link rel="canonical" href="https://juanmolina.dev" />
-
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="author" content="juan@mysoft.live" />
-        <meta name="description" content="La perseverancia es lo que convierte los fracasos en triunfos." />
-        <meta name="robots" content="index, follow" />
-        <meta name="keywords" content="juanmolina, desarrollo, programacion, portafolio, herramientas" />
+        <link rel="apple-touch-icon" href="/favicon.png" />
+        <link rel="canonical" href="https://juanmolina.dev/" />
+        <link rel="alternate" hreflang="es" href="https://juanmolina.dev/" />
+        <link rel="alternate" hreflang="x-default" href="https://juanmolina.dev/" />
+        <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+        <link rel="preload" as="image" href="/images/projects/inces.webp" type="image/webp" fetchpriority="high" />
 
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://juanmolina.dev" />
-        <meta property="og:locale" content="es_ES" />
-        <meta property="og:site_name" content="Portafolio Personal" />
-        <meta property="og:title" content="Portafolio Personal" />
-        <meta property="og:description" content="La perseverancia es lo que convierte los fracasos en triunfos." />
-        <meta property="og:image" content="/images/og_image.jpg" />
+        <meta property="og:url" content="https://juanmolina.dev/" />
+        <meta property="og:locale" content="es_CO" />
+        <meta property="og:site_name" content="Juan Molina" />
+        <meta property="og:title" content="Juan Molina | Desarrollador Fullstack" />
+        <meta property="og:description" content="Plataformas web, apps móviles y ERPs para colegios, academias y empresas en Colombia." />
+        <meta property="og:image" content="https://juanmolina.dev/images/og_image.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:image:type" content="image/jpg" />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:alt" content="Juan Molina, desarrollador fullstack en Colombia" />
 
-        <!-- Twitter Meta Tags -->
         <meta name="twitter:card" content="summary_large_image" />
-        <meta property="twitter:domain" content="juanmolina.dev" />
-        <meta property="twitter:url" content="https://juanmolina.dev" />
-        <meta name="twitter:title" content="Portafolio Personal" />
-        <meta name="twitter:description" content="La perseverancia es lo que convierte los fracasos en triunfos." />
-        <meta name="twitter:image" content="/images/og_image.jpg" />
+        <meta name="twitter:title" content="Juan Molina | Desarrollador Fullstack" />
+        <meta name="twitter:description" content="Plataformas web, apps móviles y ERPs para colegios, academias y empresas en Colombia." />
+        <meta name="twitter:image" content="https://juanmolina.dev/images/og_image.jpg" />
+        <meta name="twitter:image:alt" content="Juan Molina, desarrollador fullstack en Colombia" />
 
-        <title>JuanMolina — Portafolio</title>
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@graph": [
+                    {
+                        "@type": "WebSite",
+                        "@id": "https://juanmolina.dev/#website",
+                        "url": "https://juanmolina.dev/",
+                        "name": "Juan Molina",
+                        "description": "Portafolio de Juan Molina, desarrollador fullstack en Colombia.",
+                        "inLanguage": "es-CO",
+                        "publisher": { "@id": "https://juanmolina.dev/#persona" }
+                    },
+                    {
+                        "@type": "ProfilePage",
+                        "@id": "https://juanmolina.dev/#pagina",
+                        "url": "https://juanmolina.dev/",
+                        "name": "Juan Molina | Desarrollador Fullstack en Colombia",
+                        "inLanguage": "es-CO",
+                        "isPartOf": { "@id": "https://juanmolina.dev/#website" },
+                        "mainEntity": { "@id": "https://juanmolina.dev/#persona" },
+                        "primaryImageOfPage": "https://juanmolina.dev/images/og_image.jpg",
+                        "dateModified": "2026-10-14"
+                    },
+                    {
+                        "@type": "Person",
+                        "@id": "https://juanmolina.dev/#persona",
+                        "name": "Juan Molina",
+                        "jobTitle": "Desarrollador Fullstack",
+                        "url": "https://juanmolina.dev/",
+                        "image": "https://juanmolina.dev/images/og_image.jpg",
+                        "email": "mailto:juan@mysoft.live",
+                        "address": { "@type": "PostalAddress", "addressCountry": "CO" },
+                        "sameAs": ["https://github.com/OuisVN"],
+                        "knowsLanguage": ["es", "en"],
+                        "knowsAbout": ["Desarrollo web", "Desarrollo de apps móviles", "ERP", "PHP", "React", "TypeScript", "React Native", "Expo", "Node.js", "MySQL", "WhatsApp Cloud API", "Wompi", "Mercado Pago", "Nginx", "Debian", "Proxmox"]
+                    },
+                    {
+                        "@type": "ProfessionalService",
+                        "@id": "https://juanmolina.dev/#servicio",
+                        "name": "Juan Molina, desarrollo de software a medida",
+                        "url": "https://juanmolina.dev/",
+                        "image": "https://juanmolina.dev/images/og_image.jpg",
+                        "email": "juan@mysoft.live",
+                        "founder": { "@id": "https://juanmolina.dev/#persona" },
+                        "address": { "@type": "PostalAddress", "addressCountry": "CO" },
+                        "areaServed": { "@type": "Country", "name": "Colombia" },
+                        "hasOfferCatalog": {
+                            "@type": "OfferCatalog",
+                            "name": "Servicios",
+                            "itemListElement": [
+                                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Plataformas web y ERPs a medida" } },
+                                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Apps móviles para iOS y Android" } },
+                                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Integraciones con WhatsApp Cloud API, Instagram, Wompi y Mercado Pago" } },
+                                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Migraciones y modernización de sistemas" } },
+                                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Servidores y despliegue" } }
+                            ]
+                        }
+                    }
+                ]
+            }
+        </script>
     </head>
-    <body class="custom-scrollbar">
-        <div id="root"></div>
+    <body>
+        <!-- Contenido estático para buscadores y lectores sin JavaScript. React lo reemplaza al montar. -->
+        <div id="root">
+            <div style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap">
+                <main>
+                    <h1>Juan Molina, desarrollador fullstack en Colombia: software que funciona en el mundo real</h1>
+                    <p>Construyo plataformas web, apps móviles y ERPs para colegios, academias y empresas en Colombia.</p>
+                    <h2>Proyectos</h2>
+                    <ul>
+                        <li>Ecosistema Academia INCES: sitio web con matrícula en línea, app móvil iOS y Android, ERP administrativo, tienda virtual y asistencia por QR. <a href="https://www.academiainces.com">academiainces.com</a></li>
+                        <li>SEVE: plataforma académica para colegios públicos y privados, con notas, observador, asistencia y reportes a SIMAT, en más de 100 instituciones. <a href="https://seveweb.com">seveweb.com</a></li>
+                        <li>FEVEL: ERP de inventario multisede y panel de ventas por WhatsApp e Instagram.</li>
+                        <li>MySoft: ERP instalable por cliente, con versión para ópticas. <a href="https://demo.mysoft.live">demo.mysoft.live</a></li>
+                    </ul>
+                    <h2>Servicios</h2>
+                    <ul>
+                        <li>Plataformas web y ERPs a medida</li>
+                        <li>Apps móviles para iOS y Android con Expo y React Native</li>
+                        <li>Integraciones: WhatsApp Cloud API, Instagram, Wompi, Mercado Pago y notificaciones push</li>
+                        <li>Migraciones y modernización de sistemas</li>
+                        <li>Servidores y despliegue: IIS, Nginx, Debian y Proxmox</li>
+                    </ul>
+                    <h2>Contacto</h2>
+                    <p><a href="mailto:juan@mysoft.live">juan@mysoft.live</a> · <a href="https://github.com/OuisVN">GitHub</a></p>
+                </main>
+            </div>
+        </div>
         <script type="module" src="/src/index.tsx"></script>
     </body>
 </html>

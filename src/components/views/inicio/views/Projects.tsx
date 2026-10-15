@@ -1,138 +1,262 @@
-import { Animation, Observer } from '@components/includes';
-import { FC } from 'react';
+import { Animation, TechLogo } from '@components/includes';
+import { DESTACADOS, Destacado } from '@/data/portfolio';
+import { useEscena } from '@/lib/escena';
+import { caras, Iso, punto } from '@/lib/iso';
+import { ArrowUpRight } from '@phosphor-icons/react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { CSSProperties, FC, useRef } from 'react';
+import { siInstagram, siWhatsapp } from 'simple-icons';
 
-const PROJECTS = [
-    {
-        id: 1,
-        title: 'Academia INCES',
-        subtitle: 'Plataforma web + ERP académico',
-        description: 'Página web institucional para una academia de belleza profesional, complementada con un software de gestión empresarial completo: sistema de notas, matrículas, facturación, control de asistencia y administración de estudiantes.',
-        tags: ['PHP', 'React', 'MariaDB', 'MySQLI', 'PDO'],
-        links: [{ label: 'Ver sitio', url: 'https://www.academiainces.com' }],
-        color: 'rose',
-        icon: '🎓',
-        highlight: true,
-    },
-    {
-        id: 2,
-        title: 'Lilac by INCES',
-        subtitle: 'E-commerce de productos de belleza',
-        description: 'Submarca de Academia INCES orientada a la venta de productos cosméticos y de belleza. Plataforma de comercio electrónico con catálogo de productos, carrito de compras y gestión de pedidos.',
-        tags: ['PHP', 'MariaDB', 'MySQLI'],
-        links: [{ label: 'Ver tienda', url: 'https://lilacbyinces.com' }],
-        color: 'purple',
-        icon: '🌸',
-    },
-    {
-        id: 3,
-        title: 'SEVE',
-        subtitle: 'Sistema de Valoración Estudiantil',
-        description: 'Ecosistema educativo integral que integra múltiples soluciones dirigidas a administrativos, docentes, acudientes y estudiantes. Estos softwares permiten la gestión de: notas y calificaciones, hojas de vida, consolidados académicos, planificación mediante el plan de aula, gestión de clases, tareas y actividades, control de asistencias, observador del alumno y generación de reportes.',
-        tags: ['PHP', 'MariaDB', 'MySQLI', 'ODBC'],
-        links: [],
-        color: 'teal',
-        icon: '📊',
-    },
-    {
-        id: 4,
-        title: 'MySoft',
-        subtitle: 'ERP para PYMEs',
-        description: 'Sistema de gestión empresarial para pequeñas y medianas empresas con módulos de inventarios, caja, compras, recibos y facturación, historial de ventas, historial de caja. Versión especializada para ópticas con módulo de citas y historias clínicas.',
-        tags: ['PHP', 'MariaDB', 'MySQLI'],
-        links: [{ label: 'Ver Demo', url: 'https://demo.mysoft.live' }],
-        color: 'blue',
-        icon: '🏢',
-        highlight: true,
-    },
-    {
-        id: 5,
-        title: 'CRM + WhatsApp Bot',
-        subtitle: 'Envío masivo & CRM con +500K contactos',
-        description: 'Selfbot de WhatsApp dinámico que soporta líneas simultáneas para envío masivo de mensajes, con panel en PHP para escanear QR. Integrado con CRM propio que gestiona más de 500.000 números de Colombia. API disponible para integración con cualquier plataforma.',
-        tags: ['PHP', 'MariaDB', 'MySQLI', 'Typescript', 'Websocket'],
-        links: [{ label: 'Ver CRM', url: 'https://crm.mysoft.live' }],
-        color: 'green',
-        icon: '💬',
-    },
-    {
-        id: 6,
-        title: 'Ganadores con Suerte',
-        subtitle: 'Plataforma de sorteos online',
-        description: 'Plataforma completa para la gestión de sorteos en línea con interfaz pública y panel administrativo. Permite crear y editar sorteos, gestionar pedidos, consultar clientes y personalizar todo el contenido visual desde el panel de administración.',
-        tags: ['PHP', 'MariaDB', 'MySQLI'],
-        links: [{ label: 'Ver plataforma', url: 'https://ganadoresconsuerte.com' }],
-        color: 'amber',
-        icon: '🎰',
-    },
-];
+const BRAND = 'var(--brand, #e07a5f)';
+const mezcla = (pct: number, con = 'transparent') => `color-mix(in srgb, ${BRAND} ${pct}%, ${con})`;
 
-const COLOR_MAP: Record<string, { bg: string; border: string; badge: string; text: string; glow: string }> = {
-    rose: { bg: 'bg-rose-950/40', border: 'border-rose-800/40', badge: 'bg-rose-900/60 text-rose-300', text: 'text-rose-300', glow: 'shadow-rose-900/30' },
-    purple: { bg: 'bg-purple-950/40', border: 'border-purple-800/40', badge: 'bg-purple-900/60 text-purple-300', text: 'text-purple-300', glow: 'shadow-purple-900/30' },
-    teal: { bg: 'bg-teal-950/40', border: 'border-teal-800/40', badge: 'bg-teal-900/60 text-teal-300', text: 'text-teal-300', glow: 'shadow-teal-900/30' },
-    blue: { bg: 'bg-blue-950/40', border: 'border-blue-800/40', badge: 'bg-blue-900/60 text-blue-300', text: 'text-blue-300', glow: 'shadow-blue-900/30' },
-    green: { bg: 'bg-green-950/40', border: 'border-green-800/40', badge: 'bg-green-900/60 text-green-300', text: 'text-green-300', glow: 'shadow-green-900/30' },
-    amber: { bg: 'bg-amber-950/40', border: 'border-amber-800/40', badge: 'bg-amber-900/60 text-amber-300', text: 'text-amber-300', glow: 'shadow-amber-900/30' },
-};
+const V: Iso = { s: 30, cx: 300, cy: 300 };
 
-function ProjectCard({ project, index }: { project: (typeof PROJECTS)[0]; index: number }) {
-    const c = COLOR_MAP[project.color];
-    const { ref, inView } = Observer();
+/** Pedestal isométrico con borde de neón del color de la escena. */
+function Pedestal() {
+    const c = caras(V, 0, 0, 0, 7, 7, 1);
+    const anillo = (r: number) => {
+        const [x, y] = punto(V, 3.5, 3.5, 1);
+        return { cx: x, cy: y, rx: r * 0.866 * V.s * 1.41, ry: r * 0.5 * V.s * 1.41 };
+    };
+
     return (
-        <div ref={ref} className={`transition-all duration-700 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: `${index * 80}ms` }}>
-            <div className={`relative h-full ${c.bg} border ${c.border} rounded-2xl p-6 flex flex-col gap-4 hover:shadow-xl ${c.glow} transition-all duration-300 hover:-translate-y-1 ${project.highlight ? 'ring-1 ring-violet-700/40' : ''}`}>
-                {project.highlight && (
-                    <div className='absolute -top-3 right-6'>
-                        <span className='px-3 py-1 text-xs rounded-full bg-violet-700 text-violet-100 font-medium shadow-lg'>Destacado</span>
-                    </div>
-                )}
-                <div className='flex items-start gap-4'>
-                    <div className='text-3xl'>{project.icon}</div>
-                    <div>
-                        <h3 className={`text-lg font-bold text-white`}>{project.title}</h3>
-                        <p className={`text-sm ${c.text} font-medium`}>{project.subtitle}</p>
-                    </div>
-                </div>
-                <p className='text-slate-400 text-sm leading-relaxed flex-1'>{project.description}</p>
-                <div className='flex flex-wrap gap-1.5'>
-                    {project.tags.map((t) => (
-                        <span key={t} className={`px-2 py-0.5 text-xs rounded-md ${c.badge} font-mono`}>
-                            {t}
-                        </span>
-                    ))}
-                </div>
-                {project.links.length > 0 && (
-                    <div className='flex gap-3 pt-1'>
-                        {project.links.map((l) => (
-                            <a key={l.url} href={l.url} target='_blank' rel='noopener noreferrer' className={`inline-flex items-center gap-1.5 text-sm ${c.text} hover:text-white border ${c.border} px-4 py-2 rounded-lg transition-all duration-200 hover:bg-white/5`}>
-                                {l.label}
-                                <svg className='w-3.5 h-3.5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                                    <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14' />
-                                </svg>
-                            </a>
+        <svg viewBox='0 0 600 520' className='absolute inset-0 h-full w-full' aria-hidden>
+            <defs>
+                <filter id='pedestal-neon' x='-20%' y='-20%' width='140%' height='140%'>
+                    <feGaussianBlur stdDeviation='3' result='b' />
+                    <feMerge>
+                        <feMergeNode in='b' />
+                        <feMergeNode in='SourceGraphic' />
+                    </feMerge>
+                </filter>
+            </defs>
+            <polygon points={c.der} fill='rgb(var(--surface-2))' />
+            <polygon points={c.izq} fill='rgb(var(--surface))' />
+            <polygon points={c.tapa} style={{ fill: mezcla(16, 'rgb(var(--raised))') }} />
+            <polygon points={c.tapa} fill='none' style={{ stroke: BRAND }} strokeWidth={2} strokeOpacity={0.9} filter='url(#pedestal-neon)' />
+            <ellipse {...anillo(2.6)} fill='none' style={{ stroke: BRAND }} strokeOpacity={0.35} strokeWidth={1.5} strokeDasharray='6 8' className='anillo' />
+            <ellipse {...anillo(1.6)} fill='none' style={{ stroke: BRAND }} strokeOpacity={0.5} strokeWidth={1.5} />
+        </svg>
+    );
+}
+
+/** FEVEL no tiene captura pública: su escena es un almacén con cajas y chats saliendo. */
+function Almacen() {
+    const W: Iso = { s: 30, cx: 300, cy: 300 };
+    const cajas: [number, number, number][] = [
+        [0.8, 0.8, 0],
+        [2, 0.8, 0],
+        [0.8, 2, 0],
+        [0.8, 0.8, 1.1],
+        [2, 0.8, 1.1],
+        [0.8, 0.8, 2.2],
+        [4.4, 1.2, 0],
+        [4.4, 1.2, 1.1],
+    ];
+
+    return (
+        <svg viewBox='0 0 600 520' className='taller absolute inset-0 h-full w-full' role='img' aria-label='Ilustración de un almacén con cajas y mensajes de WhatsApp saliendo de un teléfono'>
+            {cajas.map(([x, y, z], i) => {
+                const c = caras(W, x, y, z + 1, 1.05, 1.05, 1.05);
+                return (
+                    <g key={i}>
+                        <polygon points={c.der} fill='#a8744a' />
+                        <polygon points={c.izq} fill='#c48a59' />
+                        <polygon points={c.tapa} fill='#ddb07c' />
+                        <polygon points={caras(W, x + 0.42, y, z + 2.04, 0.2, 1.05, 0.02).tapa} fill='#b98a5c' />
+                    </g>
+                );
+            })}
+            {/* Teléfono con WhatsApp */}
+            {(() => {
+                const c = caras(W, 4.3, 4.6, 1, 1.1, 0.22, 2);
+                const [px, py] = punto(W, 4.85, 4.82, 3.3);
+                return (
+                    <g>
+                        <polygon points={c.der} fill='#1b1a19' />
+                        <polygon points={c.izq} fill='#2b2d42' />
+                        <polygon points={c.tapa} fill='#3d405b' />
+                        {[0, 1, 2].map((i) => (
+                            <g key={i} className='burbuja' style={{ animationDelay: `${i * 1.2}s` }}>
+                                <rect x={px - 30 + (i - 1) * 22} y={py - 34} width={46} height={26} rx={13} fill={i === 1 ? '#f4f1de' : '#25d366'} />
+                                <g fill='#1b1a19' opacity={0.5}>
+                                    <circle cx={px - 17 + (i - 1) * 22} cy={py - 21} r={2.2} />
+                                    <circle cx={px - 7 + (i - 1) * 22} cy={py - 21} r={2.2} />
+                                    <circle cx={px + 3 + (i - 1) * 22} cy={py - 21} r={2.2} />
+                                </g>
+                            </g>
                         ))}
+                    </g>
+                );
+            })()}
+            <g transform='translate(392 150)'>
+                <g className='flotar' style={{ color: '#25d366' }}>
+                    <rect x={-22} y={-22} width={44} height={44} rx={13} fill='#1b1a19' stroke='rgb(255 255 255 / 0.1)' />
+                    <g transform='translate(-12 -12)'>
+                        <TechLogo icon={siWhatsapp} size={24} />
+                    </g>
+                </g>
+            </g>
+            <g transform='translate(470 214)'>
+                <g className='flotar' style={{ color: '#e1306c', animationDelay: '0.8s' }}>
+                    <rect x={-19} y={-19} width={38} height={38} rx={11} fill='#1b1a19' stroke='rgb(255 255 255 / 0.1)' />
+                    <g transform='translate(-10 -10)'>
+                        <TechLogo icon={siInstagram} size={20} />
+                    </g>
+                </g>
+            </g>
+        </svg>
+    );
+}
+
+const POS_INSIGNIA = ['left-[4%] top-[10%]', 'right-[2%] top-[38%]', 'left-[8%] bottom-[14%]'];
+
+/** Escena de un proyecto: brillo, pedestal, captura flotando en 3D (o ilustración) e insignias. */
+function Escenario3D({ caso }: { caso: Destacado }) {
+    return (
+        <div className='relative aspect-[6/5] w-full'>
+            <div className='absolute inset-[-8%] rounded-full blur-2xl' style={{ background: `radial-gradient(closest-side, ${mezcla(28)}, transparent)` }} aria-hidden />
+            <div className='stage absolute inset-0' style={{ '--tono': '0 0 0' } as CSSProperties} aria-hidden />
+            <Pedestal />
+            {/* Sombra de la ventana sobre el pedestal */}
+            {caso.imagen && <div className='absolute left-1/2 top-[66%] h-[9%] w-[46%] -translate-x-1/2 rounded-[50%] blur-xl' style={{ background: mezcla(45) }} aria-hidden />}
+
+            {caso.imagen ? (
+                <div className='absolute inset-x-[15%] top-[3%] [perspective:1400px]'>
+                    <div className='flotar'>
+                        <figure className='overflow-hidden rounded-[14px] border border-line-strong bg-surface [transform:rotateX(9deg)_rotateY(-17deg)_rotateZ(2deg)]' style={{ boxShadow: `0 40px 90px -35px ${mezcla(70)}, 0 0 0 1px ${mezcla(25)}` }}>
+                            <div className='flex items-center gap-1.5 border-b border-line px-3.5 py-2'>
+                                <span className='h-2 w-2 rounded-full' style={{ background: BRAND }} />
+                                <span className='h-2 w-2 rounded-full bg-line-strong' />
+                                <span className='h-2 w-2 rounded-full bg-line-strong' />
+                                <span className='ml-2 truncate font-mono text-[10.5px] text-faint'>{caso.enlaces[0]?.texto}</span>
+                            </div>
+                            <img src={caso.imagen} alt={caso.alt} width={1280} height={800} loading='lazy' className='block aspect-[16/10] w-full object-cover object-top' />
+                        </figure>
                     </div>
-                )}
-            </div>
+                </div>
+            ) : (
+                <Almacen />
+            )}
+
+            {caso.insignias.map((texto, i) => (
+                <span key={texto} className={`flotar absolute ${POS_INSIGNIA[i]} inline-flex items-center gap-2 rounded-full border border-line-strong bg-surface/90 px-3.5 py-2 font-mono text-[11px] tracking-wide text-ink shadow-[0_14px_30px_-14px_rgb(0_0_0/0.6)] backdrop-blur`} style={{ animationDelay: `${i * 0.7}s` }}>
+                    <span className='h-2 w-2 rounded-full' style={{ background: BRAND, boxShadow: `0 0 10px ${BRAND}` }} />
+                    {texto}
+                </span>
+            ))}
         </div>
     );
 }
 
-export const Projects: FC = () => {
+function Capitulo({ caso }: { caso: Destacado }) {
     return (
-        <section id='projects' className='py-24 px-6'>
-            <div className='max-w-6xl mx-auto'>
+        <article id={`proyecto-${caso.id}`} data-escena={caso.id} className='py-16 lg:flex lg:min-h-[88vh] lg:items-center lg:py-0'>
+            <div>
+                <div className='mb-10 lg:hidden'>
+                    <Escenario3D caso={caso} />
+                </div>
+
                 <Animation>
-                    <div className='text-center mb-14'>
-                        <p className='text-violet-400 text-sm font-mono mb-3 tracking-widest uppercase'>Portafolio</p>
-                        <h2 className='text-3xl md:text-4xl font-bold text-white mb-4'>Proyectos Destacados</h2>
-                        <p className='text-slate-500 max-w-xl mx-auto'>Sistemas reales en producción, construidos con tecnología moderna y orientados a resolver problemas empresariales.</p>
+                    <p className='font-mono text-[11px] uppercase tracking-[0.18em]' style={{ color: BRAND }}>
+                        {caso.cliente}
+                    </p>
+                    <h3 className='mt-3 text-4xl font-semibold tracking-[-0.03em] md:text-[3.2rem] md:leading-[1.02]'>{caso.nombre}</h3>
+                    <p className='mt-5 max-w-[54ch] text-[17px] leading-relaxed text-muted'>{caso.resumen}</p>
+
+                    <dl className='mt-9 grid gap-x-7 gap-y-6 sm:grid-cols-2'>
+                        {caso.piezas.map((p) => (
+                            <div key={p.titulo} className='border-l-2 pl-4' style={{ borderColor: mezcla(75) }}>
+                                <dt className='text-sm font-semibold'>{p.titulo}</dt>
+                                <dd className='mt-1.5 text-sm leading-relaxed text-muted'>{p.texto}</dd>
+                            </div>
+                        ))}
+                    </dl>
+
+                    <ul className='mt-8 flex flex-wrap gap-1.5' aria-label='Tecnologías'>
+                        {caso.stack.map((s) => (
+                            <li key={s} className='chip'>
+                                {s}
+                            </li>
+                        ))}
+                    </ul>
+
+                    {caso.enlaces.length > 0 ? (
+                        <div className='mt-8 flex flex-wrap gap-2'>
+                            {caso.enlaces.map((e, i) => (
+                                <a key={e.url} href={e.url} target='_blank' rel='noopener noreferrer' className={i === 0 ? 'btn-primary' : 'btn-ghost'}>
+                                    {e.texto}
+                                    <ArrowUpRight size={14} weight='bold' />
+                                </a>
+                            ))}
+                        </div>
+                    ) : (
+                        <p className='mt-8 font-mono text-[11px] uppercase tracking-[0.14em] text-faint'>Sistema interno del cliente</p>
+                    )}
+                </Animation>
+            </div>
+        </article>
+    );
+}
+
+export const Projects: FC = () => {
+    const escena = useEscena();
+    const reduce = useReducedMotion();
+    const ultimo = useRef<Destacado>(DESTACADOS[0]);
+    const enCurso = DESTACADOS.find((c) => c.id === escena);
+    if (enCurso) ultimo.current = enCurso;
+    const caso = ultimo.current;
+
+    const ir = (id: string) => document.getElementById(`proyecto-${id}`)?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+
+    return (
+        <section id='proyectos' className='pb-16 pt-24 md:pb-24 md:pt-36'>
+            <div className='container-page'>
+                <Animation className='max-w-3xl'>
+                    <div data-escena='proyectos'>
+                        <p className='kicker mb-6'>Trabajo seleccionado</p>
+                        <h2 className='text-4xl font-semibold leading-[1.02] tracking-[-0.035em] md:text-6xl'>
+                            Proyectos en <em className='not-italic text-sand'>producción</em>
+                        </h2>
+                        <p className='mt-5 max-w-[52ch] text-lg leading-relaxed text-muted'>Sistemas que mis clientes usan todos los días. Los diseño, los programo, los despliego y los mantengo.</p>
                     </div>
                 </Animation>
-                <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-6'>
-                    {PROJECTS.map((project, i) => (
-                        <ProjectCard key={project.id} project={project} index={i} />
-                    ))}
+
+                <div className='grid lg:grid-cols-12 lg:gap-14'>
+                    {/* Escena fija (solo escritorio): cambia con el capítulo visible */}
+                    <div className='hidden lg:col-span-6 lg:block'>
+                        <div className='sticky top-0 flex h-[100dvh] flex-col justify-center py-24'>
+                            <div className='relative'>
+                                <AnimatePresence mode='popLayout' initial={false}>
+                                    <motion.div key={caso.id} initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.94, y: 24, filter: 'blur(8px)' }} animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }} exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 1.04, y: -16, filter: 'blur(6px)', transition: { duration: 0.3 } }} transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}>
+                                        <Escenario3D caso={caso} />
+                                    </motion.div>
+                                </AnimatePresence>
+                            </div>
+
+                            {/* Riel de capítulos: indica el actual y permite saltar */}
+                            <nav aria-label='Proyectos' className='mt-8 grid grid-cols-4 gap-2'>
+                                {DESTACADOS.map((c) => {
+                                    const activo = c.id === caso.id;
+                                    return (
+                                        <button key={c.id} type='button' onClick={() => ir(c.id)} aria-current={activo ? 'true' : undefined} className='group text-left'>
+                                            <span className='block h-[3px] overflow-hidden rounded-full bg-line-strong'>
+                                                <span className='block h-full origin-left rounded-full transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]' style={{ background: BRAND, transform: `scaleX(${activo ? 1 : 0})` }} />
+                                            </span>
+                                            <span className={`mt-2.5 block font-mono text-[11px] uppercase tracking-[0.14em] transition-colors duration-200 ${activo ? 'text-ink' : 'text-faint group-hover:text-muted'}`}>{c.corto}</span>
+                                        </button>
+                                    );
+                                })}
+                            </nav>
+                        </div>
+                    </div>
+
+                    <div className='lg:col-span-6'>
+                        {DESTACADOS.map((c) => (
+                            <Capitulo key={c.id} caso={c} />
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>

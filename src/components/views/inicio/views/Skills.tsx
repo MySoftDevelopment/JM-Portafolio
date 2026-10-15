@@ -1,37 +1,41 @@
-import { Animation } from '@components/includes';
+import { Animation, TechLogo } from '@components/includes';
+import { STACK } from '@/data/portfolio';
+import { LOGOS } from '@/data/tech';
 import { FC } from 'react';
 
 export const Skills: FC = () => {
-    const SKILLS = {
-        Backend: ['PHP', 'Laravel', 'Java', 'Python'],
-        Frontend: ['React', 'Typescript', 'Javascript', 'CSS', 'SCSS', 'Tailwind CSS', 'Bootstrap'],
-        'Bases de datos': ['MySQL', 'MariaDB', 'ODBC'],
-        Otros: ['Git', 'IIS', 'Nginx', 'Debian', 'Proxmox'],
-    };
-
     return (
-        <section id='skills' className='py-24 px-6 bg-slate-900/40'>
-            <div className='max-w-5xl mx-auto'>
-                <Animation>
-                    <div className='text-center mb-14'>
-                        <p className='text-violet-400 text-sm font-mono mb-3 tracking-widest uppercase'>Tecnologías</p>
-                        <h2 className='text-3xl md:text-4xl font-bold text-white'>Mi Stack Tecnológico</h2>
-                    </div>
-                    <div className='grid sm:grid-cols-2 lg:grid-cols-4 gap-6'>
-                        {Object.entries(SKILLS).map(([cat, items]) => (
-                            <div key={cat} className='bg-slate-900/60 border border-slate-800/60 rounded-2xl p-6 hover:border-violet-800/50 transition-colors duration-300'>
-                                <h3 className='text-sm font-mono text-violet-400 mb-4 uppercase tracking-wider'>{cat}</h3>
-                                <div className='flex flex-wrap gap-2'>
-                                    {items.map((skill) => (
-                                        <span key={skill} className='px-3 py-1 text-xs rounded-lg bg-slate-800/80 text-slate-300 border border-slate-700/50'>
-                                            {skill}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+        <section id='stack' data-escena='stack' className='overflow-hidden border-t border-line py-24 md:py-36'>
+            <div className='container-page'>
+                <Animation className='max-w-3xl'>
+                    <h2 className='text-4xl font-semibold leading-[1.02] tracking-[-0.035em] md:text-6xl'>Herramientas de trabajo</h2>
+                    <p className='mt-5 max-w-[52ch] text-lg leading-relaxed text-muted'>PHP y React son mi base. Alrededor, lo que cada proyecto necesite: apps nativas, tiempo real, mensajería y servidores propios.</p>
                 </Animation>
+            </div>
+
+            <div className='group relative mt-16 [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)]' aria-hidden>
+                <div className='animate-marquee flex w-max gap-4'>
+                    {[...LOGOS, ...LOGOS].map((icon, i) => (
+                        <span key={`${icon.slug}-${i}`} className='grid h-20 w-20 place-items-center rounded-[18px] border border-line bg-surface text-faint transition-colors duration-200 hover:text-ink'>
+                            <TechLogo icon={icon} size={30} />
+                        </span>
+                    ))}
+                </div>
+            </div>
+
+            <div className='container-page mt-16 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-5 lg:gap-8'>
+                {STACK.map((g, i) => (
+                    <Animation key={g.grupo} delay={i * 0.05}>
+                        <h3 className='font-mono text-[11px] uppercase tracking-[0.18em] text-faint'>{g.grupo}</h3>
+                        <ul className='mt-4 space-y-2.5'>
+                            {g.items.map((item) => (
+                                <li key={item} className='text-[15px] text-ink/85'>
+                                    {item}
+                                </li>
+                            ))}
+                        </ul>
+                    </Animation>
+                ))}
             </div>
         </section>
     );

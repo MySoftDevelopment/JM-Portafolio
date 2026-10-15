@@ -1,13 +1,29 @@
+import { PERFIL } from '@/data/portfolio';
 import { FC } from 'react';
 
 export const Footer: FC = () => {
     return (
-        <footer className='border-t border-slate-800/60 py-8 px-6'>
-            <div className='max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-600 text-sm'>
-                <span className='font-mono'>
-                    <span className='text-violet-500'>&lt;</span>JM<span className='text-violet-500'>/&gt;</span> Juan Molina — juanmolina.dev
-                </span>
-                <span>Portafolio desarrollado con React + Typescript + Tailwind CSS.</span>
+        <footer className='border-t border-line py-10'>
+            <div className='container-page flex flex-col gap-4 font-mono text-[11px] uppercase tracking-[0.12em] text-faint sm:flex-row sm:items-center sm:justify-between'>
+                <p>
+                    <span className='text-[13px] font-semibold normal-case tracking-normal text-ink'>
+                        <span className='text-accent'>&lt;</span>JM<span className='text-accent'>/&gt;</span>
+                    </span>
+                    <span className='ml-3'>
+                        © {new Date().getFullYear()} {PERFIL.nombre}
+                    </span>
+                </p>
+                <nav className='flex gap-6' aria-label='Pie de página'>
+                    <a href={`mailto:${PERFIL.correo}`} className='hover:text-ink'>
+                        Correo
+                    </a>
+                    <a href={PERFIL.github} target='_blank' rel='noopener noreferrer' className='hover:text-ink'>
+                        GitHub
+                    </a>
+                    <a href='#inicio' className='hover:text-ink'>
+                        Volver arriba
+                    </a>
+                </nav>
             </div>
         </footer>
     );

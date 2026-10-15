@@ -1,3 +1,5 @@
 export { Animation } from './views/Animation';
-export { Loader } from './views/Loader';
-export { Observer } from './views/Observer';
+export { Companion } from './views/Companion';
+export { Robot } from './views/Robot';
+export { TechLogo } from './views/TechLogo';
+export { ThemeToggle } from './views/ThemeToggle';

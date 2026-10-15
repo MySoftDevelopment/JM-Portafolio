@@ -16,6 +16,7 @@
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
         "paths": {
+            "@/*": ["./src/*"],
             "@configuration/*": ["./src/api/configuration/*"],
             "@components/*": ["./src/components/*"],
             "@includes/*": ["./src/components/includes/*"]

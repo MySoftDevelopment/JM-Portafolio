@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+    <url>
+        <loc>https://juanmolina.dev/</loc>
+        <lastmod>2026-10-14</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>1.0</priority>
+        <image:image><image:loc>https://juanmolina.dev/images/og_image.jpg</image:loc></image:image>
+        <image:image><image:loc>https://juanmolina.dev/images/projects/inces.webp</image:loc></image:image>
+        <image:image><image:loc>https://juanmolina.dev/images/projects/inces-app.webp</image:loc></image:image>
+        <image:image><image:loc>https://juanmolina.dev/images/projects/seve.webp</image:loc></image:image>
+        <image:image><image:loc>https://juanmolina.dev/images/projects/hfsf.webp</image:loc></image:image>
+        <image:image><image:loc>https://juanmolina.dev/images/projects/mysoft.webp</image:loc></image:image>
+        <image:image><image:loc>https://juanmolina.dev/images/projects/lilac.webp</image:loc></image:image>
+        <image:image><image:loc>https://juanmolina.dev/images/projects/sorteos.webp</image:loc></image:image>
+        <image:image><image:loc>https://juanmolina.dev/images/projects/juanxxiii.webp</image:loc></image:image>
+        <image:image><image:loc>https://juanmolina.dev/images/projects/boveda.webp</image:loc></image:image>
+    </url>
+</urlset>

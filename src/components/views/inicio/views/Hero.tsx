@@ -1,46 +1,56 @@
+import { ArrowDown } from '@phosphor-icons/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { FC } from 'react';
+import { Workshop } from './Workshop';
+
+const ease = [0.23, 1, 0.32, 1] as const;
 
 export const Hero: FC = () => {
-    return (
-        <section id='hero' className='relative min-h-screen flex items-center justify-center overflow-hidden'>
-            <div className='absolute inset-0 z-0'>
-                <div className='absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-violet-950/60 via-slate-950 to-slate-950' />
-                <div className='absolute inset-0 opacity-[0.04]' style={{ backgroundImage: 'linear-gradient(rgba(139,92,246,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(139,92,246,0.3) 1px, transparent 1px)', backgroundSize: '64px 64px' }} />
-                <div className='absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_0%,rgba(109,40,217,0.08),transparent)]' />
-            </div>
-            <div className='absolute top-1/4 left-1/4 w-72 h-72 bg-violet-700/10 rounded-full blur-3xl animate-pulse' />
-            <div className='absolute bottom-1/3 right-1/4 w-56 h-56 bg-indigo-600/10 rounded-full blur-3xl animate-pulse' style={{ animationDelay: '2s' }} />
+    const reduce = useReducedMotion();
+    const entrada = (delay: number) => (reduce ? {} : { initial: { opacity: 0, transform: 'translateY(16px)' }, animate: { opacity: 1, transform: 'translateY(0px)' }, transition: { duration: 0.9, delay, ease } });
 
-            <div className='relative z-10 max-w-4xl mx-auto px-6 text-center'>
-                <div className='inline-flex items-center gap-2 px-4 py-2 rounded-full bg-violet-900/40 border border-violet-700/40 text-violet-300 text-sm mb-8 backdrop-blur-sm'>
-                    <span className='w-2 h-2 rounded-full bg-green-400 animate-pulse' />
-                    ¡Disponible para proyectos!
+    return (
+        <section id='inicio' data-escena='inicio' className='relative pt-28 md:pt-32'>
+            <div className='container-page grid items-center gap-10 pb-16 lg:grid-cols-[1fr_1.05fr] lg:gap-6 lg:pb-20'>
+                <div>
+                    <motion.p {...entrada(0)} className='kicker mb-8'>
+                        Desarrollador fullstack · Colombia
+                    </motion.p>
+
+                    <motion.h1 {...entrada(0.06)} className='text-[2.9rem] font-semibold leading-[0.98] tracking-[-0.035em] sm:text-[4.2rem] lg:text-[5.4rem]'>
+                        Software que funciona en el mundo <em className='not-italic text-sand'>real</em>
+                        <span className='puntos ml-[0.06em] inline-flex gap-[0.09em]' aria-hidden>
+                            <i />
+                            <i />
+                            <i />
+                        </span>
+                    </motion.h1>
+
+                    <motion.p {...entrada(0.14)} className='mt-8 max-w-[46ch] text-[17px] leading-relaxed text-muted'>
+                        Soy <strong className='font-semibold text-ink'>Juan Molina</strong>. Construyo plataformas web, apps móviles y ERPs para colegios, academias y empresas en Colombia.
+                    </motion.p>
+
+                    <motion.div {...entrada(0.22)} className='mt-10 flex flex-wrap items-center gap-3'>
+                        <a href='#contacto' className='btn-primary'>
+                            Escríbeme
+                        </a>
+                        <a href='#proyectos' className='btn-ghost'>
+                            <ArrowDown size={14} weight='bold' />
+                            Ver proyectos
+                        </a>
+                        <span className='ml-1 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-faint'>
+                            <span className='relative flex h-2 w-2'>
+                                <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-sage opacity-60 motion-reduce:animate-none' />
+                                <span className='relative inline-flex h-2 w-2 rounded-full bg-sage' />
+                            </span>
+                            Disponible
+                        </span>
+                    </motion.div>
                 </div>
-                <h1 className='text-5xl md:text-7xl font-bold text-white mb-6 leading-tight tracking-tight'>
-                    Juan <span className='bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent'>Molina</span>
-                </h1>
-                <p className='text-xl md:text-2xl text-slate-400 mb-4 font-light'>Desarrollador de Software Fullstack</p>
-                <p className='text-slate-500 text-lg mb-10 max-w-xl mx-auto leading-relaxed'>Construyo aplicaciones web/móviles y sistemas empresariales.</p>
-                <div className='flex flex-wrap items-center justify-center gap-4'>
-                    <a href='#projects' className='px-8 py-3.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-medium transition-all duration-200 hover:scale-105 shadow-lg shadow-violet-900/50'>
-                        Ver Proyectos
-                    </a>
-                    <a href='#contact' className='px-8 py-3.5 rounded-xl border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white font-medium transition-all duration-200 hover:scale-105'>
-                        Hablemos
-                    </a>
-                </div>
-                <div className='mt-16 flex flex-wrap items-center justify-center gap-8 text-slate-600'>
-                    {[
-                        { n: '10+', label: 'Años de Experiencia' },
-                        { n: '20+', label: 'Proyectos Realizados' },
-                        { n: '1,658', label: 'Contribuciones en 2025 (Github)' },
-                    ].map(({ n, label }) => (
-                        <div key={label} className='text-center'>
-                            <div className='text-2xl font-bold text-slate-300'>{n}</div>
-                            <div className='text-xs mt-1'>{label}</div>
-                        </div>
-                    ))}
-                </div>
+
+                <motion.div className='relative mx-auto w-full max-w-[680px] lg:-mr-6' initial={reduce ? false : { opacity: 0, transform: 'translateY(28px) scale(0.97)' }} animate={{ opacity: 1, transform: 'translateY(0px) scale(1)' }} transition={{ duration: 1.1, delay: 0.15, ease }}>
+                    <Workshop />
+                </motion.div>
             </div>
         </section>
     );

@@ -1,53 +1,80 @@
+import { ThemeToggle } from '@components/includes';
+import { List, X } from '@phosphor-icons/react';
+import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from 'motion/react';
 import { FC, useEffect, useState } from 'react';
 
+const ENLACES = [
+    { texto: 'Proyectos', href: '#proyectos' },
+    { texto: 'Servicios', href: '#servicios' },
+    { texto: 'Stack', href: '#stack' },
+    { texto: 'Sobre mí', href: '#sobre-mi' },
+];
+
 export const Navbar: FC = () => {
-    const [open, setOpen] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
+    const [abierto, setAbierto] = useState(false);
+    const [desplazado, setDesplazado] = useState(false);
+    const [activo, setActivo] = useState('');
+    const { scrollY } = useScroll();
+    const reduce = useReducedMotion();
 
-    const NAV_LINKS = [
-        { label: 'Inicio', href: '#hero' },
-        { label: 'Sobre mí', href: '#about' },
-        { label: 'Habilidades', href: '#skills' },
-        { label: 'Proyectos', href: '#projects' },
-        { label: 'Contacto', href: '#contact' },
-    ];
+    useMotionValueEvent(scrollY, 'change', (y) => setDesplazado(y > 24));
 
+    // Resalta la sección visible sin escuchar el scroll en cada fotograma.
     useEffect(() => {
-        const fn = () => setScrolled(window.scrollY > 40);
+        const secciones = ENLACES.map((e) => document.querySelector(e.href)).filter(Boolean) as Element[];
+        const obs = new IntersectionObserver(
+            (entradas) => {
+                entradas.forEach((e) => {
+                    if (e.isIntersecting) setActivo(`#${e.target.id}`);
+                });
+            },
+            { rootMargin: '-45% 0px -50% 0px' },
+        );
 
-        window.addEventListener('scroll', fn);
-        return () => window.removeEventListener('scroll', fn);
+        secciones.forEach((s) => obs.observe(s));
+        return () => obs.disconnect();
     }, []);
 
     return (
-        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-slate-950/90 backdrop-blur-md border-b border-slate-800/60 shadow-lg' : ''}`}>
-            <div className='max-w-6xl mx-auto px-6 py-4 flex items-center justify-between'>
-                <a href='#hero' className='font-bold text-lg tracking-tight text-white font-mono'>
-                    <span className='text-violet-400'>&lt;</span>JM
-                    <span className='text-violet-400'>/&gt;</span>
+        <header className={`fixed inset-x-0 top-0 z-40 transition-colors duration-300 ${desplazado || abierto ? 'border-b border-line bg-canvas/80 backdrop-blur-xl' : 'border-b border-transparent'}`}>
+            <nav className='container-page flex h-16 items-center justify-between gap-6' aria-label='Principal'>
+                <a href='#inicio' className='font-mono text-[15px] font-semibold tracking-tight' aria-label='Juan Molina, ir al inicio'>
+                    <span className='text-accent'>&lt;</span>JM<span className='text-accent'>/&gt;</span>
                 </a>
-                <div className='hidden md:flex items-center gap-8'>
-                    {NAV_LINKS.map((l) => (
-                        <a key={l.href} href={l.href} className='text-sm text-slate-400 hover:text-white transition-colors duration-200'>
-                            {l.label}
+
+                <div className='hidden items-center gap-1 md:flex'>
+                    {ENLACES.map((e) => (
+                        <a key={e.href} href={e.href} aria-current={activo === e.href ? 'true' : undefined} className={`relative rounded-full px-3.5 py-2 font-mono text-[11.5px] uppercase tracking-[0.14em] transition-colors duration-200 ${activo === e.href ? 'text-ink' : 'text-muted hover:text-ink'}`}>
+                            {e.texto}
+                            <span className={`absolute inset-x-3.5 -bottom-0.5 h-px origin-left bg-sand transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] ${activo === e.href ? 'scale-x-100' : 'scale-x-0'}`} aria-hidden />
                         </a>
                     ))}
                 </div>
-                <button className='md:hidden text-slate-400 hover:text-white' onClick={() => setOpen(!open)}>
-                    <svg className='w-6 h-6' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                        {open ? <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12' /> : <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M4 6h16M4 12h16M4 18h16' />}
-                    </svg>
-                </button>
-            </div>
-            {open && (
-                <div className='md:hidden bg-slate-950/95 backdrop-blur-md border-t border-slate-800/60 px-6 py-4 flex flex-col gap-4'>
-                    {NAV_LINKS.map((l) => (
-                        <a key={l.href} href={l.href} className='text-slate-300 hover:text-white' onClick={() => setOpen(false)}>
-                            {l.label}
-                        </a>
-                    ))}
+
+                <div className='flex items-center gap-2'>
+                    <ThemeToggle />
+                    <a href='#contacto' className='btn-primary hidden py-2.5 sm:inline-flex'>
+                        Escríbeme
+                    </a>
+                    <button type='button' className='grid h-10 w-10 place-items-center rounded-full border border-line-strong text-ink transition-transform active:scale-95 md:hidden' onClick={() => setAbierto(!abierto)} aria-expanded={abierto} aria-controls='menu-movil' aria-label={abierto ? 'Cerrar menú' : 'Abrir menú'}>
+                        {abierto ? <X size={18} /> : <List size={18} />}
+                    </button>
                 </div>
-            )}
-        </nav>
+            </nav>
+
+            <AnimatePresence>
+                {abierto && (
+                    <motion.div id='menu-movil' className='overflow-hidden md:hidden' initial={reduce ? false : { height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={reduce ? undefined : { height: 0, opacity: 0 }} transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+                        <div className='container-page flex flex-col gap-1 pb-6 pt-2'>
+                            {[...ENLACES, { texto: 'Contacto', href: '#contacto' }].map((e) => (
+                                <a key={e.href} href={e.href} onClick={() => setAbierto(false)} className='rounded-[12px] px-3 py-3 text-lg text-ink hover:bg-surface'>
+                                    {e.texto}
+                                </a>
+                            ))}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </header>
     );
 };
