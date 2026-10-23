@@ -49,12 +49,12 @@ export const Contact: FC = () => {
             <div className='container-page grid gap-14 lg:grid-cols-2 lg:gap-20'>
                 <Animation>
                     <p className='kicker mb-7'>Contacto</p>
-                    <h2 className='max-w-[13ch] text-[2.75rem] font-semibold leading-[0.98] tracking-[-0.035em] md:text-[4.6rem]'>
+                    <h2 data-percha className='max-w-[13ch] text-[2.75rem] font-semibold leading-[0.98] tracking-[-0.035em] md:text-[4.6rem]'>
                         ¿Tienes un proyecto en <em className='not-italic text-sand'>mente</em>?
                     </h2>
                     <p className='mt-7 max-w-[44ch] text-lg leading-relaxed text-muted'>Cuéntame qué necesitas. Te respondo con preguntas concretas y una propuesta clara, sin compromiso.</p>
 
-                    <div className='mt-10 flex flex-wrap items-center gap-2'>
+                    <div className='mt-10 flex flex-wrap items-center gap-3.5'>
                         <a href={`mailto:${PERFIL.correo}`} className='btn-primary'>
                             {PERFIL.correo}
                         </a>
@@ -63,7 +63,7 @@ export const Contact: FC = () => {
                         </button>
                     </div>
 
-                    <div className='mt-8 flex flex-wrap gap-2'>
+                    <div className='mt-8 flex flex-wrap gap-3.5'>
                         <a href={PERFIL.github} target='_blank' rel='noopener noreferrer' className='btn-ghost h-9 px-4'>
                             <GithubLogo size={15} /> GitHub
                         </a>
@@ -74,7 +74,7 @@ export const Contact: FC = () => {
                 </Animation>
 
                 <Animation delay={0.08}>
-                    <form onSubmit={enviar} noValidate className='card p-6 md:p-8'>
+                    <form onSubmit={enviar} noValidate data-percha className='card p-6 md:p-8'>
                         <div className='grid gap-5'>
                             <div className='grid gap-2'>
                                 <label htmlFor='nombre' className='font-mono text-[11px] uppercase tracking-[0.14em] text-muted'>

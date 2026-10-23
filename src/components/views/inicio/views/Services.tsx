@@ -19,7 +19,7 @@ export const Services: FC = () => {
             <div className='container-page grid gap-14 lg:grid-cols-12 lg:gap-16'>
                 <div className='lg:col-span-5'>
                     <Animation className='lg:sticky lg:top-28'>
-                        <h2 className='text-4xl font-semibold leading-[1.02] tracking-[-0.035em] md:text-6xl'>
+                        <h2 data-percha className='text-4xl font-semibold leading-[1.02] tracking-[-0.035em] md:text-6xl'>
                             En qué te puedo <em className='not-italic text-sand'>ayudar</em>
                         </h2>
                         <p className='mt-6 max-w-[42ch] text-lg leading-relaxed text-muted'>Me encargo de todo el ciclo: entender el problema, diseñar la solución, programarla, ponerla en producción y mantenerla funcionando.</p>
@@ -34,7 +34,7 @@ export const Services: FC = () => {
                         const Icono = ICONOS[s.icono];
                         const tono = TONOS[ORDEN[i]];
                         return (
-                            <Animation as='li' key={s.titulo} delay={i * 0.05} className='card flex gap-5 p-6 md:p-7' style={{ ['--tono' as string]: tono.var }}>
+                            <Animation as='li' key={s.titulo} delay={i * 0.05} percha={i === 0} className='card flex gap-5 p-6 md:p-7' style={{ ['--tono' as string]: tono.var }}>
                                 <span className={`grid h-11 w-11 shrink-0 place-items-center rounded-[12px] border border-line bg-canvas ${tono.texto}`}>
                                     <Icono size={21} weight='duotone' />
                                 </span>

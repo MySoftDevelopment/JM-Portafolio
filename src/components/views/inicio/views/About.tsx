@@ -6,7 +6,7 @@ export const About: FC = () => {
         <section id='sobre-mi' data-escena='sobre' className='border-t border-line py-24 md:py-36'>
             <div className='container-page grid gap-8 lg:grid-cols-12 lg:gap-16'>
                 <Animation className='lg:col-span-4'>
-                    <h2 className='text-4xl font-semibold leading-[1.02] tracking-[-0.035em] md:text-6xl'>
+                    <h2 data-percha className='text-4xl font-semibold leading-[1.02] tracking-[-0.035em] md:text-6xl'>
                         Sobre <em className='not-italic text-sand'>mí</em>
                     </h2>
                 </Animation>

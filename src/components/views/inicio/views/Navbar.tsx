@@ -51,9 +51,9 @@ export const Navbar: FC = () => {
                     ))}
                 </div>
 
-                <div className='flex items-center gap-2'>
+                <div className='flex items-center gap-3'>
                     <ThemeToggle />
-                    <a href='#contacto' className='btn-primary hidden py-2.5 sm:inline-flex'>
+                    <a href='#contacto' className='btn-primary hidden h-[34px] [--relieve:transparent] sm:inline-flex'>
                         Escríbeme
                     </a>
                     <button type='button' className='grid h-10 w-10 place-items-center rounded-full border border-line-strong text-ink transition-transform active:scale-95 md:hidden' onClick={() => setAbierto(!abierto)} aria-expanded={abierto} aria-controls='menu-movil' aria-label={abierto ? 'Cerrar menú' : 'Abrir menú'}>

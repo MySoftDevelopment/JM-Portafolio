@@ -77,7 +77,7 @@ export const Github: FC = () => {
                     </dl>
                 </Animation>
 
-                <Animation delay={0.1} className='card mt-12 p-5 md:p-7'>
+                <Animation delay={0.1} percha className='card mt-12 p-5 md:p-7'>
                     <div className='mb-5 flex flex-wrap items-center justify-between gap-3'>
                         <p className='font-mono text-[11px] uppercase tracking-[0.14em] text-muted'>{estado === 'listo' ? `${formato.format(ultimoAnio)} contribuciones en los últimos 12 meses` : estado === 'cargando' ? 'Cargando actividad…' : 'No se pudo cargar la actividad en este momento.'}</p>
                         <a href={PERFIL.github} target='_blank' rel='noopener noreferrer' className='btn-ghost group h-9 px-4'>

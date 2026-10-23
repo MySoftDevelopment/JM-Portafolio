@@ -152,7 +152,7 @@ function Escenario3D({ caso }: { caso: Destacado }) {
 
 function Capitulo({ caso }: { caso: Destacado }) {
     return (
-        <article id={`proyecto-${caso.id}`} data-escena={caso.id} className='py-16 lg:flex lg:min-h-[88vh] lg:items-center lg:py-0'>
+        <article id={`proyecto-${caso.id}`} data-escena={caso.id} className='py-16 lg:flex lg:min-h-[88vh] lg:items-center lg:py-20'>
             <div>
                 <div className='mb-10 lg:hidden'>
                     <Escenario3D caso={caso} />
@@ -183,7 +183,7 @@ function Capitulo({ caso }: { caso: Destacado }) {
                     </ul>
 
                     {caso.enlaces.length > 0 ? (
-                        <div className='mt-8 flex flex-wrap gap-2'>
+                        <div className='mt-8 flex flex-wrap gap-3.5'>
                             {caso.enlaces.map((e, i) => (
                                 <a key={e.url} href={e.url} target='_blank' rel='noopener noreferrer' className={i === 0 ? 'btn-primary' : 'btn-ghost'}>
                                     {e.texto}

@@ -3,7 +3,7 @@
 
 /*
  * Color de la escena actual. Registrado como <color> para que el navegador pueda
- * interpolarlo: al cambiar de proyecto, el ambiente, el robot y los escenarios
+ * interpolarlo: al cambiar de proyecto, el ambiente, el gato y los escenarios
  * pasan de un color a otro en vez de saltar.
  */
 @property --brand {
@@ -19,7 +19,7 @@
 /*
  * Paleta "Atelier": carbón cálido + crema, con terracota como acento principal
  * y arena, salvia y pizarra como acompañantes (cada proyecto toma uno).
- * Radios: tarjetas 20px, botones y pastillas redondos.
+ * Radios: tarjetas 20px y pastillas redondas; los botones, en pixel art (esquinas escalonadas).
  * Las líneas van precalculadas sobre el fondo para poder usar opacidades de Tailwind.
  */
 :root,
@@ -71,6 +71,8 @@
 }
 
 html {
+    /* Color base aquí: así el degradado del body cubre toda la página y no se repite por pantalla. */
+    background: rgb(var(--canvas));
     scroll-behavior: smooth;
     scroll-padding-top: 88px;
     -webkit-text-size-adjust: 100%;
@@ -82,8 +84,21 @@ html {
     }
 }
 
+/*
+ * Fondo en degradado con la misma paleta: baja del carbón (o crema) a tintes muy suaves de
+ * terracota, salvia y arena a lo largo de la página.
+ */
 body {
-    @apply bg-canvas font-sans text-ink antialiased;
+    @apply font-sans text-ink antialiased;
+    background: linear-gradient(
+        180deg,
+        rgb(var(--canvas)) 0%,
+        color-mix(in srgb, rgb(var(--canvas)) 93%, rgb(var(--accent))) 20%,
+        rgb(var(--canvas)) 42%,
+        color-mix(in srgb, rgb(var(--canvas)) 94%, rgb(var(--sage))) 64%,
+        rgb(var(--canvas)) 82%,
+        color-mix(in srgb, rgb(var(--canvas)) 92%, rgb(var(--sand))) 100%
+    );
     overflow-x: hidden;
     -webkit-tap-highlight-color: transparent;
 }
@@ -103,6 +118,21 @@ body::before {
 #root {
     position: relative;
     z-index: 1;
+}
+
+/*
+ * Huellas de Michi: un rastro que serpentea en diagonal (pata izquierda, pata derecha) y se
+ * desplaza con la página. La forma va en una máscara para pintarla con el color del texto de cada tema.
+ */
+#root::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: rgb(var(--ink) / 0.045);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='760' height='760'%3E%3Cg transform='translate(54 694) rotate(31)'%3E%3Cellipse cx='0' cy='5' rx='7.5' ry='6.5'/%3E%3Cellipse cx='-8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3Cellipse cx='-3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3C/g%3E%3Cg transform='translate(193 616) rotate(36)'%3E%3Cellipse cx='0' cy='5' rx='7.5' ry='6.5'/%3E%3Cellipse cx='-8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3Cellipse cx='-3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3C/g%3E%3Cg transform='translate(295 501) rotate(48)'%3E%3Cellipse cx='0' cy='5' rx='7.5' ry='6.5'/%3E%3Cellipse cx='-8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3Cellipse cx='-3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3C/g%3E%3Cg transform='translate(402 390) rotate(58)'%3E%3Cellipse cx='0' cy='5' rx='7.5' ry='6.5'/%3E%3Cellipse cx='-8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3Cellipse cx='-3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3C/g%3E%3Cg transform='translate(478 250) rotate(58)'%3E%3Cellipse cx='0' cy='5' rx='7.5' ry='6.5'/%3E%3Cellipse cx='-8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3Cellipse cx='-3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3C/g%3E%3Cg transform='translate(585 139) rotate(48)'%3E%3Cellipse cx='0' cy='5' rx='7.5' ry='6.5'/%3E%3Cellipse cx='-8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3Cellipse cx='-3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3C/g%3E%3Cg transform='translate(687 24) rotate(36)'%3E%3Cellipse cx='0' cy='5' rx='7.5' ry='6.5'/%3E%3Cellipse cx='-8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3Cellipse cx='-3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 760px 760px repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='760' height='760'%3E%3Cg transform='translate(54 694) rotate(31)'%3E%3Cellipse cx='0' cy='5' rx='7.5' ry='6.5'/%3E%3Cellipse cx='-8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3Cellipse cx='-3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3C/g%3E%3Cg transform='translate(193 616) rotate(36)'%3E%3Cellipse cx='0' cy='5' rx='7.5' ry='6.5'/%3E%3Cellipse cx='-8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3Cellipse cx='-3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3C/g%3E%3Cg transform='translate(295 501) rotate(48)'%3E%3Cellipse cx='0' cy='5' rx='7.5' ry='6.5'/%3E%3Cellipse cx='-8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3Cellipse cx='-3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3C/g%3E%3Cg transform='translate(402 390) rotate(58)'%3E%3Cellipse cx='0' cy='5' rx='7.5' ry='6.5'/%3E%3Cellipse cx='-8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3Cellipse cx='-3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3C/g%3E%3Cg transform='translate(478 250) rotate(58)'%3E%3Cellipse cx='0' cy='5' rx='7.5' ry='6.5'/%3E%3Cellipse cx='-8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3Cellipse cx='-3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3C/g%3E%3Cg transform='translate(585 139) rotate(48)'%3E%3Cellipse cx='0' cy='5' rx='7.5' ry='6.5'/%3E%3Cellipse cx='-8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3Cellipse cx='-3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3C/g%3E%3Cg transform='translate(687 24) rotate(36)'%3E%3Cellipse cx='0' cy='5' rx='7.5' ry='6.5'/%3E%3Cellipse cx='-8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3Cellipse cx='-3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='3' cy='-9.5' rx='2.8' ry='3.6'/%3E%3Cellipse cx='8.5' cy='-4' rx='2.8' ry='3.5'/%3E%3C/g%3E%3C/svg%3E") 0 0 / 760px 760px repeat;
 }
 
 ::selection {
@@ -132,34 +162,62 @@ body::before {
         animation: kick 2.4s ease-in-out infinite;
     }
 
+    /*
+     * Botones en pixel art: esquinas escalonadas. Las cuatro sombras duras amplían el
+     * rectángulo --pw hacia cada lado y dejan las esquinas vacías; la quinta es el relieve
+     * inferior, que desaparece al pulsar (el botón "se hunde").
+     */
     .btn {
-        @apply inline-flex h-11 items-center justify-center gap-2 whitespace-nowrap rounded-full px-5 text-sm font-medium;
+        --pw: 3px;
+        --pb: rgb(var(--ink));
+        --relieve: rgb(0 0 0 / 0.35);
+        @apply inline-flex h-11 items-center justify-center gap-2 whitespace-nowrap px-5 text-sm font-medium;
+        border-radius: 0;
+        box-shadow:
+            0 calc(var(--pw) * -1) 0 0 var(--pb),
+            0 var(--pw) 0 0 var(--pb),
+            calc(var(--pw) * -1) 0 0 0 var(--pb),
+            var(--pw) 0 0 0 var(--pb),
+            0 calc(var(--pw) * 2) 0 0 var(--relieve);
         transition:
-            transform 160ms var(--ease-out),
-            background-color 200ms ease,
-            border-color 200ms ease,
-            color 200ms ease;
+            transform 120ms steps(2, end),
+            background-color 160ms steps(3, end),
+            color 160ms steps(3, end),
+            box-shadow 160ms steps(3, end);
     }
 
     .btn:active {
-        transform: scale(0.97);
+        transform: translateY(var(--pw));
+        box-shadow:
+            0 calc(var(--pw) * -1) 0 0 var(--pb),
+            0 var(--pw) 0 0 var(--pb),
+            calc(var(--pw) * -1) 0 0 0 var(--pb),
+            var(--pw) 0 0 0 var(--pb),
+            0 var(--pw) 0 0 transparent;
     }
 
     .btn-primary {
         @apply btn bg-ink text-canvas;
     }
 
+    /* Botón secundario: solo el marco escalonado, sin relieve. */
     .btn-ghost {
-        @apply btn border border-line-strong bg-ink/[0.03] font-mono text-[12px] uppercase tracking-[0.12em] text-ink;
+        @apply btn bg-ink/[0.03] font-mono text-[12px] uppercase tracking-[0.12em] text-ink;
+        // Después del @apply: si no, las variables de .btn las pisarían.
+        --pw: 2px;
+        --pb: rgb(var(--ink) / 0.3);
+        --relieve: transparent;
     }
 
     @media (hover: hover) and (pointer: fine) {
         .btn-primary:hover {
+            --pb: rgb(var(--accent));
             @apply bg-accent text-accent-ink;
         }
 
         .btn-ghost:hover {
-            @apply border-ink/30 bg-ink/[0.07];
+            --pb: rgb(var(--ink) / 0.6);
+            @apply bg-ink/[0.07];
         }
     }
 
@@ -280,30 +338,8 @@ body::before {
     animation-play-state: paused;
 }
 
-/* ---------- Bit, el robot ---------- */
-@keyframes robot-flota {
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-4px);
-    }
-}
-
-@keyframes robot-sombra {
-    0%,
-    100% {
-        transform: scaleX(1);
-        opacity: 0.35;
-    }
-    50% {
-        transform: scaleX(0.86);
-        opacity: 0.25;
-    }
-}
-
-@keyframes robot-parpadeo {
+/* ---------- Michi, el gato ---------- */
+@keyframes gato-parpadeo {
     0%,
     92%,
     100% {
@@ -314,71 +350,225 @@ body::before {
     }
 }
 
-@keyframes robot-saludo {
+@keyframes gato-cola {
     0%,
     100% {
         transform: rotate(0deg);
     }
     50% {
-        transform: rotate(-22deg);
+        transform: rotate(-14deg);
     }
 }
 
-@keyframes robot-tecleo {
+@keyframes gato-oreja {
+    0%,
+    88%,
+    100% {
+        transform: rotate(0deg);
+    }
+    91% {
+        transform: rotate(12deg);
+    }
+    94% {
+        transform: rotate(-4deg);
+    }
+}
+
+@keyframes gato-cascabel {
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(10deg);
+    }
+    75% {
+        transform: rotate(-10deg);
+    }
+}
+
+/* Zarpazo: la pata baja de golpe sobre el estambre y vuelve. Mismo ciclo que la bola. */
+@keyframes gato-zarpazo {
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+    18% {
+        transform: rotate(34deg);
+    }
+    30% {
+        transform: rotate(-12deg);
+    }
+    45% {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes gato-estambre {
+    0%,
+    26% {
+        transform: translateX(0) rotate(0deg);
+    }
+    60% {
+        transform: translateX(-16px) rotate(-260deg);
+    }
+    100% {
+        transform: translateX(0) rotate(0deg);
+    }
+}
+
+@keyframes gato-tecla {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(2.5px);
+    }
+}
+
+@keyframes gato-boca {
+    0%,
+    100% {
+        transform: scaleY(1);
+    }
+    55% {
+        transform: scaleY(0.25);
+    }
+}
+
+@keyframes gato-miau {
+    0% {
+        transform: translateY(6px) scale(0.6);
+        opacity: 0;
+    }
+    25%,
+    70% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-4px) scale(1);
+        opacity: 0;
+    }
+}
+
+@keyframes gato-corazon {
+    0% {
+        transform: translateY(6px) scale(0.4);
+        opacity: 0;
+    }
+    20% {
+        transform: translateY(0) scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-28px) scale(0.9);
+        opacity: 0;
+    }
+}
+
+/* Antes de saltar: agachado, menea el trasero (las patas delanteras quedan quietas). */
+@keyframes gato-meneo {
+    0%,
+    100% {
+        transform: rotate(0deg) translateX(0);
+    }
+    25% {
+        transform: rotate(-2.5deg) translateX(-1.5px);
+    }
+    75% {
+        transform: rotate(2deg) translateX(1.5px);
+    }
+}
+
+/* La punta de la cola se sacude mientras calcula el salto. */
+@keyframes gato-cola-punta {
     0%,
     100% {
         transform: rotate(0deg);
     }
     50% {
-        transform: rotate(-7deg);
+        transform: rotate(-16deg);
     }
 }
 
-@keyframes robot-barra {
+/* En alerta, la cola se agita en golpes cortos. */
+@keyframes gato-cola-alerta {
+    0%,
+    40%,
+    100% {
+        transform: rotate(0deg);
+    }
+    10% {
+        transform: rotate(-9deg);
+    }
+    20% {
+        transform: rotate(3deg);
+    }
+    30% {
+        transform: rotate(-6deg);
+    }
+}
+
+/* Ladea la cabeza a un lado, se queda mirando y luego al otro. */
+@keyframes gato-ladeo {
     0%,
     100% {
-        transform: scaleY(0.35);
+        transform: rotate(0deg);
     }
+    15%,
     50% {
-        transform: scaleY(1);
+        transform: rotate(13deg);
+    }
+    65%,
+    85% {
+        transform: rotate(-5deg);
     }
 }
 
-@keyframes robot-antena {
-    0%,
-    100% {
-        transform: scale(1);
+@keyframes gato-signo {
+    0% {
+        transform: translateY(6px) scale(0.3);
+        opacity: 0;
+    }
+    18% {
+        transform: translateY(-2px) scale(1.25);
         opacity: 1;
     }
-    50% {
-        transform: scale(0.82);
-        opacity: 0.75;
-    }
-}
-
-@keyframes robot-llama {
-    0%,
-    100% {
-        transform: scaleY(1);
-        opacity: 0.9;
-    }
-    50% {
-        transform: scaleY(0.7);
-        opacity: 0.6;
-    }
-}
-
-@keyframes robot-idea {
-    0%,
-    100% {
-        opacity: 0.25;
-    }
-    50% {
+    30%,
+    80% {
+        transform: translateY(0) scale(1);
         opacity: 1;
     }
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 0;
+    }
 }
 
-@keyframes robot-codigo {
+/* Panza arriba: rueda de un lado a otro sobre la espalda. */
+@keyframes gato-rodar {
+    0%,
+    100% {
+        transform: rotate(-9deg);
+    }
+    50% {
+        transform: rotate(9deg);
+    }
+}
+
+@keyframes gato-pedaleo {
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(-12deg);
+    }
+}
+
+@keyframes codigo {
     0% {
         transform: scaleX(0);
     }
@@ -388,75 +578,88 @@ body::before {
     }
 }
 
-@keyframes robot-confeti {
-    0% {
-        transform: translate(0, 0) rotate(0);
-        opacity: 0;
-    }
-    15% {
-        opacity: 1;
-    }
-    100% {
-        transform: translate(var(--dx), -46px) rotate(220deg);
-        opacity: 0;
-    }
-}
-
-.robot-flota {
-    animation: robot-flota 2.6s ease-in-out infinite;
-}
-
-.robot-sombra {
-    transform-origin: 60px 144px;
-    transform-box: view-box;
-    animation: robot-sombra 2.6s ease-in-out infinite;
-}
-
-.robot-parpadeo {
+.gato-parpadeo {
     transform-origin: center;
     transform-box: fill-box;
-    animation: robot-parpadeo 4.2s ease-in-out infinite;
+    animation: gato-parpadeo 4.2s ease-in-out infinite;
 }
 
-.robot-saludo {
-    animation: robot-saludo 0.9s ease-in-out infinite;
+.gato-cola {
+    animation: gato-cola 2.4s ease-in-out infinite;
 }
 
-.robot-tecleo {
-    animation: robot-tecleo 0.32s ease-in-out infinite;
+.gato-oreja {
+    animation: gato-oreja 5.5s ease-in-out infinite;
 }
 
-.robot-barra {
-    animation: robot-barra 1.1s ease-in-out infinite;
+.gato-cascabel {
+    animation: gato-cascabel 1.6s ease-in-out infinite;
 }
 
-.robot-antena {
-    animation: robot-antena 1.8s ease-in-out infinite;
+.gato-zarpazo {
+    animation: gato-zarpazo 1.8s cubic-bezier(0.34, 1.3, 0.64, 1) infinite;
 }
 
-.robot-llama {
-    transform-origin: 60px 124px;
-    transform-box: view-box;
-    animation: robot-llama 0.35s ease-in-out infinite;
-}
-
-.robot-idea {
-    animation: robot-idea 1.2s ease-in-out infinite;
-}
-
-.robot-codigo {
-    transform-origin: left;
+.gato-estambre {
     transform-box: fill-box;
-    animation: robot-codigo 1.6s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+    transform-origin: center;
+    animation: gato-estambre 1.8s cubic-bezier(0.23, 1, 0.32, 1) infinite;
 }
 
-.robot-confeti {
-    animation: robot-confeti 1.4s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+.gato-tecla {
+    transform-box: fill-box;
+    animation: gato-tecla 0.32s ease-in-out infinite;
 }
 
-.robot-ladeo {
-    transform: rotate(-6deg);
-    transition: transform 500ms cubic-bezier(0.34, 1.45, 0.64, 1);
+.gato-boca {
+    animation: gato-boca 0.55s ease-in-out infinite;
+}
+
+.gato-miau {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: gato-miau 1.5s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+}
+
+.gato-zzz {
+    animation: zzz 3.2s ease-out infinite;
+}
+
+.gato-meneo {
+    animation: gato-meneo 0.32s ease-in-out infinite;
+}
+
+.gato-cola-punta {
+    animation: gato-cola-punta 0.4s ease-in-out infinite;
+}
+
+.gato-cola-alerta {
+    animation: gato-cola-alerta 1.6s ease-in-out infinite;
+}
+
+.gato-ladeo {
+    animation: gato-ladeo 2.6s cubic-bezier(0.34, 1.3, 0.64, 1) infinite;
+}
+
+.gato-signo {
+    transform-box: fill-box;
+    transform-origin: center bottom;
+    animation: gato-signo 2.6s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+}
+
+.gato-rodar {
+    animation: gato-rodar 2.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.gato-pedaleo {
+    animation: gato-pedaleo 0.9s ease-in-out infinite;
+}
+
+.gato-corazon {
+    transform-box: fill-box;
+    transform-origin: center;
+    opacity: 0;
+    animation: gato-corazon 1.3s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
 
 /* ---------- El taller (diorama del hero) ---------- */
@@ -618,7 +821,7 @@ body::before {
 .taller .codigo {
     transform-box: fill-box;
     transform-origin: left;
-    animation: robot-codigo 2.4s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+    animation: codigo 2.4s cubic-bezier(0.23, 1, 0.32, 1) infinite;
 }
 
 @keyframes flotar {
@@ -639,6 +842,93 @@ body::before {
     transform-box: fill-box;
     transform-origin: center;
     animation: giro 30s linear infinite;
+}
+
+/* Juguete colgando del rascador: se balancea. */
+@keyframes colgante {
+    0%,
+    100% {
+        transform: rotate(-9deg);
+    }
+    50% {
+        transform: rotate(9deg);
+    }
+}
+
+.taller .colgante {
+    animation: colgante 2.4s ease-in-out infinite;
+}
+
+/* ---------- Sala de proyectos (Más trabajo) ---------- */
+.nota .nota-foco {
+    opacity: 0;
+    transition: opacity 150ms ease;
+}
+
+.nota:focus-visible .nota-foco {
+    opacity: 1;
+}
+
+@keyframes etiqueta-sala {
+    from {
+        transform: translateY(6px) scale(0.92);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+}
+
+.etiqueta-sala {
+    transform-box: fill-box;
+    transform-origin: center bottom;
+    animation: etiqueta-sala 280ms cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+/* Muebles de la sala que se pueden usar: un brillo al pasar y un halo con el teclado. */
+.mueble {
+    transition: filter 200ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .mueble:hover {
+        filter: brightness(1.12);
+    }
+}
+
+.mueble:focus-visible {
+    filter: drop-shadow(0 0 4px rgb(var(--sand)));
+}
+
+.nota-libre {
+    cursor: pointer;
+}
+
+.nota-libre-mas {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform 300ms cubic-bezier(0.34, 1.45, 0.64, 1);
+}
+
+.nota-libre:hover .nota-libre-mas,
+.nota-libre:focus-visible .nota-libre-mas {
+    transform: rotate(90deg) scale(1.12);
+}
+
+/* Michi en el aire mientras viaja de un mueble a otro. */
+@keyframes sala-vuelo {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-46px);
+    }
+}
+
+.sala-vuelo {
+    animation: sala-vuelo 750ms cubic-bezier(0.33, 0, 0.67, 1);
 }
 
 /* Fuera de pantalla, el diorama se congela para no gastar batería. */
@@ -663,7 +953,8 @@ body::before {
     .kicker::before,
     .flotar,
     .anillo,
-    [class*='robot-'],
+    .etiqueta-sala,
+    [class*='gato-'],
     .taller * {
         animation: none !important;
     }

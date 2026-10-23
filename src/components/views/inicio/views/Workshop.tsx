@@ -1,11 +1,13 @@
-import { Robot } from '@components/includes';
+import { Gato } from '@components/includes';
 import { caras, Iso, planoX, planoY, poligono, punto } from '@/lib/iso';
+import { GatoPose } from '@/lib/michi';
+import { useReducedMotion } from 'motion/react';
 import { FC, ReactNode, useEffect, useRef, useState } from 'react';
 
 /*
  * El taller de Juan: diorama isométrico dibujado con código (ver lib/iso.ts).
- * Suelo de 10 x 10 unidades con dos paredes, cuatro estaciones (web, servidor, móvil, mensajes)
- * y detalles vivos. Paredes y suelo usan los tokens del tema; los objetos, la paleta Atelier
+ * Suelo de 10 x 10 unidades con dos paredes: un estudio acogedor con escritorio, servidor,
+ * banca bajo la ventana, rascador y las cosas de Michi, más detalles vivos. Paredes y suelo usan los tokens del tema; los objetos, la paleta Atelier
  * con acentos neón tomados de los proyectos de Juan.
  */
 
@@ -41,34 +43,64 @@ function Caja({ x, y, z, w, d, h, tapa, izq, der, children }: { x: number; y: nu
     );
 }
 
-/** Letrero colgante legible (no deformado), anclado a un punto del espacio. */
-function Letrero({ x, y, z, texto, color }: { x: number; y: number; z: number; texto: string; color: string }) {
-    const [px, py] = punto(V, x, y, z);
-    const ancho = texto.length * 6.6 + 22;
-    return (
-        <g transform={`translate(${px.toFixed(1)} ${py.toFixed(1)})`}>
-            <line x1={0} y1={0} x2={0} y2={10} stroke='rgb(var(--line-strong))' strokeWidth={1.2} />
-            <rect x={-ancho / 2} y={10} width={ancho} height={18} rx={9} fill={C.tinta} stroke='rgb(255 255 255 / 0.12)' />
-            <circle cx={-ancho / 2 + 10} cy={19} r={3} fill={color} className='titila' />
-            <text x={-ancho / 2 + 18} y={22.5} fontFamily='"Geist Mono Variable", monospace' fontSize={9.5} letterSpacing={1.2} fill={C.crema}>
-                {texto}
-            </text>
-        </g>
-    );
-}
+/** Círculo sobre el suelo (en proyección isométrica), para la alfombra. */
+const circulo = (cx: number, cy: number, r: number) =>
+    Array.from({ length: 48 }, (_, i) => {
+        const a = (i / 48) * Math.PI * 2;
+        return punto(V, cx + Math.cos(a) * r, cy + Math.sin(a) * r, 0.01)
+            .map((n) => n.toFixed(1))
+            .join(',');
+    }).join(' ');
 
-/** Engranaje plano (se dibuja dentro de un plano de pared). */
-function Engranaje({ cx, cy, r, dientes, color, clase }: { cx: number; cy: number; r: number; dientes: number; color: string; clase: string }) {
-    const d: string[] = [];
-    for (let i = 0; i < dientes; i++) {
-        const a = (i / dientes) * Math.PI * 2;
-        d.push(`M${cx + Math.cos(a) * r * 0.82} ${cy + Math.sin(a) * r * 0.82} L${cx + Math.cos(a) * r * 1.15} ${cy + Math.sin(a) * r * 1.15}`);
-    }
+// Rutina de Michi en el taller: juega con el estambre, se pone alerta, maúlla y rueda panza arriba.
+const RUTINA: [GatoPose, number][] = [
+    ['jugar', 6400],
+    ['sentado', 2200],
+    ['alerta', 2600],
+    ['maullar', 1600],
+    ['sentado', 2400],
+    ['panza', 4400],
+];
+
+/** Michi sobre la alfombra (en el sitio que tenía Bit); al tocarlo maúlla y suelta corazones. */
+function MichiTaller({ x, y, activo }: { x: number; y: number; activo: boolean }) {
+    const reduce = useReducedMotion();
+    const [paso, setPaso] = useState(0);
+    const [mimos, setMimos] = useState(0);
+    const [maullido, setMaullido] = useState(false);
+
+    useEffect(() => {
+        if (reduce || !activo) return;
+        const id = window.setTimeout(() => setPaso((p) => (p + 1) % RUTINA.length), RUTINA[paso][1]);
+        return () => window.clearTimeout(id);
+    }, [paso, reduce, activo]);
+
+    useEffect(() => {
+        if (!maullido) return;
+        const id = window.setTimeout(() => setMaullido(false), 1500);
+        return () => window.clearTimeout(id);
+    }, [maullido, mimos]);
+
+    const pose = maullido ? 'maullar' : RUTINA[paso][0];
+
     return (
-        <g className={clase}>
-            <path d={d.join(' ')} stroke={color} strokeWidth={r * 0.32} strokeLinecap='round' />
-            <circle cx={cx} cy={cy} r={r * 0.85} fill={color} />
-            <circle cx={cx} cy={cy} r={r * 0.32} fill={C.tinta} />
+        <g>
+            <ellipse cx={x} cy={y} rx={32} ry={10} fill='#000000' opacity={0.3} />
+            <svg x={x - 68} y={y - 166} width={136} height={170} viewBox='0 0 120 150' overflow='visible'>
+                <Gato pose={pose} mimos={mimos} sinSombra />
+            </svg>
+            <rect
+                x={x - 45}
+                y={y - 152}
+                width={90}
+                height={154}
+                fill='transparent'
+                className='cursor-pointer'
+                onClick={() => {
+                    setMimos((n) => n + 1);
+                    setMaullido(true);
+                }}
+            />
         </g>
     );
 }
@@ -87,10 +119,10 @@ export const Workshop: FC = () => {
     }, []);
 
     const suelo = caras(V, 0, 0, -0.7, 10, 10, 0.7);
-    const [rx, ry] = punto(V, 5.2, 5.6, 0);
+    const [rx, ry] = punto(V, 5.6, 6.2, 0);
 
     return (
-        <svg ref={ref} viewBox='0 0 660 560' className={`taller h-auto w-full ${visible ? '' : 'pausado'}`} role='img' aria-label='Ilustración del taller de Juan: Bit, un robot, saluda rodeado de estaciones de web, servidores, móvil y mensajería.'>
+        <svg ref={ref} viewBox='0 0 660 560' className={`taller h-auto w-full ${visible ? '' : 'pausado'}`} role='img' aria-label='Ilustración del taller de Juan: Michi, un gato naranja, juega con su estambre sobre la alfombra, entre el escritorio con el monitor, el servidor, la ventana, el rascador y el tablero de GitHub.'>
             <defs>
                 <filter id='taller-neon' x='-50%' y='-50%' width='200%' height='200%'>
                     <feGaussianBlur stdDeviation='2.2' result='b' />
@@ -103,13 +135,62 @@ export const Workshop: FC = () => {
             </defs>
 
             {/* Paredes */}
-            <polygon points={poligono(V, [[0, 0, 0], [0, 10, 0], [0, 10, ALTO], [0, 0, ALTO]])} fill='rgb(var(--surface))' />
-            <polygon points={poligono(V, [[0, 0, 0], [10, 0, 0], [10, 0, ALTO], [0, 0, ALTO]])} fill='rgb(var(--surface-2))' />
-            <polyline points={poligono(V, [[0, 10, ALTO], [0, 0, ALTO], [10, 0, ALTO]])} fill='none' stroke='rgb(var(--line-strong))' strokeWidth={2} />
-            <polyline points={poligono(V, [[0, 0, 0], [0, 0, ALTO]])} fill='none' stroke='rgb(var(--line-strong))' strokeWidth={1} />
+            <polygon
+                points={poligono(V, [
+                    [0, 0, 0],
+                    [0, 10, 0],
+                    [0, 10, ALTO],
+                    [0, 0, ALTO],
+                ])}
+                fill='rgb(var(--surface))'
+            />
+            <polygon
+                points={poligono(V, [
+                    [0, 0, 0],
+                    [10, 0, 0],
+                    [10, 0, ALTO],
+                    [0, 0, ALTO],
+                ])}
+                fill='rgb(var(--surface-2))'
+            />
+            <polyline
+                points={poligono(V, [
+                    [0, 10, ALTO],
+                    [0, 0, ALTO],
+                    [10, 0, ALTO],
+                ])}
+                fill='none'
+                stroke='rgb(var(--line-strong))'
+                strokeWidth={2}
+            />
+            <polyline
+                points={poligono(V, [
+                    [0, 0, 0],
+                    [0, 0, ALTO],
+                ])}
+                fill='none'
+                stroke='rgb(var(--line-strong))'
+                strokeWidth={1}
+            />
             {/* Zócalo */}
-            <polygon points={poligono(V, [[0, 0, 0], [10, 0, 0], [10, 0, 0.4], [0, 0, 0.4]])} fill='rgb(var(--raised))' />
-            <polygon points={poligono(V, [[0, 0, 0], [0, 10, 0], [0, 10, 0.4], [0, 0, 0.4]])} fill='rgb(var(--raised))' />
+            <polygon
+                points={poligono(V, [
+                    [0, 0, 0],
+                    [10, 0, 0],
+                    [10, 0, 0.4],
+                    [0, 0, 0.4],
+                ])}
+                fill='rgb(var(--raised))'
+            />
+            <polygon
+                points={poligono(V, [
+                    [0, 0, 0],
+                    [0, 10, 0],
+                    [0, 10, 0.4],
+                    [0, 0, 0.4],
+                ])}
+                fill='rgb(var(--raised))'
+            />
 
             {/* Pared izquierda: ventana con cielo nocturno */}
             <g transform={planoY(V, 0, 4.6, 5)}>
@@ -151,25 +232,28 @@ export const Workshop: FC = () => {
                 </text>
             </g>
 
-            {/* Pared derecha: engranajes */}
-            <g transform={planoX(V, 5.2, 0, 4.9)}>
-                <Engranaje cx={0.8} cy={0.8} r={0.6} dientes={10} color={C.arena} clase='giro' />
-                <Engranaje cx={1.85} cy={1.45} r={0.42} dientes={8} color={C.terra} clase='giro-inverso' />
-                <Engranaje cx={1.65} cy={0.35} r={0.28} dientes={7} color={C.salvia} clase='giro' />
-            </g>
-
-            {/* Pared derecha: repisa con libros */}
-            <Caja x={7.2} y={0} z={3.6} w={2.6} d={0.7} h={0.12} tapa={C.madera} izq={C.maderaOsc} der={C.maderaOsc} />
+            {/* Pared derecha: repisa con libros y una suculenta */}
+            <Caja x={5.9} y={0} z={3.75} w={2.5} d={0.6} h={0.1} tapa={C.madera} izq={C.maderaOsc} der={C.maderaOsc} />
             {[
-                [7.35, 0.55, C.terra],
-                [7.68, 0.75, C.salvia],
-                [7.98, 0.62, C.arena],
-                [8.28, 0.8, C.pizarra],
-                [8.62, 0.5, C.crema],
+                [6.05, 0.6, C.terra],
+                [6.36, 0.78, C.salvia],
+                [6.66, 0.66, C.arena],
+                [6.96, 0.84, C.pizarra],
             ].map(([bx, bh, color], i) => (
-                <Caja key={i} x={bx as number} y={0.1} z={3.72} w={0.26} d={0.5} h={bh as number} tapa={color as string} izq={color as string} der={C.tinta} />
+                <Caja key={i} x={bx as number} y={0.08} z={3.85} w={0.27} d={0.46} h={bh as number} tapa={color as string} izq={color as string} der={C.tinta} />
             ))}
-            <Caja x={9.05} y={0.15} z={3.72} w={0.45} d={0.45} h={0.35} tapa={C.salvia} izq='#5f8f78' der='#4c7562' />
+            <Caja x={7.45} y={0.12} z={3.85} w={0.62} d={0.42} h={0.14} tapa={C.crema} izq='#e3dfc6' der='#cbc6ab' />
+            <Caja x={7.75} y={0.12} z={3.99} w={0.42} d={0.42} h={0.3} tapa='#c9744f' izq={C.terra} der='#b95c43' />
+            {(() => {
+                const [sx, sy] = punto(V, 7.96, 0.33, 4.29);
+                return (
+                    <g>
+                        <ellipse cx={sx - 4} cy={sy - 5} rx={3.2} ry={7} fill={C.salvia} transform={`rotate(-24 ${sx - 4} ${sy - 5})`} />
+                        <ellipse cx={sx + 4} cy={sy - 5} rx={3.2} ry={7} fill='#6ea088' transform={`rotate(24 ${sx + 4} ${sy - 5})`} />
+                        <ellipse cx={sx} cy={sy - 8} rx={3.2} ry={8} fill={C.salvia} />
+                    </g>
+                );
+            })()}
 
             {/* Suelo */}
             <polygon points={suelo.der} fill='rgb(var(--line-strong))' />
@@ -178,139 +262,204 @@ export const Workshop: FC = () => {
             <g stroke='rgb(var(--ink) / 0.06)' strokeWidth={1}>
                 {Array.from({ length: 9 }).map((_, i) => (
                     <g key={i}>
-                        <polyline points={poligono(V, [[i + 1, 0, 0], [i + 1, 10, 0]])} />
-                        <polyline points={poligono(V, [[0, i + 1, 0], [10, i + 1, 0]])} />
+                        <polyline
+                            points={poligono(V, [
+                                [i + 1, 0, 0],
+                                [i + 1, 10, 0],
+                            ])}
+                        />
+                        <polyline
+                            points={poligono(V, [
+                                [0, i + 1, 0],
+                                [10, i + 1, 0],
+                            ])}
+                        />
                     </g>
                 ))}
             </g>
-            {/* Alfombra bajo el robot */}
-            <polygon points={poligono(V, [[3.6, 4, 0.01], [7, 4, 0.01], [7, 7.4, 0.01], [3.6, 7.4, 0.01]])} fill={C.terra} opacity={0.22} />
-            <polygon points={poligono(V, [[3.9, 4.3, 0.02], [6.7, 4.3, 0.02], [6.7, 7.1, 0.02], [3.9, 7.1, 0.02]])} fill='none' stroke={C.arena} strokeOpacity={0.45} strokeWidth={1.2} strokeDasharray='4 4' />
 
-            {/* Estación WEB: escritorio, monitor con código y taza humeante */}
-            <Caja x={0.6} y={1.1} z={0} w={3.2} d={1.7} h={1.35} tapa={C.madera} izq={C.maderaOsc} der='#6f4a30' />
-            <Caja x={1.2} y={1.3} z={1.35} w={2.1} d={0.22} h={1.45} tapa={C.pizarraOsc} izq={C.pizarra} der={C.pizarraOsc} />
-            <g transform={planoX(V, 1.32, 1.52, 2.7)}>
-                <rect x={0} y={0} width={1.86} height={1.22} rx={0.06} fill='#11131f' />
+            {/* Alfombra redonda bajo Michi */}
+            <polygon points={circulo(5.6, 6.2, 2.3)} fill={C.terra} opacity={0.2} />
+            <polygon points={circulo(5.6, 6.2, 1.95)} fill='none' stroke={C.arena} strokeOpacity={0.45} strokeWidth={1.2} strokeDasharray='4 4' />
+            <polygon points={circulo(5.6, 6.2, 1.1)} fill={C.terra} opacity={0.12} />
+
+            {/* Planta grande en la esquina */}
+            <Caja x={0.3} y={0.3} z={0} w={0.85} d={0.85} h={0.8} tapa='#c9744f' izq={C.terra} der='#b95c43' />
+            {(() => {
+                const [px, py] = punto(V, 0.72, 0.72, 0.8);
+                return (
+                    <g className='respira' style={{ animationDuration: '5s' }}>
+                        <ellipse cx={px - 13} cy={py - 22} rx={9} ry={22} fill={C.salvia} transform={`rotate(-34 ${px - 13} ${py - 22})`} />
+                        <ellipse cx={px + 13} cy={py - 24} rx={9} ry={23} fill='#6ea088' transform={`rotate(30 ${px + 13} ${py - 24})`} />
+                        <ellipse cx={px - 3} cy={py - 34} rx={9.5} ry={26} fill={C.salvia} transform={`rotate(-8 ${px - 3} ${py - 34})`} />
+                        <ellipse cx={px + 7} cy={py - 30} rx={7} ry={20} fill='#5f8f78' transform={`rotate(14 ${px + 7} ${py - 30})`} />
+                    </g>
+                );
+            })()}
+
+            {/* Escritorio bajo el <JM/>: cajonera, pata y tablero */}
+            <Caja x={1.5} y={0.15} z={0} w={1} d={1.3} h={1.18} tapa={C.madera} izq={C.maderaOsc} der='#6f4a30' />
+            {[0.32, 0.72].map((dz) => (
+                <g key={dz} transform={planoX(V, 1.55, 1.45, 1.18 - dz + 0.25)}>
+                    <rect x={0} y={0} width={0.9} height={0.32} rx={0.04} fill='#000000' opacity={0.12} />
+                    <rect x={0.35} y={0.13} width={0.2} height={0.05} rx={0.025} fill={C.arena} />
+                </g>
+            ))}
+            <Caja x={5.05} y={0.15} z={0} w={0.14} d={1.3} h={1.18} tapa={C.maderaOsc} izq={C.maderaOsc} der='#6f4a30' />
+            <Caja x={1.4} y={0.1} z={1.18} w={3.9} d={1.45} h={0.12} tapa={C.madera} izq={C.maderaOsc} der='#6f4a30' />
+
+            {/* Monitor con código */}
+            <Caja x={3.25} y={0.4} z={1.3} w={0.36} d={0.3} h={0.32} tapa={C.pizarraOsc} izq={C.pizarra} der={C.pizarraOsc} />
+            <Caja x={2.2} y={0.35} z={1.55} w={2.45} d={0.18} h={1.5} tapa={C.pizarraOsc} izq={C.pizarra} der={C.pizarraOsc} />
+            <g transform={planoX(V, 2.3, 0.54, 2.95)}>
+                <rect x={0} y={0} width={2.25} height={1.3} rx={0.06} fill='#11131f' />
                 {[
-                    [0.12, 0.18, 0.9, C.neonVioleta],
-                    [0.24, 0.36, 1.2, C.neonCian],
-                    [0.24, 0.54, 0.7, C.arena],
-                    [0.36, 0.72, 1.0, C.salvia],
-                    [0.12, 0.9, 0.55, C.terra],
+                    [0.14, 0.2, 1.0, C.neonVioleta],
+                    [0.28, 0.38, 1.35, C.neonCian],
+                    [0.28, 0.56, 0.8, C.arena],
+                    [0.42, 0.74, 1.15, C.salvia],
+                    [0.28, 0.92, 0.6, C.terra],
+                    [0.14, 1.1, 0.9, C.neonCian],
                 ].map(([lx, ly, lw, color], i) => (
                     <rect key={i} x={lx as number} y={ly as number} width={lw as number} height={0.08} rx={0.04} fill={color as string} className='codigo' style={{ animationDelay: `${i * 0.35}s` }} />
                 ))}
-                {/* Nota adhesiva: el ciclo del agente */}
-                <rect x={1.42} y={-0.12} width={0.5} height={0.5} fill={C.arena} transform='rotate(6 1.67 0.13)' />
-                <text x={1.47} y={0.1} fontSize={0.12} fontFamily='"Geist Mono Variable", monospace' fill={C.tinta} transform='rotate(6 1.67 0.13)'>
-                    pensar
-                </text>
-                <text x={1.47} y={0.24} fontSize={0.12} fontFamily='"Geist Mono Variable", monospace' fill={C.tinta} transform='rotate(6 1.67 0.13)'>
-                    actuar ↻
-                </text>
+                <rect x={0.14} y={1.1} width={0.05} height={0.12} fill={C.crema} className='titila' style={{ animationDuration: '1s' }} />
             </g>
-            <Caja x={1.9} y={1.62} z={1.35} w={0.6} d={0.5} h={0.05} tapa={C.pizarraOsc} izq={C.tinta} der={C.tinta} />
-            <Caja x={3.15} y={2.15} z={1.35} w={0.36} d={0.36} h={0.42} tapa={C.crema} izq='#e3dfc6' der='#cbc6ab' />
+            {/* Teclado, taza humeante y celular con notificaciones */}
+            <Caja x={2.55} y={0.95} z={1.3} w={1.6} d={0.42} h={0.06} tapa={C.pizarra} izq={C.pizarraOsc} der={C.tinta} />
+            <Caja x={4.35} y={1.0} z={1.3} w={0.32} d={0.32} h={0.38} tapa={C.crema} izq='#e3dfc6' der='#cbc6ab' />
             {[0, 1].map((i) => {
-                const [vx, vy] = punto(V, 3.33, 2.33, 1.95);
-                return <ellipse key={i} cx={vx + i * 4} cy={vy} rx={4} ry={6} fill={C.crema} className='vapor' style={{ animationDelay: `${i * 1.3}s` }} />;
+                const [vx, vy] = punto(V, 4.51, 1.16, 1.75);
+                return <ellipse key={i} cx={vx + i * 4} cy={vy} rx={3.5} ry={5.5} fill={C.crema} className='vapor' style={{ animationDelay: `${i * 1.3}s` }} />;
             })}
-            <Letrero x={2.2} y={2.8} z={1.35} texto='WEB' color={C.neonVioleta} />
+            <Caja x={1.75} y={0.95} z={1.3} w={0.34} d={0.56} h={0.05} tapa='#0f1a24' izq={C.tinta} der={C.tinta} />
+            {(() => {
+                const [tx, ty] = punto(V, 1.92, 1.23, 1.36);
+                return (
+                    <g>
+                        <circle cx={tx} cy={ty} r={3} fill={C.neonCian} opacity={0.7} />
+                        <circle cx={tx + 5} cy={ty - 4} r={2.6} fill={C.terra} className='notificacion' />
+                        {[0, 1, 2].map((i) => {
+                            const color = i === 1 ? C.crema : C.neonVerde;
+                            const bx = tx + (i - 1) * 12;
+                            return (
+                                <g key={i} className='burbuja' style={{ animationDelay: `${i * 1.2}s` }}>
+                                    <rect x={bx - 12} y={ty - 26} width={24} height={14} rx={7} fill={color} />
+                                    <path d={`M${bx - 5} ${ty - 13} l-3 5 l8 -5 z`} fill={color} />
+                                    <g fill={C.tinta} opacity={0.55}>
+                                        <circle cx={bx - 5} cy={ty - 19} r={1.4} />
+                                        <circle cx={bx} cy={ty - 19} r={1.4} />
+                                        <circle cx={bx + 5} cy={ty - 19} r={1.4} />
+                                    </g>
+                                </g>
+                            );
+                        })}
+                    </g>
+                );
+            })()}
 
-            {/* Estación SERVIDOR: rack con LEDs */}
-            <Caja x={7.7} y={0.8} z={0} w={1.5} d={1.4} h={3.3} tapa={C.pizarra} izq={C.pizarraOsc} der='#20222f' />
-            <g transform={planoX(V, 7.7, 2.2, 3.15)}>
-                {Array.from({ length: 6 }).map((_, f) => (
+            {/* Banca bajo la ventana, con cojines: el sitio de Michi para mirar afuera */}
+            <Caja x={0.2} y={1.7} z={0} w={1.25} d={2.9} h={0.55} tapa={C.madera} izq={C.maderaOsc} der='#6f4a30' />
+            <Caja x={0.25} y={1.8} z={0.55} w={1.15} d={2.7} h={0.18} tapa='#ea9478' izq={C.terra} der='#b95c43' />
+            <Caja x={0.3} y={3.7} z={0.73} w={0.55} d={0.7} h={0.42} tapa={C.arena} izq='#d9b277' der='#c19a62' />
+            <Caja x={0.3} y={1.95} z={0.73} w={0.5} d={0.6} h={0.36} tapa={C.salvia} izq='#5f8f78' der='#4c7562' />
+
+            {/* Silla del escritorio */}
+            {(() => {
+                const [bx, by] = punto(V, 3.4, 2.4, 0);
+                const [sx, sy] = punto(V, 3.4, 2.4, 0.62);
+                return (
+                    <g>
+                        <ellipse cx={bx} cy={by} rx={16} ry={7} fill={C.pizarraOsc} />
+                        <line x1={bx} y1={by} x2={sx} y2={sy} stroke={C.pizarra} strokeWidth={4} />
+                    </g>
+                );
+            })()}
+            <Caja x={2.9} y={1.9} z={0.62} w={1} d={1} h={0.16} tapa={C.pizarra} izq={C.pizarraOsc} der='#20222f' />
+            <Caja x={2.95} y={2.78} z={0.78} w={0.9} d={0.14} h={0.85} tapa={C.pizarra} izq={C.pizarraOsc} der='#20222f' />
+
+            {/* Servidor compacto con LEDs */}
+            <Caja x={8.5} y={0.3} z={0} w={1.1} d={1.1} h={2.5} tapa={C.pizarra} izq={C.pizarraOsc} der='#20222f' />
+            <g transform={planoX(V, 8.5, 1.4, 2.35)}>
+                {Array.from({ length: 5 }).map((_, f) => (
                     <g key={f}>
-                        <rect x={0.12} y={0.1 + f * 0.48} width={1.26} height={0.36} rx={0.05} fill='#161824' />
+                        <rect x={0.1} y={0.08 + f * 0.44} width={0.9} height={0.32} rx={0.05} fill='#161824' />
                         {[0, 1, 2].map((l) => (
-                            <circle key={l} cx={0.28 + l * 0.18} cy={0.28 + f * 0.48} r={0.05} fill={[C.neonVerde, C.neonCian, C.terra][(f + l) % 3]} className='led' style={{ animationDelay: `${(f * 3 + l) * 0.17}s` }} />
+                            <circle key={l} cx={0.24 + l * 0.16} cy={0.24 + f * 0.44} r={0.045} fill={[C.neonVerde, C.neonCian, C.terra][(f + l) % 3]} className='led' style={{ animationDelay: `${(f * 3 + l) * 0.17}s` }} />
                         ))}
-                        <rect x={0.86} y={0.25 + f * 0.48} width={0.4} height={0.06} rx={0.03} fill='rgb(255 255 255 / 0.15)' />
+                        <rect x={0.66} y={0.21 + f * 0.44} width={0.26} height={0.05} rx={0.025} fill='rgb(255 255 255 / 0.15)' />
                     </g>
                 ))}
             </g>
-            {[0, 1, 2].map((i) => {
-                const [vx, vy] = punto(V, 8.4, 1.5, 3.4);
-                return <circle key={i} cx={vx + (i - 1) * 7} cy={vy} r={5} fill='rgb(var(--ink) / 0.25)' className='vapor' style={{ animationDelay: `${i * 0.9}s` }} />;
-            })}
-            <Letrero x={8.45} y={2.2} z={3.3} texto='SERVIDOR' color={C.neonVerde} />
 
-            {/* Estación MÓVIL: mesa con teléfono */}
-            <Caja x={7} y={5.4} z={0} w={1.7} d={1.7} h={1.15} tapa={C.salvia} izq='#5f8f78' der='#4c7562' />
-            <Caja x={7.6} y={6.1} z={1.15} w={0.62} d={0.14} h={1.1} tapa={C.tinta} izq={C.pizarraOsc} der={C.tinta} />
-            <g transform={planoX(V, 7.65, 6.24, 2.2)}>
-                <rect x={0} y={0} width={0.52} height={1} rx={0.07} fill='#0f1a24' />
-                <rect x={0.07} y={0.12} width={0.38} height={0.1} rx={0.03} fill={C.neonCian} />
-                <rect x={0.07} y={0.3} width={0.38} height={0.24} rx={0.04} fill={C.neonCian} opacity={0.35} />
-                <rect x={0.07} y={0.62} width={0.24} height={0.06} rx={0.03} fill={C.crema} opacity={0.6} />
-                <circle cx={0.5} cy={0.02} r={0.11} fill={C.terra} className='notificacion' />
-            </g>
-            <Letrero x={7.85} y={7.1} z={1.15} texto='MÓVIL' color={C.neonCian} />
-
-            {/* Estación MENSAJES: buzón con burbujas de chat */}
-            <Caja x={1} y={6.3} z={0} w={1.3} d={1.2} h={1.9} tapa='#ea9478' izq={C.terra} der='#b95c43' />
-            <g transform={planoX(V, 1, 7.5, 1.6)}>
-                <rect x={0.25} y={0.15} width={0.8} height={0.12} rx={0.06} fill={C.tinta} />
-            </g>
-            {[0, 1, 2].map((i) => {
-                const [bx, by] = punto(V, 1.7, 6.9, 2.3);
-                const color = i === 1 ? C.crema : C.neonVerde;
-                return (
-                    <g key={i} className='burbuja' style={{ animationDelay: `${i * 1.2}s` }}>
-                        <rect x={bx - 14 + (i - 1) * 14} y={by - 12} width={28} height={16} rx={8} fill={color} />
-                        <path d={`M${bx - 6 + (i - 1) * 14} ${by + 3} l-4 6 l9 -5 z`} fill={color} />
-                        <g fill={C.tinta} opacity={0.55}>
-                            <circle cx={bx - 6 + (i - 1) * 14} cy={by - 4} r={1.6} />
-                            <circle cx={bx + (i - 1) * 14} cy={by - 4} r={1.6} />
-                            <circle cx={bx + 6 + (i - 1) * 14} cy={by - 4} r={1.6} />
-                        </g>
-                    </g>
-                );
-            })}
-            <Letrero x={1.65} y={7.5} z={1.9} texto='MENSAJES' color={C.neonVerde} />
-
-            {/* Planta */}
-            <Caja x={5.3} y={0.7} z={0} w={0.8} d={0.8} h={0.75} tapa='#c9744f' izq={C.terra} der='#b95c43' />
+            {/* Rascador de Michi, con un juguete colgando */}
+            <Caja x={0.45} y={7.1} z={0} w={1.6} d={1.6} h={0.24} tapa='#e3dac0' izq='#cfc5a8' der='#b9ae90' />
+            <Caja x={1.05} y={7.7} z={0.24} w={0.42} d={0.42} h={2.05} tapa={C.arena} izq='#d9b277' der='#c19a62' />
+            {[0.5, 0.9, 1.3, 1.7].map((dz) => (
+                <polyline
+                    key={dz}
+                    points={poligono(V, [
+                        [1.05, 8.12, 0.24 + dz],
+                        [1.47, 8.12, 0.24 + dz],
+                        [1.47, 7.7, 0.24 + dz],
+                    ])}
+                    fill='none'
+                    stroke='#b48a52'
+                    strokeWidth={1}
+                    opacity={0.6}
+                />
+            ))}
+            <Caja x={0.55} y={7.2} z={2.29} w={1.4} d={1.4} h={0.2} tapa='#e3dac0' izq='#cfc5a8' der='#b9ae90' />
+            <Caja x={0.7} y={7.35} z={2.49} w={1.1} d={1.1} h={0.12} tapa='#ea9478' izq={C.terra} der='#b95c43' />
             {(() => {
-                const [px, py] = punto(V, 5.7, 1.1, 0.75);
+                const [hx, hy] = punto(V, 1.95, 8.3, 2.29);
                 return (
-                    <g className='respira' style={{ animationDuration: '5s' }}>
-                        <ellipse cx={px - 9} cy={py - 14} rx={7} ry={15} fill={C.salvia} transform={`rotate(-28 ${px - 9} ${py - 14})`} />
-                        <ellipse cx={px + 9} cy={py - 15} rx={7} ry={16} fill='#6ea088' transform={`rotate(26 ${px + 9} ${py - 15})`} />
-                        <ellipse cx={px} cy={py - 22} rx={7} ry={18} fill={C.salvia} />
+                    <g className='colgante' style={{ transformOrigin: `${hx}px ${hy}px` }}>
+                        <line x1={hx} y1={hy} x2={hx} y2={hy + 26} stroke={C.crema} strokeWidth={1} opacity={0.8} />
+                        <circle cx={hx} cy={hy + 30} r={4.5} fill={C.neonVioleta} />
+                        <path d={`M${hx - 3} ${hy + 28} q3 2 6 0`} stroke='#8a44b3' strokeWidth={1} fill='none' />
                     </g>
                 );
             })()}
 
-            {/* Gato durmiendo sobre su cojín */}
-            <Caja x={3.4} y={8.3} z={0} w={1.6} d={1.1} h={0.28} tapa={C.arena} izq='#d9b277' der='#c19a62' />
+            {/* Michi en el centro, jugando con su estambre */}
+            <MichiTaller x={rx} y={ry} activo={visible} />
+
+            {/* Canasta de estambres */}
+            <Caja x={2.9} y={8.3} z={0} w={1.2} d={0.95} h={0.45} tapa={C.maderaOsc} izq={C.madera} der={C.maderaOsc} />
             {(() => {
-                const [gx, gy] = punto(V, 4.2, 8.85, 0.28);
+                const [gx, gy] = punto(V, 3.5, 8.78, 0.45);
                 return (
                     <g>
-                        <g className='respira'>
-                            <ellipse cx={gx} cy={gy - 7} rx={19} ry={10} fill={C.pizarra} />
-                            <circle cx={gx + 14} cy={gy - 12} r={8} fill={C.pizarra} />
-                            <path d={`M${gx + 9} ${gy - 18} l2 -7 l4 5 z M${gx + 16} ${gy - 19} l4 -6 l2 7 z`} fill={C.pizarra} />
-                            <path d={`M${gx + 11} ${gy - 12} q2 1.5 4 0 M${gx + 16} ${gy - 12} q2 1.5 4 0`} stroke={C.crema} strokeWidth={1} fill='none' strokeLinecap='round' />
-                            <path d={`M${gx - 18} ${gy - 4} q-10 -2 -6 -12`} stroke={C.pizarra} strokeWidth={4} fill='none' strokeLinecap='round' />
-                        </g>
-                        {[0, 1].map((i) => (
-                            <text key={i} x={gx + 22} y={gy - 24} fontFamily='"Geist Mono Variable", monospace' fontSize={9 + i * 2} fill='rgb(var(--muted))' className='zzz' style={{ animationDelay: `${i * 1.6}s` }}>
-                                z
-                            </text>
+                        {[
+                            [-8, -5, 8, C.salvia, '#5f8f78'],
+                            [8, -4, 7.5, C.terra, '#b95c43'],
+                            [0, -13, 7, C.neonVioleta, '#8a44b3'],
+                        ].map(([dx, dy, r, color, raya], i) => (
+                            <g key={i}>
+                                <circle cx={gx + (dx as number)} cy={gy + (dy as number)} r={r as number} fill={color as string} />
+                                <path d={`M${gx + (dx as number) - (r as number) * 0.7} ${gy + (dy as number) - 2} q${(r as number) * 0.7} -5 ${(r as number) * 1.4} 2 M${gx + (dx as number) - (r as number) * 0.6} ${gy + (dy as number) + 3} q${(r as number) * 0.6} -4 ${(r as number) * 1.2} 1`} stroke={raya as string} strokeWidth={1.3} fill='none' strokeLinecap='round' />
+                            </g>
                         ))}
+                        <path d={`M${gx + 14} ${gy - 2} q12 6 4 13 t12 8`} stroke={C.terra} strokeWidth={1.3} fill='none' strokeLinecap='round' />
                     </g>
                 );
             })()}
 
-            {/* Bit en el centro, saludando */}
-            <ellipse cx={rx} cy={ry} rx={32} ry={11} fill='#000000' opacity={0.3} className='robot-sombra' style={{ transformOrigin: `${rx}px ${ry}px` }} />
-            <svg x={rx - 76} y={ry - 184} width={152} height={190} viewBox='0 0 120 150' overflow='visible'>
-                <Robot pose='saludar' sinSombra />
-            </svg>
+            {/* Platos de comida y agua */}
+            {[
+                [8.1, 7.9, '#c9744f', C.arena],
+                [8.95, 7.1, C.pizarra, '#9fd3e0'],
+            ].map(([bx, by, plato, dentro], i) => {
+                const [px, py] = punto(V, bx as number, by as number, 0);
+                return (
+                    <g key={i}>
+                        <ellipse cx={px} cy={py} rx={13} ry={6.5} fill={plato as string} />
+                        <ellipse cx={px} cy={py - 2} rx={10} ry={4.5} fill='#000000' opacity={0.25} />
+                        <ellipse cx={px} cy={py - 1.5} rx={8.5} ry={3.6} fill={dentro as string} />
+                    </g>
+                );
+            })}
         </svg>
     );
 };
