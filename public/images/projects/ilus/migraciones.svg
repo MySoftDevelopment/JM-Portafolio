@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200">
+  <!-- Migraciones: del sitio viejo y roto al sitio limpio, con los datos de siempre a salvo -->
+  <rect width="320" height="200" fill="#232227"/>
+  <g transform="translate(62 40) rotate(-4 40 50)">
+    <rect width="84" height="96" rx="8" fill="#5a5850"/>
+    <rect width="84" height="18" rx="8" fill="#47463f"/>
+    <rect x="10" y="28" width="40" height="8" rx="3" fill="#7a776c"/><rect x="10" y="44" width="62" height="6" rx="3" fill="#7a776c"/><rect x="10" y="56" width="50" height="6" rx="3" fill="#7a776c"/>
+    <path d="M52 18 l-8 22 l10 10 l-12 22 l6 24" fill="none" stroke="#232227" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M26 66 l12 22 h-24 z" fill="#f2cc8f"/><rect x="24.7" y="73" width="2.6" height="8" fill="#141414"/><rect x="24.7" y="83" width="2.6" height="2.6" fill="#141414"/>
+  </g>
+  <g fill="#f2cc8f"><circle cx="152" cy="90" r="3.5"/><circle cx="163" cy="90" r="3.5" opacity=".7"/></g>
+  <path d="M150 104 h20 m-8 -8 l8 8 l-8 8" fill="none" stroke="#e07a5f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <g transform="translate(176 36)">
+    <rect width="84" height="100" rx="8" fill="#f4f1de"/>
+    <rect width="84" height="18" rx="8" fill="#e07a5f"/><rect y="10" width="84" height="8" fill="#e07a5f"/>
+    <circle cx="10" cy="9" r="2.6" fill="#f4f1de"/><circle cx="18" cy="9" r="2.6" fill="#f4f1de"/>
+    <rect x="10" y="28" width="64" height="26" rx="4" fill="#3d405b"/>
+    <rect x="10" y="62" width="44" height="6" rx="3" fill="#c9c4ad"/><rect x="10" y="74" width="40" height="6" rx="3" fill="#c9c4ad"/>
+    <circle cx="70" cy="86" r="12" fill="#81b29a"/>
+    <path d="M64 86 l4 4 l8 -8" fill="none" stroke="#141414" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g transform="translate(160 170)">
+    <ellipse cy="-14" rx="24" ry="7" fill="#f2cc8f"/>
+    <path d="M-24 -14 v22 a24 7 0 0 0 48 0 v-22 a24 7 0 0 1 -48 0" fill="#d9b277"/>
+    <path d="M-24 -3 a24 7 0 0 0 48 0" fill="none" stroke="#f2cc8f" stroke-width="2"/>
+  </g>
+</svg>

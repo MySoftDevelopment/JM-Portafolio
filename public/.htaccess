@@ -18,6 +18,9 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.html [L]
 
+# Manifiesto de la app (íconos para Android) con su tipo correcto.
+AddType application/manifest+json .webmanifest
+
 <IfModule mod_expires.c>
     ExpiresActive On
     ExpiresByType text/html "access plus 0 seconds"

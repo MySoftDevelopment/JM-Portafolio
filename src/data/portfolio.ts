@@ -138,18 +138,12 @@ export const DESTACADOS: Destacado[] = [
 /** Cómo se ilustra cada proyecto: captura del sitio o icono de la app. */
 export type Variante = 'imagen' | 'icono';
 
-export type Categoria = 'web' | 'apps';
-
-export const CATEGORIAS: { id: Categoria | 'todos'; texto: string }[] = [
-    { id: 'todos', texto: 'Todos' },
-    { id: 'web', texto: 'Sitios web' },
-    { id: 'apps', texto: 'Apps' },
-];
+/** Color del papel de cada nota: los tonos de la paleta y el lila de Lilac. */
+export type TonoNota = Tono | 'lila';
 
 export interface Proyecto {
     id: string;
-    tono: Tono;
-    categoria: Categoria;
+    tono: TonoNota;
     nombre: string;
     tipo: string;
     texto: string;
@@ -157,94 +151,81 @@ export interface Proyecto {
     variante: Variante;
     imagen: string;
     alt?: string;
-    url?: string;
-    /** Etiqueta cuando no hay enlace público; sin ella se muestra "Privado" (sistema interno de un cliente). */
+    /** Sitios públicos; un enlace que empieza por # lleva a una sección de la página (p. ej. Contacto). */
+    enlaces?: { texto: string; url: string }[];
+    /** Etiqueta cuando no hay enlaces; sin ella se muestra "Privado" (sistema interno de un cliente). */
     insignia?: string;
 }
 
-const LISTA: Proyecto[] = [
-    {
-        id: 'notas-inces',
-        tono: 'accent',
-        categoria: 'web',
-        nombre: 'Notas INCES',
-        tipo: 'Sistema de calificaciones',
-        texto: 'Los docentes califican por asignatura con sus porcentajes y la app muestra a cada estudiante su consolidado, la definitiva y las materias en riesgo.',
-        stack: ['PHP', 'MySQL', 'PhpExcel'],
-        variante: 'imagen',
-        imagen: '/images/projects/notas-inces.webp',
-        alt: 'Ingreso al sistema de notas de la Academia de Belleza INCES',
-        url: 'https://notas.academiainces.edu.co',
-    },
+/*
+ * Las notas de la pared de la sala: los mismos proyectos y en el mismo orden que la pared del video
+ * ("Y en la pared hay más": plataformas operativas, soluciones del día a día y sitios funcionales).
+ */
+export const PROYECTOS: Proyecto[] = [
     {
         id: 'lilac',
-        tono: 'sand',
-        categoria: 'web',
+        tono: 'lila',
         nombre: 'Lilac by INCES',
-        tipo: 'E-commerce',
-        texto: 'Tienda de cosméticos con catálogo, carrito, pedidos y pagos en línea por Wompi y Mercado Pago.',
-        stack: ['PHP', 'MySQL', 'Wompi'],
+        tipo: 'Tienda en línea',
+        texto: 'Tienda de cosméticos de la Academia de Belleza INCES, con catálogo, carrito, pedidos y pagos en línea por Wompi y Mercado Pago.',
+        stack: ['PHP', 'MySQL', 'Wompi', 'Mercado Pago'],
         variante: 'imagen',
         imagen: '/images/projects/lilac.webp',
         alt: 'Tienda Lilac by INCES con el aviso de envío gratis',
-        url: 'https://lilacbyinces.com',
+        enlaces: [{ texto: 'lilacbyinces.com', url: 'https://lilacbyinces.com' }],
     },
     {
         id: 'sorteos',
         tono: 'accent',
-        categoria: 'web',
         nombre: 'Plataforma de sorteos',
         tipo: 'Rifas en línea',
-        texto: 'Compra de números con pago por Wompi, abonos, vendedores, lista de ganadores y panel administrativo.',
+        texto: 'Controla las ventas de tu sorteo y muéstralo 24/7, desde que inicia hasta que finaliza: compra de números con pago por Wompi, abonos, vendedores, lista de ganadores y panel administrativo.',
         stack: ['PHP', 'MySQL', 'Wompi'],
         variante: 'imagen',
         imagen: '/images/projects/sorteos.webp',
         alt: 'Página pública de sorteos con el afiche de la rifa activa',
-        url: 'https://sorteos.mysoft.live',
+        enlaces: [{ texto: 'sorteos.mysoft.live', url: 'https://sorteos.mysoft.live' }],
     },
     {
-        id: 'juanxxiii',
-        tono: 'sage',
-        categoria: 'web',
-        nombre: 'I.E. Diocesana Juan XXIII',
-        tipo: 'Migración desde WordPress',
-        texto: 'Reemplazo de un WordPress comprometido por PHP propio con panel. Pasó de 2,8 GB de archivos a 330 MB, sin perder contenido.',
-        stack: ['PHP 8.3', 'MySQL', 'HTMLPurifier', 'TinyMCE'],
-        variante: 'imagen',
-        imagen: '/images/projects/juanxxiii.webp',
-        alt: 'Sitio de la Institución Educativa Diocesana Juan XXIII',
-        url: 'https://iedjuanxxiii.edu.co',
-    },
-    {
-        id: 'boveda',
-        tono: 'accent',
-        categoria: 'apps',
-        nombre: 'Bóveda',
-        tipo: 'Extensión de navegador',
-        texto: 'Gestor de contraseñas 100% local con cifrado AES-256-GCM, generador, evaluador de fortaleza y autocompletado.',
-        stack: ['JavaScript', 'Manifest V3', 'Web Crypto'],
-        variante: 'icono',
-        imagen: '/images/projects/boveda.webp',
-        alt: 'Icono de la extensión Bóveda',
-        insignia: 'Extensión',
-    },
-    {
-        id: 'hfsf',
+        id: 'eventos',
         tono: 'sand',
-        categoria: 'web',
-        nombre: 'Hermanas Franciscanas',
-        tipo: 'Migración desde WordPress',
-        texto: 'Sitio y panel de contenidos que reemplazó un WordPress comprometido: noticias, sedes, carrusel y editor que acepta pegar desde Word.',
-        stack: ['PHP 8.2', 'MySQL', 'CKEditor 5'],
+        nombre: 'Plataforma de eventos',
+        tipo: 'Eventos e invitaciones',
+        texto: 'Crea tu evento y muéstralo al público; desde el panel decides a quiénes vas a invitar.',
+        stack: ['PHP', 'MySQL', 'jQuery', 'Bootstrap', 'DataTables'],
         variante: 'imagen',
-        imagen: '/images/projects/hfsf.webp',
-        alt: 'Sitio de las Hermanas Franciscanas de la Sagrada Familia',
-        url: 'https://hermanasfranciscanasdelasagradafamilia.com',
+        imagen: '/images/projects/ilus/eventos.svg',
+        alt: 'Ilustración: escenario con focos, la tarjeta del evento e invitados confirmados',
+        enlaces: [{ texto: 'Cuéntame tu evento', url: '#contacto' }],
+    },
+    {
+        id: 'citas',
+        tono: 'sage',
+        nombre: 'Plataforma de citas',
+        tipo: 'Reservas en línea',
+        texto: '¿Tu negocio trabaja con reservas? Página para que tus clientes agenden y panel para administrar las citas, para que su experiencia sea óptima.',
+        stack: ['PHP', 'MySQL', 'jQuery', 'Bootstrap', 'PHPMailer'],
+        variante: 'imagen',
+        imagen: '/images/projects/ilus/citas.svg',
+        alt: 'Ilustración: agenda semanal con las horas reservadas y una reserva nueva',
+        enlaces: [{ texto: 'Cuéntame tu negocio', url: '#contacto' }],
+    },
+    {
+        id: 'migraciones',
+        tono: 'slate',
+        nombre: 'Migraciones',
+        tipo: 'De WordPress a sitio propio',
+        texto: 'La I.E. Diocesana Juan XXIII y las Hermanas Franciscanas tenían su WordPress comprometido: los pasé a PHP propio con panel, conservando el contenido y las funciones. Juan XXIII pasó de 2,8 GB de archivos a 330 MB.',
+        stack: ['PHP 8.3', 'MySQL', 'HTMLPurifier', 'CKEditor 5'],
+        variante: 'imagen',
+        imagen: '/images/projects/ilus/migraciones.svg',
+        alt: 'Ilustración: del sitio viejo y roto al sitio limpio, con los datos de siempre a salvo',
+        enlaces: [
+            { texto: 'iedjuanxxiii.edu.co', url: 'https://iedjuanxxiii.edu.co' },
+            { texto: 'hermanasfranciscanasdelasagradafamilia.com', url: 'https://hermanasfranciscanasdelasagradafamilia.com' },
+        ],
     },
 ];
-
-// Se muestran en orden alfabético: un proyecto nuevo cae solo en su lugar.
-export const PROYECTOS = [...LISTA].sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
 
 export const SERVICIOS = [
     {
@@ -288,4 +269,10 @@ export const TONOS: Record<Tono, { var: string; fondo: string; borde: string; te
     sand: { var: 'var(--sand)', fondo: 'bg-sand', borde: 'border-sand/60', texto: 'text-sand' },
     sage: { var: 'var(--sage)', fondo: 'bg-sage', borde: 'border-sage/60', texto: 'text-sage' },
     slate: { var: 'var(--slate)', fondo: 'bg-slate', borde: 'border-slate', texto: 'text-muted' },
+};
+
+/** Los tonos de las notas: los de la paleta y el lila (solo para Lilac). */
+export const TONOS_NOTA: Record<TonoNota, { var: string; fondo: string; borde: string; texto: string }> = {
+    ...TONOS,
+    lila: { var: '154 124 196', fondo: 'bg-[#9a7cc4]', borde: 'border-[#9a7cc4]/60', texto: 'text-[#9a7cc4]' },
 };

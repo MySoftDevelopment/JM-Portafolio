@@ -1,9 +1,9 @@
 import { Animation, Gato } from '@components/includes';
-import { CATEGORIAS, Categoria, PROYECTOS, Proyecto, TONOS, Tono } from '@/data/portfolio';
+import { PROYECTOS, Proyecto, TONOS_NOTA, TonoNota } from '@/data/portfolio';
 import { caras, Iso, planoX, planoY, poligono, punto } from '@/lib/iso';
 import { GatoPose } from '@/lib/michi';
 import { ArrowUpRight, CursorClick, HandTap, LockSimple } from '@phosphor-icons/react';
-import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from 'motion/react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { CSSProperties, FC, KeyboardEvent, ReactNode, useEffect, useRef, useState } from 'react';
 
 /*
@@ -34,8 +34,9 @@ const C = {
     maderaOsc: '#8a5c3b',
 };
 
-// Cada nota es un papel del color del proyecto, con su chincheta más intensa.
-const PAPEL: Record<Tono, { papel: string; chincheta: string }> = {
+// Cada nota es un papel del color del proyecto, con su chincheta más intensa (los mismos de la pared del video).
+const PAPEL: Record<TonoNota, { papel: string; chincheta: string }> = {
+    lila: { papel: '#e3d3f0', chincheta: '#9a7cc4' },
     accent: { papel: '#f3bba8', chincheta: '#e07a5f' },
     sand: { papel: '#f6dcab', chincheta: '#d39a3c' },
     sage: { papel: '#bfd9ca', chincheta: '#4f9474' },
@@ -70,6 +71,12 @@ const plano = (h: Hueco) => (h.pared === 'der' ? planoX(V, h.pos, 0.03, h.z) : p
 
 /** Punto de pantalla sobre el centro del borde superior de la nota (para su letrero). */
 const encimaDe = (h: Hueco) => (h.pared === 'der' ? punto(V, h.pos + NOTA.w / 2, 0, h.z + 0.25) : punto(V, 0, h.pos - NOTA.w / 2, h.z + 0.25));
+
+/**
+ * Los huecos que se usan (los proyectos y, si son impares, la nota libre) siguen siendo los simétricos,
+ * pero se reparten en orden de lectura: de izquierda a derecha, como la pared del video.
+ */
+const LUGARES = HUECOS.slice(0, PROYECTOS.length + (PROYECTOS.length % 2)).sort((a, b) => b.z - a.z || encimaDe(a)[0] - encimaDe(b)[0]);
 
 /** Parte el nombre en dos renglones cortos para que quepa en la nota. */
 function renglones(texto: string, max = 13): string[] {
@@ -292,8 +299,8 @@ function Sala({ activo, visibles, onActivar }: { activo: Proyecto; visibles: Set
     const voltearMichi = viajando ? viajando === 'izq' : false;
 
     // Letrero: la nota activa, la nota libre o el mueble bajo el mouse.
-    const huecoActivo = HUECOS[PROYECTOS.indexOf(activo)];
-    const libre = PROYECTOS.length % 2 === 1 ? HUECOS[PROYECTOS.length] : null;
+    const huecoActivo = LUGARES[PROYECTOS.indexOf(activo)];
+    const libre = PROYECTOS.length % 2 === 1 ? LUGARES[PROYECTOS.length] : null;
     const letrero = (() => {
         if (encima === 'libre' && libre) {
             const [x, y] = encimaDe(libre);
@@ -429,8 +436,8 @@ function Sala({ activo, visibles, onActivar }: { activo: Proyecto; visibles: Set
             </g>
 
             {/* Notas de los proyectos (y la libre, si hace falta para la simetría) */}
-            {PROYECTOS.slice(0, HUECOS.length).map((p, i) => (
-                <Nota key={p.id} p={p} numero={i + 1} hueco={HUECOS[i]} activa={p.id === activo.id} apagada={!visibles.has(p.id)} onActivar={() => onActivar(p)} />
+            {PROYECTOS.slice(0, LUGARES.length).map((p, i) => (
+                <Nota key={p.id} p={p} numero={i + 1} hueco={LUGARES[i]} activa={p.id === activo.id} apagada={!visibles.has(p.id)} onActivar={() => onActivar(p)} />
             ))}
             {libre && <NotaLibre hueco={libre} onEncima={(v) => setEncima(v ? 'libre' : null)} />}
 
@@ -644,9 +651,8 @@ function Escenario({ p }: { p: Proyecto }) {
 
 /** El visor muestra el proyecto de la nota activa. */
 function Visor({ p }: { p: Proyecto }) {
-    const tono = TONOS[p.tono];
+    const tono = TONOS_NOTA[p.tono];
     const numero = PROYECTOS.indexOf(p) + 1;
-    const dominio = p.url ? new URL(p.url).hostname.replace(/^www\./, '') : '';
 
     return (
         <article className='card flex h-full flex-col' style={{ '--tono': tono.var } as CSSProperties} aria-live='polite'>
@@ -662,19 +668,26 @@ function Visor({ p }: { p: Proyecto }) {
 
             <div className='flex flex-1 flex-col px-6 pb-6 pt-3'>
                 <p className='text-[15px] leading-relaxed text-muted'>{p.texto}</p>
-                <ul className='mt-4 flex flex-wrap gap-1.5' aria-label='Tecnologías'>
-                    {p.stack.map((s) => (
-                        <li key={s} className='chip'>
-                            {s}
-                        </li>
-                    ))}
-                </ul>
-                <div className='mt-6'>
-                    {p.url ? (
-                        <a href={p.url} target='_blank' rel='noopener noreferrer' className='btn-ghost h-9 px-4'>
-                            {dominio}
-                            <ArrowUpRight size={14} weight='bold' />
-                        </a>
+                {p.stack.length > 0 && (
+                    <ul className='mt-4 flex flex-wrap gap-1.5' aria-label='Tecnologías'>
+                        {p.stack.map((s) => (
+                            <li key={s} className='chip'>
+                                {s}
+                            </li>
+                        ))}
+                    </ul>
+                )}
+                <div className='mt-6 flex flex-wrap gap-2'>
+                    {p.enlaces?.length ? (
+                        p.enlaces.map((e) => {
+                            const externo = !e.url.startsWith('#');
+                            return (
+                                <a key={e.url} href={e.url} {...(externo ? { target: '_blank', rel: 'noopener noreferrer' } : {})} className='btn-ghost h-9 max-w-full px-4'>
+                                    <span className='truncate'>{e.texto}</span>
+                                    <ArrowUpRight size={14} weight='bold' className='shrink-0' />
+                                </a>
+                            );
+                        })
                     ) : (
                         <span className='inline-flex h-9 items-center gap-1.5 rounded-[10px] border border-line px-3 font-mono text-[10.5px] uppercase tracking-[0.1em] text-faint' title={p.insignia ? undefined : 'Sistema interno de un cliente'}>
                             {!p.insignia && <LockSimple size={12} weight='bold' />}
@@ -688,46 +701,23 @@ function Visor({ p }: { p: Proyecto }) {
 }
 
 export const MoreProjects: FC = () => {
-    const [filtro, setFiltro] = useState<Categoria | 'todos'>('todos');
-    const [elegido, setElegido] = useState<Proyecto>(PROYECTOS[0]);
+    const [activo, setActivo] = useState<Proyecto>(PROYECTOS[0]);
     const reduce = useReducedMotion();
-    const visibles = PROYECTOS.filter((p) => filtro === 'todos' || p.categoria === filtro);
-    const cuantos = (id: Categoria | 'todos') => (id === 'todos' ? PROYECTOS.length : PROYECTOS.filter((p) => p.categoria === id).length);
-    // Si el filtro esconde la nota elegida, el visor pasa a la primera que sigue a la vista.
-    const activo = visibles.includes(elegido) ? elegido : (visibles[0] ?? PROYECTOS[0]);
+    const visibles = new Set(PROYECTOS.map((p) => p.id));
 
     return (
         <section aria-labelledby='mas-proyectos' data-escena='mas' className='pb-24 md:pb-36'>
             <div className='container-page'>
-                <Animation className='mb-8 flex flex-col gap-6 border-b border-line pb-6 md:flex-row md:items-end md:justify-between'>
-                    <div>
-                        <h2 id='mas-proyectos' className='text-3xl font-semibold tracking-[-0.03em] md:text-[2.6rem]'>
-                            Más trabajo
-                        </h2>
-                        <p className='mt-2 text-muted'>Tiendas, sitios institucionales y apps, pegados en la pared de la sala.</p>
-                    </div>
-
-                    {/* Filtro: la pastilla activa se desliza entre opciones (layoutId). */}
-                    <LayoutGroup id='filtro-proyectos'>
-                        <div role='tablist' aria-label='Filtrar proyectos' className='flex gap-1 self-start overflow-x-auto rounded-full border border-line bg-surface/60 p-1 md:self-auto'>
-                            {CATEGORIAS.map((c) => {
-                                const sel = filtro === c.id;
-                                return (
-                                    <button key={c.id} type='button' role='tab' aria-selected={sel} onClick={() => setFiltro(c.id)} className={`relative h-9 shrink-0 rounded-full px-4 font-mono text-[11px] uppercase tracking-[0.12em] transition-colors duration-200 active:scale-[0.97] ${sel ? 'text-canvas' : 'text-muted hover:text-ink'}`}>
-                                        {sel && <motion.span layoutId='pastilla' className='absolute inset-0 rounded-full bg-ink' transition={reduce ? { duration: 0 } : { type: 'spring', duration: 0.4, bounce: 0.15 }} />}
-                                        <span className='relative'>
-                                            {c.texto} <span className={sel ? 'text-canvas/60' : 'text-faint'}>{cuantos(c.id)}</span>
-                                        </span>
-                                    </button>
-                                );
-                            })}
-                        </div>
-                    </LayoutGroup>
+                <Animation className='mb-8 border-b border-line pb-6'>
+                    <h2 id='mas-proyectos' className='text-3xl font-semibold tracking-[-0.03em] md:text-[2.6rem]'>
+                        Más trabajo
+                    </h2>
+                    <p className='mt-2 text-muted'>Plataformas operativas, soluciones útiles del día a día y sitios funcionales, pegados en la pared de la sala.</p>
                 </Animation>
 
                 <div className='grid items-start gap-8 lg:grid-cols-12 lg:gap-10'>
                     <Animation className='lg:col-span-7'>
-                        <Sala activo={activo} visibles={new Set(visibles.map((p) => p.id))} onActivar={setElegido} />
+                        <Sala activo={activo} visibles={visibles} onActivar={setActivo} />
                         <p className='mt-2 flex items-center justify-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-faint'>
                             <span className='hidden items-center gap-2 [@media(hover:hover)]:inline-flex'>
                                 <CursorClick size={14} /> Pasa el mouse por una nota
