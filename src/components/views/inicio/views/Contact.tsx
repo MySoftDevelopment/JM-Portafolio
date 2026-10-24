@@ -68,7 +68,7 @@ export const Contact: FC = () => {
                             <GithubLogo size={15} /> GitHub
                         </a>
                         <a href={PERFIL.instagram} target='_blank' rel='noopener noreferrer' className='btn-ghost h-9 px-4'>
-                            <InstagramLogo size={15} /> MySoft
+                            <InstagramLogo size={15} /> Instagram
                         </a>
                     </div>
                 </Animation>

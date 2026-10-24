@@ -12,7 +12,7 @@ export const PERFIL = {
     correo: 'juan@mysoft.live',
     github: 'https://github.com/OuisVN',
     githubUsuario: 'OuisVN',
-    instagram: 'https://www.instagram.com/mysoftsolutions/',
+    instagram: 'https://www.instagram.com/juanmolinadev/',
     sitio: 'https://juanmolina.dev',
 };
 
@@ -182,9 +182,9 @@ export const PROYECTOS: Proyecto[] = [
         texto: 'Controla las ventas de tu sorteo y muéstralo 24/7, desde que inicia hasta que finaliza: compra de números con pago por Wompi, abonos, vendedores, lista de ganadores y panel administrativo.',
         stack: ['PHP', 'MySQL', 'Wompi'],
         variante: 'imagen',
-        imagen: '/images/projects/sorteos.webp',
-        alt: 'Página pública de sorteos con el afiche de la rifa activa',
-        enlaces: [{ texto: 'sorteos.mysoft.live', url: 'https://sorteos.mysoft.live' }],
+        imagen: '/images/projects/ilus/sorteos.svg',
+        alt: 'Ilustración: tablero de números vendidos, avance de ventas, boleto y el sorteo visible 24/7',
+        enlaces: [{ texto: 'Cuéntame tu sorteo', url: '#contacto' }],
     },
     {
         id: 'eventos',
