@@ -17,10 +17,13 @@ interface Props {
     modified?: string;
     /** Páginas que no deben aparecer en buscadores (la 404). */
     noindex?: boolean;
+    /** Carga AdSense. Solo el blog lleva publicidad; el resto del sitio solo tiene la verificación. */
+    anuncios?: boolean;
 }
 
-const { title, description, path, type = 'website', image = '/images/og-image.jpg', imageAlt = 'Juan Molina, desarrollador fullstack en Colombia, con Michi tecleando en su escritorio', preload, jsonLd, published, modified, noindex = false } = Astro.props;
+const { title, description, path, type = 'website', image = '/images/og-image.jpg', imageAlt = 'Juan Molina, desarrollador fullstack en Colombia, con Michi tecleando en su escritorio', preload, jsonLd, published, modified, noindex = false, anuncios = false } = Astro.props;
 
+const ADSENSE = 'ca-pub-2298253947440344';
 const canonical = new URL(path, Astro.site).href;
 const imagen = new URL(image, Astro.site).href;
 ---
@@ -50,6 +53,7 @@ const imagen = new URL(image, Astro.site).href;
         <meta name='color-scheme' content='dark light' />
         <meta name='theme-color' content='#141414' />
         <meta name='generator' content={Astro.generator} />
+        <meta name='google-adsense-account' content={ADSENSE} />
 
         <link rel='icon' href='/favicon.ico' sizes='48x48' />
         <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
@@ -82,6 +86,7 @@ const imagen = new URL(image, Astro.site).href;
         <meta name='twitter:image:alt' content={imageAlt} />
 
         {jsonLd && <script type='application/ld+json' set:html={JSON.stringify(jsonLd)} />}
+        {anuncios && <script is:inline async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE}`} crossorigin='anonymous' />}
     </head>
     <body>
         <div id='root'>
