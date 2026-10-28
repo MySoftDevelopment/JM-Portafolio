@@ -14,9 +14,16 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     Header set Expires 0
 </FilesMatch>
 
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /index.html [L]
+# Cada página es un archivo HTML generado por Astro: lo que no existe es un 404 de verdad.
+ErrorDocument 404 /404.html
+
+# Hostinger despliega con git: la carpeta .git queda en web/ y no debe ser pública.
+RedirectMatch 404 /\.git
+
+# Feed del blog con su tipo correcto.
+<Files "rss.xml">
+    ForceType application/rss+xml
+</Files>
 
 # Manifiesto de la app (íconos para Android) con su tipo correcto.
 AddType application/manifest+json .webmanifest
