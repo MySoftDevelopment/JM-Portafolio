@@ -3,6 +3,7 @@ titulo: 'testmetest: el gusano de npm que convirtió 42 repositorios de GitHub e
 descripcion: 'Un gusano de npm roba tokens, se propaga a tus paquetes y borra tu carpeta personal si revocas el token sin limpiar antes. Cómo revisarte y en qué orden actuar.'
 fecha: 2026-10-28T11:00:00-05:00
 categoria: seguridad
+michi: paquete
 etiquetas: ['npm', 'Node.js', 'GitHub', 'cadena de suministro', 'malware', 'Claude Code', 'Cursor']
 fuentes:
     - titulo: 'SafeDep: testmetest npm Packages Carry a New Miasma Worm Variant (22 oct 2026)'

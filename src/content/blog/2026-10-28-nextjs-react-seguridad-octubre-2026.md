@@ -3,6 +3,7 @@ titulo: 'Next.js 16.4.1 y 15.5.28: dos fallos críticos de ejecución remota de 
 descripcion: 'Next.js corrigió fallos críticos en use cache y en la optimización de imágenes SVG, y uno en Server Actions que también toca a React. Qué versión instalar.'
 fecha: 2026-10-28T07:00:00-05:00
 categoria: seguridad
+michi: bicho
 etiquetas: ['Next.js', 'React', 'React Server Components', 'sharp', 'CVE-2026-96889']
 fuentes:
     - titulo: 'Next.js: Security Update for Upstream Vulnerabilities (14 oct 2026)'

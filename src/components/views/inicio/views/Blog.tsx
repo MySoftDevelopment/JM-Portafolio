@@ -35,6 +35,12 @@ export const Blog: FC<Props> = ({ entradas }) => {
                                     <span className='text-accent'>{CATEGORIAS[e.categoria]}</span>
                                     <time dateTime={e.fecha}>{fechaLarga(e.fecha)}</time>
                                 </span>
+                                {e.escena && (
+                                    <span className='relative mx-auto mt-5 block h-36 w-36' aria-hidden>
+                                        <span className='absolute inset-[10%] rounded-full bg-canvas ring-1 ring-line' />
+                                        <img src={e.escena} alt='' width={144} height={144} loading='lazy' className='relative h-full w-full object-contain' />
+                                    </span>
+                                )}
                                 <h3 className='mt-5 text-xl font-semibold leading-snug tracking-[-0.02em]'>{e.titulo}</h3>
                                 <p className='mt-3 line-clamp-3 text-[15px] leading-relaxed text-muted'>{e.descripcion}</p>
                             </a>

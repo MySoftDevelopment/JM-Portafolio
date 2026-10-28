@@ -3,6 +3,7 @@ titulo: 'PHP2Shell: las dos fallas críticas de PHP que ya se están explotando 
 descripcion: 'CVE-2026-109618 y CVE-2026-109619 permiten ejecutar código en tu servidor sin autenticación. Qué versiones de PHP están afectadas y qué hacer hoy.'
 fecha: 2026-10-28T09:00:00-05:00
 categoria: seguridad
+michi: alerta
 etiquetas: ['PHP', 'CVE-2026-109618', 'CVE-2026-109619', 'Laravel', 'PHP-FPM', 'Apache']
 fuentes:
     - titulo: 'php.net: Security advisory, critical remote code execution vulnerabilities (21 oct 2026)'

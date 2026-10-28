@@ -8,6 +8,9 @@ export const CATEGORIAS = {
 
 export type Categoria = keyof typeof CATEGORIAS;
 
+/** Escenas de Michi para las ilustraciones (las dibuja Marca/Utilidades/Creación Imágenes/blog.py). */
+export const ESCENAS = ['lupa', 'piensa', 'bicho', 'escudo', 'paquete', 'servidor', 'llave', 'alerta'] as const;
+
 /** Lo que la portada necesita de cada entrada (se pasa como prop a la isla de React). */
 export interface EntradaResumen {
     slug: string;
@@ -15,6 +18,8 @@ export interface EntradaResumen {
     descripcion: string;
     fecha: string;
     categoria: Categoria;
+    /** Ilustración de Michi (WebP con fondo transparente), si ya se generó. */
+    escena?: string;
 }
 
 const formatoFecha = new Intl.DateTimeFormat('es-CO', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });

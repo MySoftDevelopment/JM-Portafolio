@@ -3,6 +3,7 @@ titulo: 'Node.js corrige 10 vulnerabilidades, una con ejecución de código: act
 descripcion: 'La actualización de octubre de Node.js corrige un fallo de Brotli que permite ejecutar código y tres fallos de TLS y DNS. Qué versión instalar y cómo revisarlo.'
 fecha: 2026-10-28T10:00:00-05:00
 categoria: seguridad
+michi: escudo
 etiquetas: ['Node.js', 'CVE-2026-111497', 'TLS', 'SSRF', 'Docker']
 fuentes:
     - titulo: 'Node.js: Wednesday, October 21, 2026 Security Releases'

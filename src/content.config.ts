@@ -1,7 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
-import { CATEGORIAS, type Categoria } from './lib/blog';
+import { CATEGORIAS, ESCENAS, type Categoria } from './lib/blog';
 
 /*
  * Entradas del blog: un Markdown por entrada en src/content/blog/AAAA-MM-DD-slug.md.
@@ -21,6 +21,8 @@ const blog = defineCollection({
         fecha: z.coerce.date(),
         actualizado: z.coerce.date().optional(),
         categoria: z.enum(Object.keys(CATEGORIAS) as [Categoria, ...Categoria[]]),
+        // Escena de Michi para la ilustración; si falta, blog.py elige una según la categoría.
+        michi: z.enum(ESCENAS).optional(),
         etiquetas: z.array(z.string()).default([]),
         // Fuentes primarias (avisos oficiales, CVE, changelogs). Toda entrada debe citar al menos una.
         fuentes: z.array(z.object({ titulo: z.string(), url: z.string().url() })).min(1),
