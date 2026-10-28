@@ -964,3 +964,108 @@ body::before {
         transform: none;
     }
 }
+
+/*
+ * Texto de las entradas del blog (el HTML que sale del Markdown).
+ * Misma paleta: tinta para el texto, arena para el código y terracota para los enlaces.
+ */
+.prosa {
+    @apply text-[17px] leading-[1.75] text-ink/90;
+
+    > * + * {
+        margin-top: 1.25em;
+    }
+
+    h2 {
+        @apply mt-14 text-[1.75rem] font-semibold leading-tight tracking-[-0.03em] text-ink;
+        scroll-margin-top: 96px;
+    }
+
+    h3 {
+        @apply mt-10 text-xl font-semibold leading-snug tracking-[-0.02em] text-ink;
+        scroll-margin-top: 96px;
+    }
+
+    h2 + *,
+    h3 + * {
+        margin-top: 0.75em;
+    }
+
+    a {
+        @apply text-ink underline decoration-accent/60 underline-offset-4 transition-colors;
+
+        &:hover {
+            @apply decoration-accent;
+        }
+    }
+
+    strong {
+        @apply font-semibold text-ink;
+    }
+
+    ul,
+    ol {
+        @apply space-y-2 pl-6;
+    }
+
+    ul {
+        list-style: none;
+
+        > li {
+            position: relative;
+        }
+
+        > li::before {
+            content: '';
+            @apply absolute -left-5 top-[0.72em] h-1.5 w-1.5 rounded-[2px] bg-accent;
+        }
+    }
+
+    ol {
+        @apply list-decimal;
+
+        > li::marker {
+            @apply font-mono text-[0.85em] text-faint;
+        }
+    }
+
+    blockquote {
+        @apply border-l-2 border-sand pl-5 text-muted;
+    }
+
+    :not(pre) > code {
+        @apply rounded-[6px] border border-line bg-raised px-1.5 py-0.5 font-mono text-[0.86em] text-sand;
+    }
+
+    pre {
+        @apply overflow-x-auto rounded-[16px] border border-line p-5 font-mono text-[14px] leading-relaxed;
+        // Shiki pinta los colores; el fondo lo pone la tarjeta para que siga el tema.
+        background: rgb(var(--surface-2)) !important;
+
+        span {
+            color: var(--shiki-dark);
+        }
+    }
+
+    table {
+        @apply block w-full overflow-x-auto text-[15px];
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        @apply border-b border-line px-3 py-2.5 text-left align-top;
+    }
+
+    th {
+        @apply font-mono text-[11px] font-normal uppercase tracking-[0.14em] text-muted;
+    }
+
+    hr {
+        @apply my-12 border-line;
+    }
+}
+
+:root[data-theme='light'] .prosa pre span {
+    color: var(--shiki-light);
+}

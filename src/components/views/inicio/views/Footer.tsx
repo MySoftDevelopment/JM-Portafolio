@@ -1,7 +1,11 @@
 import { PERFIL } from '@/data/portfolio';
 import { FC } from 'react';
 
-export const Footer: FC = () => {
+interface Props {
+    pagina?: 'inicio' | 'blog';
+}
+
+export const Footer: FC<Props> = ({ pagina = 'inicio' }) => {
     return (
         <footer className='border-t border-line py-10'>
             <div className='container-page flex flex-col gap-4 font-mono text-[11px] uppercase tracking-[0.12em] text-faint sm:flex-row sm:items-center sm:justify-between'>
@@ -17,10 +21,13 @@ export const Footer: FC = () => {
                     <a href={`mailto:${PERFIL.correo}`} className='hover:text-ink'>
                         Correo
                     </a>
+                    <a href='/blog/' className='hover:text-ink'>
+                        Blog
+                    </a>
                     <a href={PERFIL.github} target='_blank' rel='noopener noreferrer' className='hover:text-ink'>
                         GitHub
                     </a>
-                    <a href='#inicio' className='hover:text-ink'>
+                    <a href={pagina === 'inicio' ? '#inicio' : '#'} className='hover:text-ink'>
                         Volver arriba
                     </a>
                 </nav>

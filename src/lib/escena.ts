@@ -28,6 +28,7 @@ export const ESCENAS: Record<string, Escena> = {
     servicios: { marca: '#81b29a', pose: 'sentado', mensaje: '¿Qué necesitas? Seguro alguna de estas te sirve.' },
     stack: { marca: '#f2cc8f', pose: 'teclear', mensaje: 'Sus herramientas de todos los días (yo solo piso el teclado).' },
     github: { marca: '#81b29a', pose: 'teclear', mensaje: 'Programa casi todos los días. Mira su actividad.' },
+    blog: { marca: '#f2cc8f', pose: 'mirar', mensaje: 'Aquí Juan cuenta lo que pasa en su stack. Yo solo leo los titulares.' },
     sobre: { marca: BASE, pose: 'jugar', mensaje: 'Juan no entrega y desaparece: se queda contigo.' },
     contacto: { marca: BASE, pose: 'panza', mensaje: '¡Escríbele! Te responde con una propuesta clara.' },
 };
@@ -49,6 +50,8 @@ export function useEscena(): string {
             return () => oyentes.delete(cb);
         },
         () => actual,
+        // En el build no hay scroll: siempre se empieza en la escena de inicio.
+        () => 'inicio',
     );
 }
 

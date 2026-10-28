@@ -1,4 +1,5 @@
 export { About } from './views/About';
+export { Blog } from './views/Blog';
 export { Contact } from './views/Contact';
 export { Footer } from './views/Footer';
 export { Github } from './views/Github';

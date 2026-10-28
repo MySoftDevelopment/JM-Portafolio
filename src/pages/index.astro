@@ -1,0 +1,75 @@
+---
+import { Companion } from '@components/includes';
+import { Index } from '@components/index';
+import Base from '@/layouts/Base.astro';
+import { entradasPublicadas, resumen } from '@/lib/entradas';
+
+const entradas = (await entradasPublicadas()).slice(0, 3).map(resumen);
+
+const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+        {
+            '@type': 'WebSite',
+            '@id': 'https://juanmolina.dev/#website',
+            url: 'https://juanmolina.dev/',
+            name: 'Juan Molina',
+            description: 'Portafolio de Juan Molina, desarrollador fullstack en Colombia.',
+            inLanguage: 'es-CO',
+            publisher: { '@id': 'https://juanmolina.dev/#persona' },
+        },
+        {
+            '@type': 'ProfilePage',
+            '@id': 'https://juanmolina.dev/#pagina',
+            url: 'https://juanmolina.dev/',
+            name: 'Juan Molina | Desarrollador Fullstack en Colombia',
+            inLanguage: 'es-CO',
+            isPartOf: { '@id': 'https://juanmolina.dev/#website' },
+            mainEntity: { '@id': 'https://juanmolina.dev/#persona' },
+            primaryImageOfPage: 'https://juanmolina.dev/images/og-image.jpg',
+            dateModified: '2026-10-28',
+        },
+        {
+            '@type': 'Person',
+            '@id': 'https://juanmolina.dev/#persona',
+            name: 'Juan Molina',
+            jobTitle: 'Desarrollador Fullstack',
+            url: 'https://juanmolina.dev/',
+            image: 'https://juanmolina.dev/images/og-image.jpg',
+            email: 'mailto:juan@mysoft.live',
+            address: { '@type': 'PostalAddress', addressCountry: 'CO' },
+            sameAs: ['https://github.com/OuisVN', 'https://www.instagram.com/juanmolinadev/'],
+            knowsLanguage: ['es', 'en'],
+            knowsAbout: ['Desarrollo web', 'Desarrollo de apps móviles', 'ERP', 'PHP', 'React', 'TypeScript', 'React Native', 'Expo', 'Node.js', 'MySQL', 'WhatsApp Cloud API', 'LiveKit', 'WebRTC', 'RustDesk', 'Wompi', 'Mercado Pago', 'Nginx', 'Debian', 'Proxmox'],
+        },
+        {
+            '@type': 'ProfessionalService',
+            '@id': 'https://juanmolina.dev/#servicio',
+            name: 'Juan Molina, desarrollo de software a medida',
+            url: 'https://juanmolina.dev/',
+            image: 'https://juanmolina.dev/images/og-image.jpg',
+            email: 'juan@mysoft.live',
+            founder: { '@id': 'https://juanmolina.dev/#persona' },
+            address: { '@type': 'PostalAddress', addressCountry: 'CO' },
+            areaServed: { '@type': 'Country', name: 'Colombia' },
+            hasOfferCatalog: {
+                '@type': 'OfferCatalog',
+                name: 'Servicios',
+                itemListElement: [
+                    { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Plataformas web y ERPs a medida' } },
+                    { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Apps móviles para iOS y Android' } },
+                    { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Integraciones con WhatsApp Cloud API, Instagram, Wompi y Mercado Pago' } },
+                    { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Migraciones y modernización de sistemas' } },
+                    { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Servidores y despliegue' } },
+                ],
+            },
+        },
+    ],
+};
+---
+
+<Base title='Juan Molina | Desarrollador Fullstack en Colombia' description='Desarrollador fullstack en Colombia. Plataformas web, apps móviles iOS y Android, ERPs a medida e integraciones con WhatsApp y pagos en línea.' path='/' preload='/images/projects/inces.webp' jsonLd={jsonLd}>
+    <Index client:load entradas={entradas} />
+    <!-- Michi depende del tamaño de la pantalla y de lo guardado en el navegador: solo existe en el cliente. -->
+    <Companion client:only='react' />
+</Base>

@@ -1,0 +1,67 @@
+---
+import { Footer, Navbar } from '@components/views/inicio';
+import Base from '@/layouts/Base.astro';
+import { CATEGORIAS, fechaLarga } from '@/lib/blog';
+import { entradasPublicadas } from '@/lib/entradas';
+
+const entradas = await entradasPublicadas();
+
+const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    '@id': 'https://juanmolina.dev/blog/#blog',
+    url: 'https://juanmolina.dev/blog/',
+    name: 'Blog de Juan Molina',
+    description: 'Vulnerabilidades, lanzamientos y cambios en PHP, Node.js, React y TypeScript, explicados para quien tiene que actualizar su proyecto.',
+    inLanguage: 'es-CO',
+    author: { '@id': 'https://juanmolina.dev/#persona' },
+    blogPost: entradas.map((e) => ({
+        '@type': 'BlogPosting',
+        headline: e.data.titulo,
+        url: `https://juanmolina.dev/blog/${e.id}/`,
+        datePublished: e.data.fecha.toISOString(),
+    })),
+};
+---
+
+<Base title='Blog | Juan Molina, desarrollador fullstack' description='Vulnerabilidades, lanzamientos y cambios en PHP, Node.js, React y TypeScript, explicados con lo que tienes que hacer en tu proyecto.' path='/blog/' jsonLd={jsonLd}>
+    <Navbar client:load pagina='blog' />
+    <main id='contenido' class='pb-24 pt-28 md:pb-36 md:pt-36'>
+        <div class='container-page'>
+            <header class='max-w-3xl'>
+                <p class='kicker mb-8'>Blog</p>
+                <h1 class='text-[2.9rem] font-semibold leading-[0.98] tracking-[-0.035em] sm:text-[4.2rem]'>
+                    Lo que pasa en mi <em class='not-italic text-sand'>stack</em>
+                </h1>
+                <p class='mt-8 max-w-[52ch] text-[17px] leading-relaxed text-muted'>Vulnerabilidades, lanzamientos y cambios en PHP, Node.js, React y TypeScript. Sin relleno: qué pasó, a quién afecta y qué hacer en tu proyecto.</p>
+                <p class='mt-6'>
+                    <a href='/rss.xml' class='font-mono text-[11px] uppercase tracking-[0.14em] text-muted underline decoration-line-strong underline-offset-4 transition-colors hover:text-ink'>Suscríbete por RSS</a>
+                </p>
+            </header>
+
+            {
+                entradas.length === 0 ? (
+                    <p class='mt-16 text-muted'>Pronto habrá entradas aquí.</p>
+                ) : (
+                    <ol class='mt-16 border-t border-line'>
+                        {entradas.map((e) => (
+                            <li class='border-b border-line'>
+                                <a href={`/blog/${e.id}/`} class='group grid gap-3 py-8 md:grid-cols-[180px_1fr] md:gap-10'>
+                                    <span class='flex gap-3 font-mono text-[11px] uppercase tracking-[0.14em] text-faint md:flex-col md:gap-2 md:pt-1.5'>
+                                        <time datetime={e.data.fecha.toISOString()}>{fechaLarga(e.data.fecha)}</time>
+                                        <span class='text-accent'>{CATEGORIAS[e.data.categoria]}</span>
+                                    </span>
+                                    <span>
+                                        <h2 class='text-2xl font-semibold leading-snug tracking-[-0.025em] transition-colors group-hover:text-accent md:text-[1.75rem]'>{e.data.titulo}</h2>
+                                        <p class='mt-3 max-w-[70ch] leading-relaxed text-muted'>{e.data.descripcion}</p>
+                                    </span>
+                                </a>
+                            </li>
+                        ))}
+                    </ol>
+                )
+            }
+        </div>
+    </main>
+    <Footer pagina='blog' />
+</Base>

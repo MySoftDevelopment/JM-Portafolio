@@ -3,7 +3,7 @@ const token = (name) => `rgb(var(--${name}) / <alpha-value>)`;
 
 export default {
     content: [
-        './index.html',
+        './src/**/*.{astro,md,mdx}',
         './src/**/*.{js,ts,jsx,tsx}',
     ],
     darkMode: ['selector', '[data-theme="dark"]'],
