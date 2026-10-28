@@ -1,0 +1,5 @@
+# robots.txt — https://juanmolina.dev
+User-agent: *
+Allow: /
+
+Sitemap: https://juanmolina.dev/sitemap.xml

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200">
+  <!-- Plataforma de Eventos: escenario con focos, la tarjeta del evento e invitados confirmados -->
+  <rect width="320" height="200" fill="#1d1c22"/>
+  <path d="M86 0 l-46 150 h110 z" fill="#f2cc8f" opacity=".16"/>
+  <path d="M234 0 l-110 150 h110 z" fill="#e07a5f" opacity=".14"/>
+  <ellipse cx="160" cy="150" rx="140" ry="22" fill="#3d405b"/>
+  <ellipse cx="160" cy="146" rx="140" ry="20" fill="#4b4f70"/>
+  <g transform="translate(160 80)">
+    <rect x="-56" y="-52" width="112" height="96" rx="10" fill="#f4f1de"/>
+    <rect x="-56" y="-52" width="112" height="28" rx="10" fill="#e07a5f"/>
+    <rect x="-56" y="-34" width="112" height="10" fill="#e07a5f"/>
+    <circle cx="-30" cy="-52" r="5" fill="#141414"/><circle cx="30" cy="-52" r="5" fill="#141414"/>
+    <text y="-32" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="14" fill="#f4f1de" letter-spacing="2">SÁB</text>
+    <text y="22" text-anchor="middle" font-family="Arial, sans-serif" font-weight="800" font-size="44" fill="#141414">14</text>
+  </g>
+  <path d="M228 18 l3 8 l8 3 l-8 3 l-3 8 l-3 -8 l-8 -3 l8 -3 z" fill="#f2cc8f"/>
+  <path d="M90 40 l2 5 l5 2 l-5 2 l-2 5 l-2 -5 l-5 -2 l5 -2 z" fill="#f2cc8f"/>
+  <!-- invitados: tres confirmados y uno por invitar -->
+  <g transform="translate(0 180)">
+    <g transform="translate(94 0)"><circle r="14" fill="#f2cc8f"/><circle cy="-4" r="5" fill="#141414" opacity=".55"/><path d="M-8 9 a8 7 0 0 1 16 0" fill="#141414" opacity=".55"/><circle cx="11" cy="-10" r="7" fill="#81b29a" stroke="#1d1c22" stroke-width="1.5"/><path d="M8 -10 l2 2 l4 -4" fill="none" stroke="#141414" stroke-width="2" stroke-linecap="round"/></g>
+    <g transform="translate(138 0)"><circle r="14" fill="#e07a5f"/><circle cy="-4" r="5" fill="#141414" opacity=".55"/><path d="M-8 9 a8 7 0 0 1 16 0" fill="#141414" opacity=".55"/><circle cx="11" cy="-10" r="7" fill="#81b29a" stroke="#1d1c22" stroke-width="1.5"/><path d="M8 -10 l2 2 l4 -4" fill="none" stroke="#141414" stroke-width="2" stroke-linecap="round"/></g>
+    <g transform="translate(182 0)"><circle r="14" fill="#81b29a"/><circle cy="-4" r="5" fill="#141414" opacity=".55"/><path d="M-8 9 a8 7 0 0 1 16 0" fill="#141414" opacity=".55"/><circle cx="11" cy="-10" r="7" fill="#81b29a" stroke="#1d1c22" stroke-width="1.5"/><path d="M8 -10 l2 2 l4 -4" fill="none" stroke="#141414" stroke-width="2" stroke-linecap="round"/></g>
+    <g transform="translate(226 0)"><circle r="14" fill="none" stroke="#f4f1de" stroke-width="2.5" stroke-dasharray="5 4"/><path d="M-6 0 h12 M0 -6 v12" stroke="#f4f1de" stroke-width="2.5" stroke-linecap="round"/></g>
+  </g>
+</svg>
