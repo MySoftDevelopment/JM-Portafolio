@@ -23,6 +23,9 @@ ${IMAGENES_INICIO.map((i) => `        <image:image><image:loc>${SITIO}${i}</imag
         <lastmod>${dia(ultima)}</lastmod>
     </url>`,
         `    <url>
+        <loc>${SITIO}/servicios/revision-seguridad/</loc>
+    </url>`,
+        `    <url>
         <loc>${SITIO}/privacidad/</loc>
     </url>`,
         ...entradas.map(

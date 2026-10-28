@@ -1,6 +1,7 @@
 ---
 import { Footer, Navbar } from '@components/views/inicio';
 import Base from '@/layouts/Base.astro';
+import { REVISION } from '@/data/portfolio';
 import { CATEGORIAS, fechaLarga } from '@/lib/blog';
 import { entradasPublicadas, type Entrada } from '@/lib/entradas';
 import { render } from 'astro:content';
@@ -19,6 +20,7 @@ const { entrada, otras } = Astro.props;
 const { titulo, descripcion, fecha, actualizado, categoria, etiquetas, fuentes } = entrada.data;
 const { Content } = await render(entrada);
 
+const pesos = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
 const path = `/blog/${entrada.id}/`;
 const url = new URL(path, Astro.site).href;
 const minutos = Math.max(1, Math.round((entrada.body ?? '').split(/\s+/).length / 220));
@@ -115,8 +117,8 @@ const jsonLd = {
                 }
 
                 <section class='card flex flex-col items-start gap-5 p-6 md:flex-row md:items-center md:justify-between md:p-7'>
-                    <p class='max-w-[44ch] text-lg leading-snug'>¿Tu plataforma está afectada o necesitas ayuda para actualizarla? <span class='text-muted'>Te reviso el proyecto.</span></p>
-                    <a href='/#contacto' class='btn-primary shrink-0'>Escríbeme</a>
+                    <p class='max-w-[44ch] text-lg leading-snug'>¿No sabes si tu sitio o tu servidor está expuesto? <span class='text-muted'>Lo reviso y te digo qué corregir, desde {pesos.format(REVISION.planes[0].precio)}.</span></p>
+                    <a href='/servicios/revision-seguridad/' class='btn-primary shrink-0'>Ver la revisión</a>
                 </section>
             </footer>
         </article>

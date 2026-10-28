@@ -1,0 +1,175 @@
+---
+import { Footer, Navbar } from '@components/views/inicio';
+import Base from '@/layouts/Base.astro';
+import { PERFIL, REVISION } from '@/data/portfolio';
+import { CATEGORIAS, fechaLarga } from '@/lib/blog';
+import { entradasPublicadas } from '@/lib/entradas';
+
+const pesos = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
+
+// Las últimas alertas del blog: muestran por qué conviene revisar ahora.
+const alertas = (await entradasPublicadas()).filter((e) => e.data.categoria === 'seguridad').slice(0, 3);
+
+const correo = (plan: string) => `mailto:${PERFIL.correo}?subject=${encodeURIComponent(`Revisión de seguridad: plan ${plan}`)}&body=${encodeURIComponent('Hola Juan,\n\nQuiero una revisión de seguridad.\n\nSitio o servidor: \nTecnología (PHP/Laravel, Node.js, WordPress...): \nHosting o VPS: \n\n')}`;
+
+const PASOS = [
+    { titulo: 'Me escribes', texto: 'Me cuentas qué tienes (sitio, tecnología, hosting o servidor) y eliges un plan. Te confirmo si encaja antes de cobrarte nada.' },
+    { titulo: 'Me das acceso', texto: 'Un usuario temporal para el panel o el servidor. Lo creas tú y lo borras al terminar.' },
+    { titulo: 'Reviso', texto: REVISION.entrega },
+    { titulo: 'Recibes el informe', texto: 'Cada hallazgo con su gravedad, por qué importa y cómo corregirlo, ordenado por prioridad.' },
+];
+
+const PREGUNTAS = [
+    { p: '¿Cambias algo en mi servidor durante la revisión?', r: 'No. La revisión solo lee la configuración y las versiones. Las correcciones se hacen después, y solo si tú las apruebas.' },
+    { p: '¿Y si encuentras algo grave?', r: 'Te aviso el mismo día, sin esperar al informe, para que puedas actuar de inmediato.' },
+    { p: '¿Puedo corregir yo mismo lo que encuentres?', r: 'Sí. El informe explica cada corrección paso a paso para que la haga tu equipo. Si prefieres que la haga yo, la cotizo aparte.' },
+    { p: '¿Qué tecnologías revisas?', r: 'PHP, Laravel, WordPress, Node.js, React y Next.js, MySQL y MariaDB, Nginx y Apache, en servidores Debian o Ubuntu y en hosting compartido.' },
+];
+
+const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': 'https://juanmolina.dev/servicios/revision-seguridad/#servicio',
+    name: 'Revisión de seguridad de sitios web y servidores',
+    serviceType: 'Auditoría de seguridad web',
+    url: 'https://juanmolina.dev/servicios/revision-seguridad/',
+    provider: { '@id': 'https://juanmolina.dev/#persona' },
+    areaServed: { '@type': 'Country', name: 'Colombia' },
+    offers: REVISION.planes.map((p) => ({
+        '@type': 'Offer',
+        name: p.nombre,
+        description: p.para,
+        price: p.precio,
+        priceCurrency: 'COP',
+    })),
+};
+---
+
+<Base title='Revisión de seguridad para tu sitio o servidor | Juan Molina' description={`Reviso tu sitio en PHP, Laravel o Node.js y tu servidor contra las vulnerabilidades recientes, con un informe de qué corregir. Desde ${pesos.format(REVISION.planes[0].precio)} COP.`} path='/servicios/revision-seguridad/' jsonLd={jsonLd}>
+    <Navbar client:load pagina='otra' />
+    <main id='contenido' class='pb-24 pt-28 md:pb-36 md:pt-36'>
+        <div class='container-page'>
+            <header class='max-w-3xl'>
+                <p class='kicker mb-8'>Servicio</p>
+                <h1 class='text-[2.9rem] font-semibold leading-[0.98] tracking-[-0.035em] sm:text-[4.2rem]'>
+                    ¿Tu sitio está <em class='not-italic text-sand'>expuesto</em>?
+                </h1>
+                <p class='mt-8 max-w-[52ch] text-[17px] leading-relaxed text-muted'>Solo en octubre salieron fallos críticos en PHP, Laravel, Node.js, Nginx y Next.js. Reviso tu sitio y tu servidor, te digo exactamente qué está expuesto y te entrego qué corregir y en qué orden.</p>
+                <div class='mt-10 flex flex-wrap gap-5'>
+                    <a href='#planes' class='btn-primary'>Ver planes</a>
+                    <a href={correo('por definir')} class='btn-ghost'>Escríbeme</a>
+                </div>
+            </header>
+
+            {
+                alertas.length > 0 && (
+                    <section aria-labelledby='alertas' class='mt-20'>
+                        <h2 id='alertas' class='kicker'>
+                            Lo último que publiqué
+                        </h2>
+                        <ul class='mt-6 grid gap-4 md:grid-cols-3'>
+                            {alertas.map((e) => (
+                                <li>
+                                    <a href={`/blog/${e.id}/`} class='card flex h-full flex-col p-6'>
+                                        <span class='flex items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-[0.14em] text-faint'>
+                                            <span class='text-accent'>{CATEGORIAS[e.data.categoria]}</span>
+                                            <time datetime={e.data.fecha.toISOString()}>{fechaLarga(e.data.fecha)}</time>
+                                        </span>
+                                        <span class='mt-4 text-[17px] font-semibold leading-snug tracking-[-0.02em]'>{e.data.titulo}</span>
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
+                )
+            }
+
+            <section id='planes' aria-labelledby='planes-titulo' class='mt-24 scroll-mt-28'>
+                <h2 id='planes-titulo' class='text-4xl font-semibold leading-[1.02] tracking-[-0.035em] md:text-5xl'>
+                    Planes y <em class='not-italic text-sand'>precios</em>
+                </h2>
+                <p class='mt-4 max-w-[60ch] text-lg leading-relaxed text-muted'>
+                    Precios en pesos colombianos.
+                    {REVISION.descuentoCorreccion && <span> Si después me contratas para corregir lo que encontré, <strong class='font-semibold text-ink'>el valor de la revisión se descuenta</strong>.</span>}
+                </p>
+
+                <ul class='mt-12 grid gap-4 lg:grid-cols-3'>
+                    {
+                        REVISION.planes.map((p) => (
+                            <li class:list={['card flex flex-col p-7 md:p-8', p.destacado && 'border-accent/50']}>
+                                <div class='flex items-center justify-between gap-3'>
+                                    <h3 class='text-xl font-semibold tracking-[-0.02em]'>{p.nombre}</h3>
+                                    {p.destacado && <span class='chip border-accent/40 text-accent'>Más completo</span>}
+                                </div>
+                                <p class='mt-2 text-[15px] leading-relaxed text-muted'>{p.para}</p>
+                                <p class='mt-6 flex items-baseline gap-1.5'>
+                                    {p.desde && <span class='font-mono text-[11px] uppercase tracking-[0.14em] text-faint'>Desde</span>}
+                                    <span class='font-mono text-[2rem] font-medium tabular-nums tracking-tight'>{pesos.format(p.precio)}</span>
+                                    <span class='text-muted'>{p.periodo}</span>
+                                </p>
+                                <ul class='mt-6 flex-1 space-y-3 border-t border-line pt-6 text-[15px] leading-snug'>
+                                    {p.incluye.map((i) => (
+                                        <li class='flex gap-3'>
+                                            <span class='mt-[0.45em] h-1.5 w-1.5 shrink-0 rounded-[2px] bg-accent' aria-hidden='true' />
+                                            {i}
+                                        </li>
+                                    ))}
+                                </ul>
+                                <a href={correo(p.nombre)} class:list={['mt-8 w-full', p.destacado ? 'btn-primary' : 'btn-ghost']}>
+                                    Quiero el plan {p.nombre}
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </section>
+
+            <section aria-labelledby='como' class='mt-24'>
+                <h2 id='como' class='text-4xl font-semibold leading-[1.02] tracking-[-0.035em] md:text-5xl'>
+                    Cómo <em class='not-italic text-sand'>funciona</em>
+                </h2>
+                <ol class='mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
+                    {
+                        PASOS.map((p, i) => (
+                            <li class='card p-6'>
+                                <span class='font-mono text-[11px] uppercase tracking-[0.18em] text-accent'>Paso {i + 1}</span>
+                                <h3 class='mt-3 text-lg font-semibold tracking-[-0.02em]'>{p.titulo}</h3>
+                                <p class='mt-2 text-[15px] leading-relaxed text-muted'>{p.texto}</p>
+                            </li>
+                        ))
+                    }
+                </ol>
+            </section>
+
+            <section aria-labelledby='preguntas' class='mt-24 max-w-[72ch]'>
+                <h2 id='preguntas' class='text-4xl font-semibold leading-[1.02] tracking-[-0.035em] md:text-5xl'>
+                    Preguntas <em class='not-italic text-sand'>frecuentes</em>
+                </h2>
+                <div class='mt-10 border-t border-line'>
+                    {
+                        PREGUNTAS.map((q) => (
+                            <details class='group border-b border-line py-5'>
+                                <summary class='flex cursor-pointer list-none items-center justify-between gap-6 text-lg font-medium [&::-webkit-details-marker]:hidden'>
+                                    {q.p}
+                                    <span class='font-mono text-xl text-faint transition-transform duration-200 group-open:rotate-45' aria-hidden='true'>
+                                        +
+                                    </span>
+                                </summary>
+                                <p class='mt-3 leading-relaxed text-muted'>{q.r}</p>
+                            </details>
+                        ))
+                    }
+                </div>
+            </section>
+
+            <section class='card mt-24 flex flex-col items-start gap-6 p-8 md:flex-row md:items-center md:justify-between md:p-10'>
+                <div>
+                    <h2 class='text-2xl font-semibold tracking-[-0.02em] md:text-3xl'>¿No sabes qué plan necesitas?</h2>
+                    <p class='mt-2 max-w-[48ch] text-muted'>Cuéntame qué tienes y te digo cuál encaja, sin compromiso.</p>
+                </div>
+                <a href={correo('por definir')} class='btn-primary shrink-0'>Escríbeme</a>
+            </section>
+        </div>
+    </main>
+    <Footer pagina='blog' />
+</Base>
