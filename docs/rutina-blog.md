@@ -38,12 +38,28 @@ titulo: 'Máximo 110 caracteres, con el nombre del producto y el problema'
 descripcion: 'Entre 70 y 170 caracteres. Es la meta description: qué pasó y por qué importa.'
 fecha: AAAA-MM-DD
 categoria: seguridad # seguridad | lanzamientos | ecosistema | guias
+michi: lupa # escena de Michi para la ilustración (ver abajo)
 etiquetas: ['PHP', 'CVE-AAAA-NNNNN']
 fuentes:
     - titulo: 'Nombre de la fuente primaria'
       url: 'https://...'
 ---
 ```
+
+Escena de Michi (`michi`): elige la que mejor aluda al tema, y no repitas la de la entrada anterior si otra encaja:
+
+| Escena | Úsala para |
+| --- | --- |
+| `alerta` | Algo que ya se está explotando o es urgente |
+| `bicho` | Un fallo o bug concreto (ejecución de código, corrupción de memoria) |
+| `lupa` | Investigar, auditar o "cómo saber si te afecta" |
+| `escudo` | Parches y actualizaciones de seguridad que protegen |
+| `llave` | Autenticación, tokens, contraseñas, permisos |
+| `paquete` | Dependencias, npm o Composer, ataques a la cadena de suministro |
+| `servidor` | Servidores web e infraestructura (Nginx, IIS, Linux, Windows Server) |
+| `piensa` | Lanzamientos, cambios o debates que invitan a decidir algo |
+
+Las imágenes (portada, ilustración y piezas para Instagram) se generan después, fuera de la rutina: tú solo elige la escena.
 
 Estilo:
 
