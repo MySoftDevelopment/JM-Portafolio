@@ -1,0 +1,70 @@
+---
+import { Footer, Navbar } from '@components/views/inicio';
+import Base from '@/layouts/Base.astro';
+import { PERFIL } from '@/data/portfolio';
+import { fechaLarga } from '@/lib/blog';
+
+// Cambia esta fecha cada vez que edites la política.
+const ACTUALIZADA = '2026-10-28';
+---
+
+<Base title='Política de privacidad | Juan Molina' description='Qué datos se tratan en juanmolina.dev, qué guarda tu navegador, cómo funcionan los anuncios de Google en el blog y cómo ejercer tus derechos.' path='/privacidad/'>
+    <Navbar client:load pagina='otra' />
+    <main id='contenido' class='pb-24 pt-28 md:pb-36 md:pt-36'>
+        <article class='container-page'>
+            <header class='mx-auto max-w-[72ch]'>
+                <p class='kicker mb-8'>Legal</p>
+                <h1 class='text-[2.3rem] font-semibold leading-[1.05] tracking-[-0.035em] md:text-[3.4rem]'>Política de privacidad</h1>
+                <p class='mt-8 border-b border-line pb-8 font-mono text-[11px] uppercase tracking-[0.14em] text-faint'>
+                    Última actualización: <time datetime={ACTUALIZADA}>{fechaLarga(ACTUALIZADA)}</time>
+                </p>
+            </header>
+
+            <div class='prosa mx-auto mt-10 max-w-[72ch]'>
+                <p>Esta política explica qué información se trata cuando visitas <strong>juanmolina.dev</strong>, para qué se usa y qué puedes hacer al respecto. Aplica a la página de inicio, al blog y al resto de páginas de este dominio.</p>
+
+                <h2>Responsable</h2>
+                <p>El responsable del sitio es <strong>{PERFIL.nombre}</strong>, desarrollador de software en Colombia. Para cualquier asunto relacionado con tus datos escribe a <a href={`mailto:${PERFIL.correo}`}>{PERFIL.correo}</a>.</p>
+
+                <h2>Qué datos se recogen</h2>
+                <p>El sitio <strong>no tiene formularios, registro de usuarios ni herramientas de analítica</strong>. No te pido datos personales para navegarlo.</p>
+                <ul>
+                    <li><strong>Si me escribes por correo</strong>, recibo tu dirección y lo que incluyas en el mensaje. Lo uso solo para responderte y para la relación de trabajo que surja, y no lo comparto con terceros para fines comerciales.</li>
+                    <li><strong>Registros del servidor.</strong> Como cualquier sitio web, el proveedor de alojamiento (Hostinger) registra datos técnicos de cada visita: dirección IP, fecha y hora, página solicitada y navegador. Se usan para el funcionamiento y la seguridad del servicio.</li>
+                </ul>
+
+                <h2>Lo que guarda tu navegador</h2>
+                <p>El sitio guarda dos preferencias en el almacenamiento local de tu navegador (<code>localStorage</code>). No son cookies, no salen de tu equipo y no te identifican:</p>
+                <ul>
+                    <li><code>tema</code>: si prefieres el tema claro o el oscuro.</li>
+                    <li><code>michi-oculto</code>: si escondiste a Michi, el gato que acompaña la página.</li>
+                </ul>
+                <p>Puedes borrarlas cuando quieras desde la configuración de tu navegador.</p>
+
+                <h2>Publicidad en el blog (Google AdSense)</h2>
+                <p>Las páginas del blog muestran anuncios de <strong>Google AdSense</strong>. La página de inicio y el resto del sitio no los muestran.</p>
+                <ul>
+                    <li>Google y sus socios publicitarios usan <strong>cookies</strong> y tecnologías similares para mostrar anuncios según tus visitas anteriores a este y a otros sitios web.</li>
+                    <li>La cookie de publicidad de Google permite que Google y sus socios muestren anuncios basados en tus visitas a este sitio o a otros sitios de internet.</li>
+                    <li>Puedes desactivar la publicidad personalizada en la <a href='https://adssettings.google.com/' target='_blank' rel='noopener'>configuración de anuncios de Google</a>, o desactivar las cookies de otros proveedores de publicidad en <a href='https://www.aboutads.info/choices/' target='_blank' rel='noopener'>aboutads.info</a>.</li>
+                    <li>Para saber cómo usa Google los datos en los sitios que usan sus servicios, consulta <a href='https://policies.google.com/technologies/partner-sites' target='_blank' rel='noopener'>esta página de Google</a>.</li>
+                </ul>
+                <p>Si visitas el blog desde el Espacio Económico Europeo, el Reino Unido o Suiza, se te pedirá tu consentimiento antes de usar cookies con fines publicitarios.</p>
+
+                <h2>Otros servicios de terceros</h2>
+                <ul>
+                    <li><strong>Actividad de GitHub.</strong> La página de inicio muestra mi actividad de programación consultando una API pública (<code>github-contributions-api.jogruber.de</code>). Tu navegador hace esa consulta directamente, así que ese servicio recibe datos técnicos de la conexión, como tu dirección IP.</li>
+                    <li><strong>Enlaces externos.</strong> El sitio enlaza a otras páginas (GitHub, Instagram, proyectos de clientes y las fuentes de cada entrada del blog). Al abrirlas, se aplica la política de privacidad de cada sitio.</li>
+                </ul>
+                <p>Las tipografías se sirven desde este mismo dominio: no se cargan desde Google Fonts ni desde otros servidores.</p>
+
+                <h2>Tus derechos</h2>
+                <p>De acuerdo con la Ley 1581 de 2012 de Colombia sobre protección de datos personales, puedes <strong>conocer, actualizar, rectificar y solicitar la eliminación</strong> de los datos que tenga sobre ti, por ejemplo, los de un correo que me hayas enviado. También puedes revocar la autorización que hayas dado para tratarlos. Para hacerlo, escribe a <a href={`mailto:${PERFIL.correo}`}>{PERFIL.correo}</a>.</p>
+
+                <h2>Cambios en esta política</h2>
+                <p>Si el sitio cambia, por ejemplo, porque incorpore nuevos servicios, actualizaré esta página y la fecha de arriba.</p>
+            </div>
+        </article>
+    </main>
+    <Footer pagina='blog' />
+</Base>

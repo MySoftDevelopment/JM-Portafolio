@@ -27,6 +27,9 @@ export const Footer: FC<Props> = ({ pagina = 'inicio' }) => {
                     <a href={PERFIL.github} target='_blank' rel='noopener noreferrer' className='hover:text-ink'>
                         GitHub
                     </a>
+                    <a href='/privacidad/' className='hover:text-ink'>
+                        Privacidad
+                    </a>
                     <a href={pagina === 'inicio' ? '#inicio' : '#'} className='hover:text-ink'>
                         Volver arriba
                     </a>

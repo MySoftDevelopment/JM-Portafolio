@@ -11,8 +11,8 @@ const SECCIONES = [
 ];
 
 interface Props {
-    /** Página actual: en el inicio las secciones son anclas; en el blog llevan de vuelta al inicio. */
-    pagina?: 'inicio' | 'blog';
+    /** Página actual: en el inicio las secciones son anclas; en las demás llevan de vuelta al inicio. */
+    pagina?: 'inicio' | 'blog' | 'otra';
 }
 
 export const Navbar: FC<Props> = ({ pagina = 'inicio' }) => {
