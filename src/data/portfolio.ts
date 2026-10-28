@@ -231,7 +231,7 @@ export const SERVICIOS: { icono: string; titulo: string; texto: string; enlace?:
     {
         icono: 'shield',
         titulo: 'Revisión de seguridad',
-        texto: 'Reviso tu sitio o tu servidor contra las vulnerabilidades recientes de PHP, Laravel, Node.js y Nginx, y te entrego qué corregir y en qué orden.',
+        texto: 'Reviso tu sitio o tu servidor, Linux o Windows Server, contra las vulnerabilidades recientes de PHP, Laravel, Node.js, Nginx e IIS, y te entrego qué corregir y en qué orden.',
         enlace: { texto: 'Ver planes y precios', href: '/servicios/revision-seguridad/' },
     },
     {
@@ -281,11 +281,11 @@ export const REVISION = {
         {
             id: 'servidor',
             nombre: 'Servidor',
-            para: 'Tu aplicación y el VPS donde corre (Debian, Ubuntu u otro Linux).',
+            para: 'Tu aplicación y el servidor donde corre: Linux (Debian, Ubuntu) o Windows Server con IIS.',
             precio: 1200000,
             periodo: '',
             destacado: true,
-            incluye: ['Todo lo del plan Esencial', 'Nginx o Apache, PHP-FPM o Node.js: versiones y configuración', 'Acceso SSH, firewall y servicios expuestos a internet', 'Copias de seguridad: si existen, dónde están y si se pueden restaurar', 'Videollamada de 30 minutos para repasar el informe'],
+            incluye: ['Todo lo del plan Esencial', 'Servidor web (IIS, Nginx o Apache) y PHP o Node.js: versiones y configuración', 'Windows Server: actualizaciones pendientes, IIS, URL Rewrite y certificados', 'Acceso remoto (SSH o Escritorio remoto), firewall y servicios expuestos a internet', 'Copias de seguridad: si existen, dónde están y si se pueden restaurar', 'Videollamada de 30 minutos para repasar el informe'],
         },
         {
             id: 'mantenimiento',

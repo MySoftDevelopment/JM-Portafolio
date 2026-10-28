@@ -7,8 +7,8 @@ El agente **publica solo**: cuando la entrada está verificada y el build pasa, 
 
 Revisa lo publicado desde la última entrada del blog (la fecha más reciente en `src/content/blog/`). Fuentes, en este orden de prioridad:
 
-- **Seguridad:** catálogo KEV de CISA, GitHub Advisory Database (ecosistemas npm y composer, severidad alta o crítica), avisos de seguridad de php.net y de nodejs.org.
-- **Lanzamientos y cambios:** blogs y notas de versión oficiales de PHP, Node.js, React, TypeScript, Vite, Laravel, Expo y React Native, Tailwind CSS, MySQL y MariaDB, y Nginx.
+- **Seguridad:** catálogo KEV de CISA, GitHub Advisory Database (ecosistemas npm y composer, severidad alta o crítica), avisos de seguridad de php.net y de nodejs.org, y la guía de actualizaciones de seguridad de Microsoft (MSRC) para Windows Server e IIS.
+- **Lanzamientos y cambios:** blogs y notas de versión oficiales de PHP, Node.js, React, TypeScript, Vite, Laravel, Expo y React Native, Tailwind CSS, MySQL y MariaDB, Nginx, e IIS y Windows Server.
 - Puedes usar medios de tecnología para **descubrir** noticias, pero la entrada se escribe y se cita a partir de la **fuente primaria** (aviso oficial, CVE, changelog o anuncio del proyecto).
 
 ## 2. Elegir
@@ -17,7 +17,7 @@ Escribe **una entrada por ejecución** (dos solo si hay dos noticias de segurida
 
 - Prioridad: vulnerabilidad explotada activamente > vulnerabilidad crítica o alta en algo muy usado del stack > versión mayor con cambios que rompen > versión menor con algo útil.
 - Descarta lo que ya está cubierto: lee los títulos y etiquetas de `src/content/blog/`.
-- Descarta rumores, noticias sin fuente primaria y temas fuera del stack de la portada (PHP, Laravel, Node.js, React, React Native/Expo, TypeScript, Vite, Tailwind, MySQL/MariaDB, Nginx, Debian, WhatsApp Cloud API).
+- Descarta rumores, noticias sin fuente primaria y temas fuera del stack de la portada (PHP, Laravel, Node.js, React, React Native/Expo, TypeScript, Vite, Tailwind, MySQL/MariaDB, Nginx, IIS, Windows Server, Debian, WhatsApp Cloud API).
 - **Si no hay nada que valga la pena, no crees nada.** Termina sin abrir PR. Es mejor una semana sin entrada que una entrada de relleno.
 
 ## 3. Verificar
