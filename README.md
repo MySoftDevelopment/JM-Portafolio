@@ -23,7 +23,7 @@ yarn build
 ## Blog
 
 - Cada entrada es un Markdown en `src/content/blog/AAAA-MM-DD-slug.md`; el esquema del frontmatter está en `src/content.config.ts`.
-- Las entradas las propone una rutina programada que abre un Pull Request (instrucciones en `docs/rutina-blog.md`). Se publican al fusionar el PR.
+- Las entradas las escribe y publica una rutina programada (instrucciones en `docs/rutina-blog.md`). Si un dato queda en duda, abre un Pull Request en lugar de publicar.
 
 ## Despliegue
 

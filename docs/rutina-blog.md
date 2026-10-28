@@ -1,7 +1,7 @@
 # Rutina del blog
 
 Instrucciones para el agente programado que escribe las entradas del blog de juanmolina.dev.
-El agente **nunca publica**: abre un Pull Request y Juan lo revisa y lo fusiona. Al fusionarlo, GitHub Actions construye el sitio y Hostinger lo publica.
+El agente **publica solo**: cuando la entrada está verificada y el build pasa, la fusiona en `main`. GitHub Actions construye el sitio y Hostinger lo publica en unos minutos. Como nadie la revisa antes de salir, la verificación del paso 3 es obligatoria.
 
 ## 1. Buscar noticias
 
@@ -53,11 +53,11 @@ Estilo:
 - Redacción propia. No copies párrafos de las fuentes; como mucho, una cita corta entre comillas y atribuida.
 - El cierre es un resumen en pasos. No añadas una llamada a contactar: la página ya la incluye.
 
-## 5. Comprobar y abrir el PR
+## 5. Comprobar y publicar
 
-1. Ejecuta `yarn install --frozen-lockfile` y `yarn build`. Si el build falla, corrige la entrada (normalmente el frontmatter).
-2. Crea la rama `blog/AAAA-MM-DD-slug` desde `main` y haz commit solo del archivo de la entrada.
-3. Abre el PR contra `main`:
-    - Título: `Blog: <titulo de la entrada>`
-    - Cuerpo: un resumen de dos líneas, la lista de fuentes y una sección **«Para revisar»** con los datos más delicados (versiones, CVE, comandos), para que Juan los pueda comprobar rápido.
-4. No fusiones el PR ni toques ningún otro archivo del repositorio.
+1. Ejecuta `yarn install --frozen-lockfile` y `yarn build`. Si el build falla, corrige la entrada (normalmente el frontmatter). Si no logras que pase, no publiques.
+2. Crea la rama `blog/AAAA-MM-DD-slug` desde `main` y haz commit solo del archivo de la entrada. Mensaje: `Blog: <titulo de la entrada>`.
+3. Antes de publicar, relee la entrada contra las fuentes y decide:
+    - **Todo verificado** en fuentes primarias: fusiona en `main` con avance rápido (`git checkout main && git pull && git merge --ff-only blog/...`), haz push de `main` y borra la rama.
+    - **Hay algún dato que no pudiste confirmar** o las fuentes se contradicen sin que una oficial lo resuelva: no publiques. Sube la rama y abre un Pull Request con una sección **«Para revisar»** que diga qué dato quedó en duda, para que Juan decida.
+4. No toques ningún otro archivo del repositorio.
