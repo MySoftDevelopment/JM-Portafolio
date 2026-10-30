@@ -15,7 +15,8 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 </FilesMatch>
 
 # Cada página es un archivo HTML generado por Astro: lo que no existe es un 404 de verdad.
-ErrorDocument 404 /404.html
+# El dominio apunta a public_html y el sitio vive en public_html/web: la ruta va desde la raíz del dominio.
+ErrorDocument 404 /web/404.html
 
 # Hostinger despliega con git: la carpeta .git queda en web/ y no debe ser pública.
 RedirectMatch 404 /\.git
