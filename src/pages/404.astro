@@ -1,19 +1,30 @@
 ---
+import { NoEncontrada, Peticion } from '@components/index';
 import { Footer, Navbar } from '@components/views/inicio';
 import Base from '@/layouts/Base.astro';
 ---
 
 <Base title='Página no encontrada | Juan Molina' description='Esta página no existe. Vuelve al inicio o al blog de Juan Molina.' path='/404.html' noindex>
     <Navbar client:load pagina='otra' />
-    <main id='contenido' class='container-page flex min-h-[70vh] flex-col items-start justify-center pb-24 pt-36'>
-        <p class='kicker mb-8'>Error 404</p>
-        <h1 class='text-[2.9rem] font-semibold leading-[0.98] tracking-[-0.035em] sm:text-[4.2rem]'>
-            Michi se llevó <em class='not-italic text-sand'>esta página</em>
-        </h1>
-        <p class='mt-8 max-w-[46ch] text-[17px] leading-relaxed text-muted'>La dirección no existe o cambió de lugar.</p>
-        <div class='mt-10 flex flex-wrap gap-5'>
-            <a href='/' class='btn-primary'>Volver al inicio</a>
-            <a href='/blog/' class='btn-ghost'>Ir al blog</a>
+    <main id='contenido' class='container-page grid min-h-[78vh] items-center gap-12 pb-24 pt-32 md:pt-36 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16'>
+        <!-- La escena va primero en móvil: es lo que explica el error de un vistazo. -->
+        <div class='lg:order-2'>
+            <NoEncontrada client:load />
+        </div>
+
+        <div class='lg:order-1'>
+            <p class='kicker mb-8'>Error 404</p>
+            <h1 class='text-[2.6rem] font-semibold leading-[0.98] tracking-[-0.035em] sm:text-[3.8rem]'>
+                Michi se llevó <em class='not-italic text-sand'>esta página</em>
+            </h1>
+            <p class='mt-7 max-w-[44ch] text-[17px] leading-relaxed text-muted'>La dirección no existe o cambió de lugar. Por lo que se ve, la volvió estambre.</p>
+            <div class='mt-7'>
+                <Peticion client:load />
+            </div>
+            <div class='mt-10 flex flex-wrap gap-5'>
+                <a href='/' class='btn-primary'>Volver al inicio</a>
+                <a href='/blog/' class='btn-ghost'>Ir al blog</a>
+            </div>
         </div>
     </main>
     <Footer pagina='blog' />
