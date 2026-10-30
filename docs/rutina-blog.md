@@ -40,11 +40,35 @@ fecha: AAAA-MM-DD
 categoria: seguridad # seguridad | lanzamientos | ecosistema | guias
 michi: lupa # escena de Michi para la ilustración (ver abajo)
 etiquetas: ['PHP', 'CVE-AAAA-NNNNN']
+formato: carrusel # imagen | carrusel | reel: la pieza de Instagram (ver abajo)
+resumen: # obligatorio con carrusel o reel; 3 a 6 puntos, cada uno en una línea y entre comillas simples
+    - 'Primer punto: qué pasó, en una o dos frases.'
+    - 'Segundo punto: a quién afecta, con lo importante en **negrita**.'
+    - 'Tercer punto: qué hacer hoy.'
 fuentes:
     - titulo: 'Nombre de la fuente primaria'
       url: 'https://...'
 ---
 ```
+
+Formato de Instagram (`formato`): según la relevancia de la noticia.
+
+| Formato | Úsalo cuando |
+| --- | --- |
+| `imagen` | Relevancia baja: una versión menor, un aviso de alcance limitado. Una sola imagen con el título. |
+| `carrusel` | Relevancia media: merece explicarse en varias imágenes (una por punto del resumen). |
+| `reel` | Muy importante y de tendencia: se explota activamente, afecta a mucha gente o es de lo que se está hablando en la comunidad. Michi lo narra con voz. Resérvalo para lo que de verdad lo merece (a lo sumo una o dos por semana). |
+
+Todas las piezas terminan solas con «¿Deseas más información?», el enlace a la entrada y «¿Te gusta mi contenido? Sígueme»: no lo escribas en el resumen.
+
+Resumen (`resumen`), con `carrusel` o `reel`:
+
+- Entre 3 y 6 puntos, máximo 200 caracteres cada uno (mejor alrededor de 120). Cuentan la noticia en orden: qué pasó, a quién afecta, qué hacer. Sin el título (ya va en la primera pieza).
+- Cada punto debe entenderse solo y en voz alta: en el reel se lee tal cual.
+- Los datos salen de la entrada, que ya está verificada. No agregues nada que no esté en ella.
+- `**texto**` resalta una palabra o frase en pantalla (una por punto como mucho).
+- `[en pantalla](para la voz)` cuando algo se lee distinto de como se escribe: `[CVE-2026-12345](esta vulnerabilidad)`, `[8.1.10](ocho punto uno punto diez)`, `[npm](ene pe eme)`. Úsalo con números de versión, CVE, siglas y comandos.
+- Cada punto en una sola línea, entre comillas simples (una comilla simple dentro del texto se escribe doble: `''`).
 
 Escena de Michi (`michi`): elige la que mejor aluda al tema, y no repitas la de la entrada anterior si otra encaja:
 
@@ -59,7 +83,7 @@ Escena de Michi (`michi`): elige la que mejor aluda al tema, y no repitas la de 
 | `servidor` | Servidores web e infraestructura (Nginx, IIS, Linux, Windows Server) |
 | `piensa` | Lanzamientos, cambios o debates que invitan a decidir algo |
 
-Las imágenes (portada, ilustración y piezas para Instagram) se generan después, fuera de la rutina: tú solo elige la escena.
+Las imágenes (portada, ilustración y piezas para Instagram) se generan después, fuera de la rutina: tú solo elige la escena, el formato y escribe el resumen.
 
 Estilo:
 

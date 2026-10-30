@@ -24,6 +24,10 @@ const blog = defineCollection({
         // Escena de Michi para la ilustración; si falta, blog.py elige una según la categoría.
         michi: z.enum(ESCENAS).optional(),
         etiquetas: z.array(z.string()).default([]),
+        // Pieza de Instagram según la relevancia: imagen (baja), carrusel (media) o reel (muy importante o tendencia).
+        // Carrusel y reel se arman con `resumen`: entre 3 y 6 puntos cortos, uno por diapositiva o frase del reel.
+        formato: z.enum(['imagen', 'carrusel', 'reel']).default('imagen'),
+        resumen: z.array(z.string().max(200)).min(3).max(6).optional(),
         // Fuentes primarias (avisos oficiales, CVE, changelogs). Toda entrada debe citar al menos una.
         fuentes: z.array(z.object({ titulo: z.string(), url: z.string().url() })).min(1),
         borrador: z.boolean().default(false),
