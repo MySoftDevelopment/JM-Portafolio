@@ -4,6 +4,12 @@ RewriteBase /
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+# Quien entre por /web/... (la carpeta real en public_html) va a la dirección limpia.
+# Va aquí y no en el .htaccess de public_html: las peticiones a /web/ solo leen las reglas de esta carpeta.
+# THE_REQUEST es lo que pidió el navegador, así que no toca la reescritura interna ni el ErrorDocument.
+RewriteCond %{THE_REQUEST} \s/web/([^\s?]*) [NC]
+RewriteRule ^ /%1 [R=301,L]
+
 <FilesMatch "\.(js|css)(\?.*)?$">
     Header set Cache-Control "public, max-age=31536000, immutable"
 </FilesMatch>
