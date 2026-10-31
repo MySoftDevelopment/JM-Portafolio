@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
     <url>
         <loc>https://juanmolina.dev/</loc>
-        <lastmod>2026-10-30</lastmod>
+        <lastmod>2026-10-31</lastmod>
         <image:image><image:loc>https://juanmolina.dev/images/og-image.jpg</image:loc></image:image>
         <image:image><image:loc>https://juanmolina.dev/images/projects/inces.webp</image:loc></image:image>
         <image:image><image:loc>https://juanmolina.dev/images/projects/inces-app.webp</image:loc></image:image>
@@ -16,13 +16,17 @@
     </url>
     <url>
         <loc>https://juanmolina.dev/blog/</loc>
-        <lastmod>2026-10-30</lastmod>
+        <lastmod>2026-10-31</lastmod>
     </url>
     <url>
         <loc>https://juanmolina.dev/servicios/revision-seguridad/</loc>
     </url>
     <url>
         <loc>https://juanmolina.dev/privacidad/</loc>
+    </url>
+    <url>
+        <loc>https://juanmolina.dev/blog/brotli-cve-2026-111497-explotada-node-net-php/</loc>
+        <lastmod>2026-10-31</lastmod>
     </url>
     <url>
         <loc>https://juanmolina.dev/blog/symfony-cve-2026-108082-laravel/</loc>
