@@ -1,4 +1,4 @@
-import { Animation } from '@components/includes';
+import { Animation } from '@includes/views/Animation';
 import { FC } from 'react';
 
 export const About: FC = () => {

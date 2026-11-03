@@ -1,4 +1,5 @@
-import { Animation, Gato } from '@components/includes';
+import { Animation } from '@includes/views/Animation';
+import { Gato } from '@includes/views/Gato';
 import { PROYECTOS, Proyecto, TONOS_NOTA, TonoNota } from '@/data/portfolio';
 import { caras, Iso, planoX, planoY, poligono, punto } from '@/lib/iso';
 import { GatoPose } from '@/lib/michi';

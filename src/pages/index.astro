@@ -1,6 +1,17 @@
 ---
-import { Companion } from '@components/includes';
-import { Index } from '@components/index';
+import { Companion } from '@includes/views/Companion';
+import { About } from '@components/views/inicio/views/About';
+import { Blog } from '@components/views/inicio/views/Blog';
+import { Contact } from '@components/views/inicio/views/Contact';
+import { Footer } from '@components/views/inicio/views/Footer';
+import { Github } from '@components/views/inicio/views/Github';
+import { Hero } from '@components/views/inicio/views/Hero';
+import { Metrics } from '@components/views/inicio/views/Metrics';
+import { MoreProjects } from '@components/views/inicio/views/MoreProjects';
+import { Navbar } from '@components/views/inicio/views/Navbar';
+import { Projects } from '@components/views/inicio/views/Projects';
+import { Services } from '@components/views/inicio/views/Services';
+import { Skills } from '@components/views/inicio/views/Skills';
 import Base from '@/layouts/Base.astro';
 import { entradasPublicadas, resumen } from '@/lib/entradas';
 
@@ -70,7 +81,25 @@ const jsonLd = {
 ---
 
 <Base title='Juan Molina | Desarrollador Fullstack en Colombia' description='Desarrollador fullstack en Colombia. Plataformas web, apps móviles iOS y Android, ERPs a medida e integraciones con WhatsApp y pagos en línea.' path='/' preload='/images/projects/inces.webp' jsonLd={jsonLd}>
-    <Index client:load entradas={entradas} />
+    <a href='#contenido' class='sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-canvas'>Saltar al contenido</a>
+    <!--
+        Cada sección es su propia isla: el Hero se hidrata al cargar y el resto cuando se acerca a la pantalla,
+        así el JavaScript de lo que está abajo no compite con la primera pintura. El pie no tiene interacción: va estático.
+    -->
+    <Navbar client:idle />
+    <main id='contenido'>
+        <Hero client:load />
+        <Metrics client:visible={{ rootMargin: '300px' }} />
+        <Projects client:visible={{ rootMargin: '300px' }} />
+        <MoreProjects client:visible={{ rootMargin: '300px' }} />
+        <Services client:visible={{ rootMargin: '300px' }} />
+        <Skills client:visible={{ rootMargin: '300px' }} />
+        <Github client:visible={{ rootMargin: '300px' }} />
+        <Blog client:visible={{ rootMargin: '300px' }} entradas={entradas} />
+        <About client:visible={{ rootMargin: '300px' }} />
+        <Contact client:visible={{ rootMargin: '300px' }} />
+    </main>
+    <Footer />
     <!-- Michi depende del tamaño de la pantalla y de lo guardado en el navegador: solo existe en el cliente. -->
     <Companion client:only='react' />
 </Base>

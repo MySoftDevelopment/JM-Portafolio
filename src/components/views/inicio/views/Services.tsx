@@ -1,4 +1,4 @@
-import { Animation } from '@components/includes';
+import { Animation } from '@includes/views/Animation';
 import { SERVICIOS, TONOS, Tono } from '@/data/portfolio';
 import { ArrowsLeftRight, ArrowUpRight, Browser, DeviceMobile, HardDrives, Icon, PlugsConnected, ShieldCheck } from '@phosphor-icons/react';
 import { FC } from 'react';

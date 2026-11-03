@@ -1,4 +1,5 @@
-import { Animation, TechLogo } from '@components/includes';
+import { Animation } from '@includes/views/Animation';
+import { TechLogo } from '@includes/views/TechLogo';
 import { STACK } from '@/data/portfolio';
 import { LOGOS } from '@/data/tech';
 import { FC } from 'react';

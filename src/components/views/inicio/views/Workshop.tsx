@@ -1,4 +1,4 @@
-import { Gato } from '@components/includes';
+import { Gato } from '@includes/views/Gato';
 import { caras, Iso, planoX, planoY, poligono, punto } from '@/lib/iso';
 import { GatoPose } from '@/lib/michi';
 import { useReducedMotion } from 'motion/react';

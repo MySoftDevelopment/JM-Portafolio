@@ -1,4 +1,4 @@
-import { Animation } from '@components/includes';
+import { Animation } from '@includes/views/Animation';
 import { PERFIL } from '@/data/portfolio';
 import { ArrowUpRight, GithubLogo } from '@phosphor-icons/react';
 import { FC, useEffect, useMemo, useState } from 'react';

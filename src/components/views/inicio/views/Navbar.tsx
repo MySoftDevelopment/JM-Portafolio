@@ -1,4 +1,4 @@
-import { ThemeToggle } from '@components/includes';
+import { ThemeToggle } from '@includes/views/ThemeToggle';
 import { List, X } from '@phosphor-icons/react';
 import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from 'motion/react';
 import { FC, useEffect, useState } from 'react';

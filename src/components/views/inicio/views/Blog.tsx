@@ -1,4 +1,4 @@
-import { Animation } from '@components/includes';
+import { Animation } from '@includes/views/Animation';
 import { CATEGORIAS, EntradaResumen, fechaLarga } from '@/lib/blog';
 import { ArrowUpRight } from '@phosphor-icons/react';
 import { FC } from 'react';

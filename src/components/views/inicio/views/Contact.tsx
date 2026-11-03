@@ -1,4 +1,4 @@
-import { Animation } from '@components/includes';
+import { Animation } from '@includes/views/Animation';
 import { PERFIL } from '@/data/portfolio';
 import { Check, Copy, GithubLogo, InstagramLogo, PaperPlaneTilt } from '@phosphor-icons/react';
 import { FC, FormEvent, useEffect, useRef, useState } from 'react';

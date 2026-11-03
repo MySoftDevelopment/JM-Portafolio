@@ -1,4 +1,5 @@
-import { Animation, TechLogo } from '@components/includes';
+import { Animation } from '@includes/views/Animation';
+import { TechLogo } from '@includes/views/TechLogo';
 import { DESTACADOS, Destacado } from '@/data/portfolio';
 import { useEscena } from '@/lib/escena';
 import { caras, Iso, punto } from '@/lib/iso';

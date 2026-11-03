@@ -1,4 +1,5 @@
-import { Animation, CaraMichi } from '@components/includes';
+import { Animation } from '@includes/views/Animation';
+import { CaraMichi } from '@includes/views/Gato';
 import { METRICAS, TONOS } from '@/data/portfolio';
 import { CSSProperties, FC } from 'react';
 
