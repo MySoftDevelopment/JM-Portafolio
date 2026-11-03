@@ -232,7 +232,7 @@ export const SERVICIOS: { icono: string; titulo: string; texto: string; enlace?:
         icono: 'shield',
         titulo: 'Revisión de seguridad',
         texto: 'Reviso tu sitio o tu servidor, Linux o Windows Server, contra las vulnerabilidades recientes de PHP, Laravel, Node.js, Nginx e IIS, y te entrego qué corregir y en qué orden.',
-        enlace: { texto: 'Ver planes y precios', href: '/servicios/revision-seguridad/' },
+        enlace: { texto: 'Ver planes', href: '/servicios/revision-seguridad/' },
     },
     {
         icono: 'browser',
@@ -263,7 +263,7 @@ export const SERVICIOS: { icono: string; titulo: string; texto: string; enlace?:
 
 /*
  * Servicio de revisión de seguridad (/servicios/revision-seguridad/).
- * Los precios van en pesos colombianos; para cambiarlos basta con editar `precio`.
+ * Sin precios publicados: cada plan se cotiza por correo.
  */
 export const REVISION = {
     /** Se descuenta de la corrección si el cliente la contrata después. */
@@ -274,16 +274,12 @@ export const REVISION = {
             id: 'esencial',
             nombre: 'Esencial',
             para: 'Un sitio en hosting compartido (Hostinger, cPanel o similar).',
-            precio: 450000,
-            periodo: '',
             incluye: ['Versión de PHP y del framework (Laravel, WordPress u otro) frente a los avisos de seguridad vigentes', 'Dependencias con vulnerabilidades conocidas (composer audit, npm audit)', 'Configuración expuesta: archivos .env, carpetas públicas, modo de depuración', 'Certificado TLS y cabeceras de seguridad', 'Informe con cada hallazgo, su gravedad y cómo corregirlo'],
         },
         {
             id: 'servidor',
             nombre: 'Servidor',
             para: 'Tu aplicación y el servidor donde corre: Linux (Debian, Ubuntu) o Windows Server con IIS.',
-            precio: 1200000,
-            periodo: '',
             destacado: true,
             incluye: ['Todo lo del plan Esencial', 'Servidor web (IIS, Nginx o Apache) y PHP o Node.js: versiones y configuración', 'Windows Server: actualizaciones pendientes, IIS, URL Rewrite y certificados', 'Acceso remoto (SSH o Escritorio remoto), firewall y servicios expuestos a internet', 'Copias de seguridad: si existen, dónde están y si se pueden restaurar', 'Videollamada de 30 minutos para repasar el informe'],
         },
@@ -291,9 +287,7 @@ export const REVISION = {
             id: 'mantenimiento',
             nombre: 'Mantenimiento',
             para: 'Para no volver a preocuparte por los parches.',
-            precio: 350000,
-            periodo: '/mes',
-            desde: true,
+            mensual: true,
             incluye: ['Parches y actualizaciones de seguridad cada mes', 'Revisión de los avisos que afectan a tu stack', 'Copias de seguridad verificadas', 'Aviso inmediato si sale algo crítico que te afecte'],
         },
     ],

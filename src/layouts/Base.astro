@@ -86,7 +86,35 @@ const imagen = new URL(image, Astro.site).href;
         <meta name='twitter:image:alt' content={imageAlt} />
 
         {jsonLd && <script type='application/ld+json' set:html={JSON.stringify(jsonLd)} />}
-        {anuncios && <script is:inline async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE}`} crossorigin='anonymous' />}
+        {
+            /* AdSense pesa cientos de KB: entra con la primera interacción o unos segundos después de cargar, no compite con la página. */
+            anuncios && (
+                <script is:inline define:vars={{ src: `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE}` }}>
+                    (function () {
+                        var hecho = false;
+                        var eventos = ['scroll', 'pointerdown', 'keydown', 'touchstart'];
+                        function cargar() {
+                            if (hecho) return;
+                            hecho = true;
+                            eventos.forEach(function (e) {
+                                removeEventListener(e, cargar);
+                            });
+                            var s = document.createElement('script');
+                            s.async = true;
+                            s.src = src;
+                            s.crossOrigin = 'anonymous';
+                            document.head.appendChild(s);
+                        }
+                        eventos.forEach(function (e) {
+                            addEventListener(e, cargar, { once: true, passive: true });
+                        });
+                        addEventListener('load', function () {
+                            setTimeout(cargar, 4000);
+                        });
+                    })();
+                </script>
+            )
+        }
     </head>
     <body>
         <div id='root'>

@@ -5,8 +5,6 @@ import { PERFIL, REVISION } from '@/data/portfolio';
 import { CATEGORIAS, fechaLarga } from '@/lib/blog';
 import { entradasPublicadas } from '@/lib/entradas';
 
-const pesos = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
-
 // Las últimas alertas del blog: muestran por qué conviene revisar ahora.
 const alertas = (await entradasPublicadas()).filter((e) => e.data.categoria === 'seguridad').slice(0, 3);
 
@@ -39,14 +37,12 @@ const jsonLd = {
         '@type': 'Offer',
         name: p.nombre,
         description: p.para,
-        price: p.precio,
-        priceCurrency: 'COP',
     })),
 };
 ---
 
-<Base title='Revisión de seguridad para tu sitio o servidor | Juan Molina' description={`Reviso tu sitio en PHP, Laravel o Node.js y tu servidor contra las vulnerabilidades recientes, con un informe de qué corregir. Desde ${pesos.format(REVISION.planes[0].precio)} COP.`} path='/servicios/revision-seguridad/' jsonLd={jsonLd}>
-    <Navbar client:load pagina='otra' />
+<Base title='Revisión de seguridad para tu sitio o servidor | Juan Molina' description={`Reviso tu sitio en PHP, Laravel o Node.js y tu servidor contra las vulnerabilidades recientes, con un informe de qué corregir.`} path='/servicios/revision-seguridad/' jsonLd={jsonLd}>
+    <Navbar client:idle pagina='otra' />
     <main id='contenido' class='pb-24 pt-28 md:pb-36 md:pt-36'>
         <div class='container-page'>
             <header class='max-w-3xl'>
@@ -86,10 +82,10 @@ const jsonLd = {
 
             <section id='planes' aria-labelledby='planes-titulo' class='mt-24 scroll-mt-28'>
                 <h2 id='planes-titulo' class='text-4xl font-semibold leading-[1.02] tracking-[-0.035em] md:text-5xl'>
-                    Planes y <em class='not-italic text-sand'>precios</em>
+                    Elige tu <em class='not-italic text-sand'>plan</em>
                 </h2>
                 <p class='mt-4 max-w-[60ch] text-lg leading-relaxed text-muted'>
-                    Precios en pesos colombianos.
+                    Cuéntame qué tienes y te envío la cotización.
                     {REVISION.descuentoCorreccion && <span> Si después me contratas para corregir lo que encontré, <strong class='font-semibold text-ink'>el valor de la revisión se descuenta</strong>.</span>}
                 </p>
 
@@ -102,11 +98,7 @@ const jsonLd = {
                                     {p.destacado && <span class='chip border-accent/40 text-accent'>Más completo</span>}
                                 </div>
                                 <p class='mt-2 text-[15px] leading-relaxed text-muted'>{p.para}</p>
-                                <p class='mt-6 flex items-baseline gap-1.5'>
-                                    {p.desde && <span class='font-mono text-[11px] uppercase tracking-[0.14em] text-faint'>Desde</span>}
-                                    <span class='font-mono text-[2rem] font-medium tabular-nums tracking-tight'>{pesos.format(p.precio)}</span>
-                                    <span class='text-muted'>{p.periodo}</span>
-                                </p>
+                                <p class='mt-6 font-mono text-[11px] uppercase tracking-[0.14em] text-faint'>{p.mensual ? 'Pago mensual' : 'Pago único'}</p>
                                 <ul class='mt-6 flex-1 space-y-3 border-t border-line pt-6 text-[15px] leading-snug'>
                                     {p.incluye.map((i) => (
                                         <li class='flex gap-3'>

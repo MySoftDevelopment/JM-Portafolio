@@ -1,7 +1,6 @@
 ---
 import { Footer, Navbar } from '@components/views/inicio';
 import Base from '@/layouts/Base.astro';
-import { REVISION } from '@/data/portfolio';
 import { CATEGORIAS, fechaLarga } from '@/lib/blog';
 import { entradasPublicadas, imagenes, type Entrada } from '@/lib/entradas';
 import { render } from 'astro:content';
@@ -21,7 +20,6 @@ const { titulo, descripcion, fecha, actualizado, categoria, etiquetas, fuentes }
 const { Content } = await render(entrada);
 const { portada, escena } = imagenes(entrada.id);
 
-const pesos = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
 const path = `/blog/${entrada.id}/`;
 const url = new URL(path, Astro.site).href;
 const minutos = Math.max(1, Math.round((entrada.body ?? '').split(/\s+/).length / 220));
@@ -67,7 +65,7 @@ const jsonLd = {
 ---
 
 <Base title={`${titulo} | Juan Molina`} description={descripcion} path={path} type='article' jsonLd={jsonLd} published={fecha.toISOString()} modified={(actualizado ?? fecha).toISOString()} image={portada} imageAlt={portada ? `Michi, el gato de Juan Molina, ilustrando la entrada: ${titulo}` : undefined} anuncios>
-    <Navbar client:load pagina='blog' />
+    <Navbar client:idle pagina='blog' />
     <main id='contenido' class='pb-24 pt-28 md:pb-36 md:pt-36'>
         <article class='container-page'>
             <header class:list={['mx-auto max-w-[72ch]', escena && 'md:grid md:grid-cols-[1fr_180px] md:items-end md:gap-x-8']}>
@@ -128,7 +126,7 @@ const jsonLd = {
                 }
 
                 <section class='card flex flex-col items-start gap-5 p-6 md:flex-row md:items-center md:justify-between md:p-7'>
-                    <p class='max-w-[44ch] text-lg leading-snug'>¿No sabes si tu sitio o tu servidor está expuesto? <span class='text-muted'>Lo reviso y te digo qué corregir, desde {pesos.format(REVISION.planes[0].precio)}.</span></p>
+                    <p class='max-w-[44ch] text-lg leading-snug'>¿No sabes si tu sitio o tu servidor está expuesto? <span class='text-muted'>Lo reviso y te digo qué corregir.</span></p>
                     <a href='/servicios/revision-seguridad/' class='btn-primary shrink-0'>Ver la revisión</a>
                 </section>
             </footer>
