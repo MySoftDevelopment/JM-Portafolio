@@ -1,0 +1,1 @@
+export{t as Companion}from"./Companion.BsvfdLUU.js";

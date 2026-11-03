@@ -1,0 +1,1 @@
+import{rt as e}from"./react.CZR_5nDv.js";var t=e();function n({icon:e,size:n=28}){return(0,t.jsxs)(`svg`,{role:`img`,viewBox:`0 0 24 24`,width:n,height:n,fill:`currentColor`,"aria-label":e.title,children:[(0,t.jsx)(`title`,{children:e.title}),(0,t.jsx)(`path`,{d:e.path})]})}export{n as t};
