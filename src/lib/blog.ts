@@ -1,6 +1,9 @@
 /** Categorías del blog: la clave va en el frontmatter de cada entrada. */
 export const CATEGORIAS = {
     seguridad: 'Seguridad',
+    ciberataques: 'Ciberataques',
+    ia: 'Inteligencia artificial',
+    tecnologia: 'Tecnología',
     lanzamientos: 'Lanzamientos',
     ecosistema: 'Ecosistema',
     guias: 'Guías',

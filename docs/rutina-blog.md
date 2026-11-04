@@ -5,20 +5,45 @@ El agente **publica solo**: cuando la entrada está verificada y el build pasa, 
 
 ## 1. Buscar noticias
 
-Revisa lo publicado desde la última entrada del blog (la fecha más reciente en `src/content/blog/`). Fuentes, en este orden de prioridad:
+El blog cubre **tecnología en general**, no solo seguridad web. Revisa lo publicado desde la última entrada (la fecha más reciente en `src/content/blog/`) en estas líneas, cada una con su categoría:
 
-- **Seguridad:** catálogo KEV de CISA, GitHub Advisory Database (ecosistemas npm y composer, severidad alta o crítica), avisos de seguridad de php.net y de nodejs.org, y la guía de actualizaciones de seguridad de Microsoft (MSRC) para Windows Server e IIS.
-- **Lanzamientos y cambios:** blogs y notas de versión oficiales de PHP, Node.js, React, TypeScript, Vite, Laravel, Expo y React Native, Tailwind CSS, MySQL y MariaDB, Nginx, e IIS y Windows Server.
-- Puedes usar medios de tecnología para **descubrir** noticias, pero la entrada se escribe y se cita a partir de la **fuente primaria** (aviso oficial, CVE, changelog o anuncio del proyecto).
+| Categoría | Qué cubre | Fuentes primarias |
+| --- | --- | --- |
+| `seguridad` | Vulnerabilidades y parches en el stack de la portada (PHP, Laravel, Node.js, React, React Native/Expo, TypeScript, Vite, Tailwind, MySQL/MariaDB, Nginx, IIS, Windows Server, Debian, WhatsApp Cloud API) | Catálogo KEV de CISA, GitHub Advisory Database (npm y composer, alta o crítica), avisos de php.net y nodejs.org, MSRC |
+| `ciberataques` | Hackeos, filtraciones y ataques a empresas o servicios grandes (exchanges, bancos, telecomunicaciones, plataformas con millones de usuarios), ransomware con impacto real | Comunicado de la empresa afectada, avisos de CISA, CERT o autoridades, informes de la firma que investigó |
+| `ia` | Modelos y productos de IA: Anthropic (Claude), OpenAI (ChatGPT), Google (Gemini), Meta, xAI, Mistral, DeepSeek, Qwen y otros; lanzamientos, precios, regulación, investigación relevante | Blog, notas de versión o documentación oficial de cada empresa, papers, textos regulatorios |
+| `tecnologia` | Actualidad y tendencias: robótica, innovación china, chips y hardware, big tech, internet, telecomunicaciones, redes sociales, regulación digital | Anuncio oficial de la empresa o institución, comunicado de prensa, documento público |
+| `lanzamientos` | Versiones de herramientas del stack | Blogs y notas de versión oficiales de PHP, Node.js, React, TypeScript, Vite, Laravel, Expo y React Native, Tailwind CSS, MySQL y MariaDB, Nginx, IIS y Windows Server |
+| `ecosistema` | Cambios en la industria del desarrollo: fin de soporte, cambios de licencia, deprecaciones, encuestas grandes (Stack Overflow, State of JS), movimientos de GitHub, npm o Vercel | Anuncio oficial del proyecto o empresa |
+
+`guias` **no es de la rutina**: las guías y los cursos los prepara Juan a mano. Nunca escribas una.
+
+Puedes usar medios de tecnología para **descubrir** noticias, pero la entrada se escribe y se cita a partir de la **fuente primaria**. En `ciberataques`, `ia` y `tecnologia` a veces la fuente primaria es solo el comunicado de la empresa: si un medio reconocido aporta un dato que la empresa no confirmó, puedes citarlo como medio y atribuirlo («según Reuters…»), pero nunca lo presentes como hecho confirmado.
 
 ## 2. Elegir
 
-Escribe **una entrada por ejecución** (dos solo si hay dos noticias de seguridad críticas). Para elegirla:
+Escribe **una entrada por ejecución** (dos solo si además hay una vulnerabilidad del stack que se está explotando activamente).
 
-- Prioridad: vulnerabilidad explotada activamente > vulnerabilidad crítica o alta en algo muy usado del stack > versión mayor con cambios que rompen > versión menor con algo útil.
-- Descarta lo que ya está cubierto: lee los títulos y etiquetas de `src/content/blog/`.
-- Descarta rumores, noticias sin fuente primaria y temas fuera del stack de la portada (PHP, Laravel, Node.js, React, React Native/Expo, TypeScript, Vite, Tailwind, MySQL/MariaDB, Nginx, IIS, Windows Server, Debian, WhatsApp Cloud API).
-- **Si no hay nada que valga la pena, no crees nada.** Termina sin abrir PR. Es mejor una semana sin entrada que una entrada de relleno.
+**Equilibrio.** Lee las categorías de las últimas 7 entradas antes de elegir:
+
+- Como máximo **2 de cada 7** pueden ser `seguridad`. La excepción es una vulnerabilidad del stack que **ya se está explotando** (está en KEV o el proveedor lo confirma): esa entra siempre.
+- Si la última entrada fue de una categoría, prefiere otra hoy salvo que no haya nada bueno fuera de ella.
+- Intenta que en la semana aparezcan al menos `ia`, `tecnologia` y `ciberataques`.
+
+**Qué noticia, dentro de lo que el equilibrio permite:**
+
+- Prioriza lo que la gente está comentando y lo que cambia algo para quien trabaja en tecnología: un modelo nuevo de una empresa grande, una filtración que afecta a millones, un cambio de precio o de política de una plataforma muy usada, un avance que marca tendencia.
+- En `seguridad` se mantiene el orden: explotada activamente > crítica o alta en algo muy usado del stack > versión mayor con cambios que rompen.
+- Descarta lo que ya está cubierto: lee los títulos y etiquetas de `src/content/blog/`. Una continuación con datos nuevos sí vale (enlázala a la entrada anterior).
+- Descarta rumores, filtraciones de supuestos productos sin confirmar, opinión sin hechos y temas sin relación con la tecnología.
+- **Si no hay nada que valga la pena, no crees nada.** Es mejor un día sin entrada que una entrada de relleno.
+
+**Enfoque según la categoría.** La pregunta que responde la entrada cambia:
+
+- `seguridad`: qué pasó, a quién afecta, cómo saber si me afecta y qué hago hoy.
+- `ciberataques`: qué pasó, cómo entraron (si se sabe), qué datos se expusieron, qué hacer si eres usuario y qué lección deja para quien desarrolla.
+- `ia` y `tecnologia`: qué se anunció, qué cambia de verdad frente a lo anterior (con datos, no con el discurso de la empresa), quién lo puede usar, cuánto cuesta si aplica y qué significa para quien trabaja en tecnología.
+- `lanzamientos` y `ecosistema`: qué cambia, qué rompe y cómo migrar o decidir.
 
 ## 3. Verificar
 
@@ -28,7 +53,7 @@ Escribe **una entrada por ejecución** (dos solo si hay dos noticias de segurida
 
 ## 4. Escribir
 
-Archivo: `src/content/blog/AAAA-MM-DD-slug.md`. El slug va en español, corto y con las palabras que buscaría alguien en Google (ejemplo: `php2shell-actualiza-php`). Usa como referencia de tono y estructura `src/content/blog/2026-10-28-php2shell-actualiza-php.md`.
+Archivo: `src/content/blog/AAAA-MM-DD-slug.md`. El slug va en español, corto y con las palabras que buscaría alguien en Google (ejemplo: `php2shell-actualiza-php`). Usa como referencia de tono y estructura `src/content/blog/2026-10-28-php2shell-actualiza-php.md` (seguridad) y `src/content/blog/2026-11-03-nodejs-26-lts-lithium-actualizar.md` (lanzamientos).
 
 Frontmatter (lo valida `src/content.config.ts`, y si no cumple, el build falla):
 
@@ -37,7 +62,7 @@ Frontmatter (lo valida `src/content.config.ts`, y si no cumple, el build falla):
 titulo: 'Máximo 110 caracteres, con el nombre del producto y el problema'
 descripcion: 'Entre 70 y 170 caracteres. Es la meta description: qué pasó y por qué importa.'
 fecha: AAAA-MM-DD
-categoria: seguridad # seguridad | lanzamientos | ecosistema | guias
+categoria: seguridad # seguridad | ciberataques | ia | tecnologia | lanzamientos | ecosistema (guias es manual)
 michi: lupa # escena de Michi para la ilustración (ver abajo)
 etiquetas: ['PHP', 'CVE-AAAA-NNNNN']
 formato: carrusel # imagen | carrusel | reel: la pieza de Instagram (ver abajo)
@@ -57,7 +82,7 @@ Formato de Instagram (`formato`): según la relevancia de la noticia.
 | --- | --- |
 | `imagen` | Relevancia baja: una versión menor, un aviso de alcance limitado. Una sola imagen con el título. |
 | `carrusel` | Relevancia media: merece explicarse en varias imágenes (una por punto del resumen). |
-| `reel` | Muy importante y de tendencia: se explota activamente, afecta a mucha gente o es de lo que se está hablando en la comunidad. Michi lo narra con voz. Resérvalo para lo que de verdad lo merece (a lo sumo una o dos por semana). |
+| `reel` | Muy importante y de tendencia: se explota activamente, un hackeo o un lanzamiento de IA del que todo el mundo habla, afecta a mucha gente o es de lo que se está hablando en la comunidad. Michi lo narra con voz. Resérvalo para lo que de verdad lo merece (a lo sumo una o dos por semana). |
 
 Todas las piezas terminan solas con «¿Deseas más información?», el enlace a la entrada y «¿Te gusta mi contenido? Sígueme»: no lo escribas en el resumen.
 
@@ -81,15 +106,16 @@ Escena de Michi (`michi`): elige la que mejor aluda al tema, y no repitas la de 
 | `llave` | Autenticación, tokens, contraseñas, permisos |
 | `paquete` | Dependencias, npm o Composer, ataques a la cadena de suministro |
 | `servidor` | Servidores web e infraestructura (Nginx, IIS, Linux, Windows Server) |
-| `piensa` | Lanzamientos, cambios o debates que invitan a decidir algo |
+| `piensa` | Lanzamientos, IA, tendencias, cambios o debates que invitan a decidir algo |
 
 Las imágenes (portada, ilustración y piezas para Instagram) se generan después, fuera de la rutina: tú solo elige la escena, el formato y escribe el resumen.
 
 Estilo:
 
 - Español de Colombia, tuteando, claro y directo. Frases cortas. Sin emojis ni signos de exclamación.
-- Escribe para alguien que tiene un proyecto en producción: **qué pasó, a quién afecta, cómo saber si me afecta y qué hago hoy**. Ese enfoque práctico es lo que diferencia la entrada de una noticia más.
-- Entre 600 y 1200 palabras. Secciones con `##`, pasos con `###`, una tabla de versiones si aplica y bloques de código con su lenguaje (` ```bash `, ` ```php `, ` ```ts `).
+- Escribe para alguien que trabaja en tecnología y quiere entender la noticia, no solo enterarse. Sigue el enfoque de la categoría (paso 2). Ese enfoque práctico es lo que diferencia la entrada de una noticia más.
+- En `ia`, `tecnologia` y `ciberataques` puedes dar contexto y explicar por qué importa, pero separa claramente los hechos (con fuente) del análisis. No exageres ni hagas predicciones presentadas como hechos.
+- Entre 600 y 1200 palabras. Secciones con `##`, pasos con `###`, una tabla (versiones, comparación de modelos, cronología del ataque) si aplica y bloques de código con su lenguaje (` ```bash `, ` ```php `, ` ```ts `).
 - Redacción propia. No copies párrafos de las fuentes; como mucho, una cita corta entre comillas y atribuida.
 - El cierre es un resumen en pasos. No añadas una llamada a contactar: la página ya la incluye.
 
