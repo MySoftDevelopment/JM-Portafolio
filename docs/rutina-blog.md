@@ -22,21 +22,37 @@ Puedes usar medios de tecnología para **descubrir** noticias, pero la entrada s
 
 ## 2. Elegir
 
-Escribe **una entrada por ejecución** (dos solo si además hay una vulnerabilidad del stack que se está explotando activamente).
+Escribe **una entrada por ejecución**: la noticia más relevante, sea de la categoría que sea. Dos solo si, además de esa, hay una vulnerabilidad del stack que se está explotando activamente.
 
-**Equilibrio.** Lee las categorías de las últimas 7 entradas antes de elegir:
+No hay cuotas por categoría. Manda la relevancia; la variedad solo decide los empates.
 
-- Como máximo **2 de cada 7** pueden ser `seguridad`. La excepción es una vulnerabilidad del stack que **ya se está explotando** (está en KEV o el proveedor lo confirma): esa entra siempre.
-- Si la última entrada fue de una categoría, prefiere otra hoy salvo que no haya nada bueno fuera de ella.
-- Intenta que en la semana aparezcan al menos `ia`, `tecnologia` y `ciberataques`.
+### Paso 1: reunir candidatas de todas las categorías
 
-**Qué noticia, dentro de lo que el equilibrio permite:**
+Busca en **todas** las categorías del paso 1 antes de decidir, no solo en la primera que dé resultados. Anota la mejor candidata de cada una, si la hay.
 
-- Prioriza lo que la gente está comentando y lo que cambia algo para quien trabaja en tecnología: un modelo nuevo de una empresa grande, una filtración que afecta a millones, un cambio de precio o de política de una plataforma muy usada, un avance que marca tendencia.
-- En `seguridad` se mantiene el orden: explotada activamente > crítica o alta en algo muy usado del stack > versión mayor con cambios que rompen.
-- Descarta lo que ya está cubierto: lee los títulos y etiquetas de `src/content/blog/`. Una continuación con datos nuevos sí vale (enlázala a la entrada anterior).
-- Descarta rumores, filtraciones de supuestos productos sin confirmar, opinión sin hechos y temas sin relación con la tecnología.
-- **Si no hay nada que valga la pena, no crees nada.** Es mejor un día sin entrada que una entrada de relleno.
+### Paso 2: medir la relevancia
+
+Para cada candidata, responde:
+
+- **Alcance:** ¿a cuánta gente afecta o cuánta gente está hablando de ella? Millones de usuarios, una plataforma que todos usan, una noticia que está en todos los medios de tecnología.
+- **Impacto:** ¿cambia algo concreto? Hay que actuar (parchear, cambiar contraseñas, migrar), cambia lo que se puede hacer (un modelo o producto nuevo con capacidades reales) o cambian las reglas (precios, regulación, fin de soporte).
+- **Novedad:** ¿es un hecho nuevo y confirmado, o el seguimiento de algo ya conocido sin datos nuevos?
+
+Una candidata solo es publicable si tiene **alcance o impacto altos** y es nueva. Lo demás se descarta, aunque sea la única de su categoría.
+
+### Paso 3: elegir
+
+1. Una vulnerabilidad del stack que **ya se está explotando** (está en KEV o el proveedor lo confirma) va siempre, porque quien la lea tiene que actuar hoy.
+2. Si no, gana la candidata más relevante, sin importar la categoría.
+3. **Desempate:** si dos candidatas están parejas, elige la de la categoría que lleva más tiempo sin aparecer en el blog (revisa las categorías de las últimas entradas).
+
+Dentro de `seguridad` se mantiene el orden: explotada activamente > crítica o alta en algo muy usado del stack > versión mayor con cambios que rompen.
+
+### Qué descartar
+
+- Lo que ya está cubierto: lee los títulos y etiquetas de `src/content/blog/`. Una continuación con datos nuevos sí vale (enlázala a la entrada anterior).
+- Rumores, filtraciones de supuestos productos sin confirmar, opinión sin hechos y temas sin relación con la tecnología.
+- **Si ninguna candidata es publicable, no crees nada.** Es mejor un día sin entrada que una entrada de relleno.
 
 **Enfoque según la categoría.** La pregunta que responde la entrada cambia:
 
