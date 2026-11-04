@@ -12,7 +12,11 @@ export const CATEGORIAS = {
 export type Categoria = keyof typeof CATEGORIAS;
 
 /** Escenas de Michi para las ilustraciones (las dibuja Marca/Utilidades/Creación Imágenes/blog.py). */
-export const ESCENAS = ['lupa', 'piensa', 'bicho', 'escudo', 'paquete', 'servidor', 'llave', 'alerta'] as const;
+export const ESCENAS = [
+    'lupa', 'piensa', 'bicho', 'escudo', 'paquete', 'servidor', 'llave', 'alerta', 'robot', 'chip',
+    'mundo', 'cohete', 'incendio', 'antifaz', 'candado', 'monedas', 'chat', 'nuevo', 'portatil', 'celular',
+    'nube', 'grafica', 'desconectado', 'megafono', 'balanza', 'reloj', 'cafe', 'gafas', 'martillo',
+] as const;
 
 /** Lo que la portada necesita de cada entrada (se pasa como prop a la isla de React). */
 export interface EntradaResumen {

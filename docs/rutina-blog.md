@@ -111,7 +111,7 @@ Resumen (`resumen`), con `carrusel` o `reel`:
 - `[en pantalla](para la voz)` cuando algo se lee distinto de como se escribe: `[CVE-2026-12345](esta vulnerabilidad)`, `[8.1.10](ocho punto uno punto diez)`, `[npm](ene pe eme)`. Úsalo con números de versión, CVE, siglas y comandos.
 - Cada punto en una sola línea, entre comillas simples (una comilla simple dentro del texto se escribe doble: `''`).
 
-Escena de Michi (`michi`): elige la que mejor aluda al tema, y no repitas la de la entrada anterior si otra encaja:
+Escena de Michi (`michi`): elige la que mejor aluda al tema y no repitas la de las dos entradas anteriores si otra encaja:
 
 | Escena | Úsala para |
 | --- | --- |
@@ -122,7 +122,28 @@ Escena de Michi (`michi`): elige la que mejor aluda al tema, y no repitas la de 
 | `llave` | Autenticación, tokens, contraseñas, permisos |
 | `paquete` | Dependencias, npm o Composer, ataques a la cadena de suministro |
 | `servidor` | Servidores web e infraestructura (Nginx, IIS, Linux, Windows Server) |
-| `piensa` | Lanzamientos, IA, tendencias, cambios o debates que invitan a decidir algo |
+| `piensa` | Debates, decisiones o cambios que invitan a pensar |
+| `antifaz` | Robos, hackeos a empresas, grupos criminales o patrocinados por Estados |
+| `candado` | Filtraciones de datos, contraseñas o documentos expuestos |
+| `incendio` | Caídas graves, incidentes masivos, crisis de una empresa |
+| `desconectado` | Caídas de internet o de un servicio, apagones, cortes |
+| `nube` | Servicios en la nube (AWS, Azure, Google Cloud, Cloudflare) y sus fallas |
+| `monedas` | Dinero: criptomonedas, precios, inversiones, compras, multas millonarias |
+| `robot` | Robótica, agentes de IA, automatización |
+| `chip` | Chips, GPU, hardware, centros de datos, modelos de IA por dentro |
+| `chat` | Chatbots y asistentes (ChatGPT, Claude, Gemini) y lo que hacen |
+| `nuevo` | Un lanzamiento que sorprende: un modelo o producto nuevo importante |
+| `cohete` | Versiones nuevas, lanzamientos, empresas que crecen rápido |
+| `mundo` | Internet en general, noticias globales, varios países, China y Asia |
+| `celular` | Apps, redes sociales, móviles, Expo y React Native |
+| `portatil` | Herramientas de desarrollo, editores, lenguajes, cómo se programa |
+| `grafica` | Tendencias, encuestas, estudios, cifras de mercado o de uso |
+| `megafono` | Anuncios y comunicados oficiales, cambios de política de una empresa |
+| `balanza` | Leyes, regulación, juicios, demandas, antimonopolio |
+| `reloj` | Fin de soporte, plazos, fechas límite |
+| `martillo` | Migraciones, cambios que rompen, arreglos grandes |
+| `gafas` | Lo que está de moda, algo llamativo o curioso |
+| `cafe` | Temas tranquilos o de lectura reposada (reservada para el resumen del domingo) |
 
 Las imágenes (portada, ilustración y piezas para Instagram) se generan después, fuera de la rutina: tú solo elige la escena, el formato y escribe el resumen.
 
