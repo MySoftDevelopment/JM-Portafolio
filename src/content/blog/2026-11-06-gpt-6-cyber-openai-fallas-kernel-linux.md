@@ -10,7 +10,7 @@ resumen:
     - 'OpenAI lanzó **GPT-6 Cyber**, un modelo para encontrar fallas, escribir exploits y probar parches en entornos autorizados.'
     - 'No está abierto a todos: solo organizaciones aprobadas en su programa Daybreak Red, con llaves físicas y verificación de identidad.'
     - 'Cuesta el doble que GPT-6 Astra: 20 dólares por millón de tokens de entrada y 100 por millón de salida.'
-    - 'Según medios que resumieron el informe de OpenAI, su sistema logró acceso **root** con 948 fallas del kernel Linux.'
+    - 'En un informe aparte, OpenAI dice que su sistema de agentes logró acceso **root** con 948 fallas del kernel Linux.'
     - 'Para tu servidor: mantén el kernel al día y reinicia después de actualizar, porque los parches siguen llegando.'
 fuentes:
     - titulo: 'OpenAI: GPT-6 Cyber System Card (5 nov 2026)'
@@ -27,7 +27,7 @@ fuentes:
       url: 'https://cyberscoop.com/openai-gpt-6-cyber-security-model/'
 ---
 
-El 5 de noviembre OpenAI presentó **GPT-6 Cyber**, una variante de su modelo GPT-6 Astra entrenada para trabajo de seguridad autorizado: buscar vulnerabilidades, desarrollar exploits, hacer pruebas de penetración web y verificar que los parches funcionen. Un día antes, la empresa había publicado un informe sobre un sistema de agentes que, según lo resumen varios medios, construyó exploits para llegar a root en 948 fallas distintas del kernel Linux.
+El 5 de noviembre OpenAI presentó **GPT-6 Cyber**, una variante de su modelo GPT-6 Astra entrenada para trabajo de seguridad autorizado: buscar vulnerabilidades, desarrollar exploits, hacer pruebas de penetración web y verificar que los parches funcionen. Un día antes, la empresa había publicado un informe sobre un sistema de agentes que, según la propia OpenAI, construyó exploits para llegar a root en 948 fallas distintas del kernel Linux.
 
 Las dos noticias juntas dicen algo concreto: encontrar fallas graves en software muy revisado ya se puede hacer en serie y con un costo que se mide en dólares por falla. Aquí va qué se anunció, qué está confirmado y qué significa si administras servidores.
 
@@ -75,12 +75,14 @@ OpenAI añadió además bloqueos para controles industriales, servicios esencial
 
 ## Las 948 fallas del kernel Linux
 
-El informe del 4 de noviembre, titulado «A thousand fewer paths to root», es el dato que más ha circulado. El sitio de OpenAI no permitió leerlo completo para esta entrada, así que las cifras siguientes vienen de cómo lo resumieron **Help Net Security** y **CyberScoop**, no de una lectura directa:
+El informe del 4 de noviembre, titulado «A thousand fewer paths to root», es el dato que más ha circulado. Esto es lo que dice OpenAI:
 
-- Según Help Net Security, a mediados de octubre un sistema de agentes analizó el kernel Linux más reciente, reprodujo 1.724 fallas y obtuvo **948 vulnerabilidades distintas de escalada local de privilegios**, es decir, fallas que permiten pasar de un usuario sin privilegios a root.
-- El mismo medio reporta un costo de 1.213.430 dólares en créditos de la API, unos 1.279 dólares por falla.
-- Diez días después del análisis, 61 fallas ya estaban corregidas en el kernel oficial, 43 tenían parches en preparación y 299 estaban en proceso de reporte.
-- CyberScoop atribuye estos resultados a GPT-6 Cyber y agrega que el modelo encontró al menos 81 vulnerabilidades nuevas en Firefox. Según ese medio, OpenAI afirma que todo se reportó a los responsables.
+- A mediados de octubre, su sistema de agentes revisó el kernel Linux: produjo 2.308 hallazgos candidatos, reprodujo 1.724 fallas y obtuvo **948 exploits funcionales de escalada local de privilegios**, es decir, fallas que permiten pasar de un usuario sin privilegios a root en una distribución de escritorio común.
+- El análisis costó 1.213.430 dólares en créditos de la API, unos 1.279 dólares por exploit.
+- El sistema también genera un parche para cada falla, y un investigador humano revisa el exploit, el parche y la gravedad antes de reportarla.
+- Al terminar el análisis, que duró 10 días, 61 fallas ya estaban corregidas en el kernel oficial, 43 tenían parches en preparación y 299 se estaban reportando y discutiendo en público.
+
+OpenAI atribuye el trabajo a «un próximo modelo cyber», sin nombrarlo. CyberScoop atribuye estos resultados a GPT-6 Cyber y agrega que el modelo encontró al menos 81 vulnerabilidades nuevas en Firefox, un dato que no aparece en el informe.
 
 Un matiz importante, que ya es análisis: una escalada local no deja entrar a nadie desde internet. El atacante necesita primero ejecutar código en la máquina, con una cuenta de bajo privilegio o con otra falla. El problema es que eso pasa: es justo lo que se vio cuando [una falla del kernel se encadenó con PHP2Shell](/blog/kernel-linux-cve-2026-46300-root) para llegar a root.
 
@@ -112,5 +114,5 @@ Después del reinicio, vuelve a correr `uname -r` y confirma que cambió la vers
 1. OpenAI lanzó GPT-6 Cyber el 5 de noviembre, una variante de GPT-6 Astra para encontrar fallas, escribir exploits y probar parches en entornos autorizados.
 2. Solo lo pueden usar organizaciones aprobadas en Daybreak Red, con verificación de identidad y llaves físicas.
 3. Cuesta 20 dólares por millón de tokens de entrada y 100 por millón de salida, el doble que Astra.
-4. Según Help Net Security y CyberScoop, el sistema de OpenAI logró root con 948 fallas del kernel Linux, y los parches se están publicando por tandas.
+4. Según su propio informe, el sistema de agentes de OpenAI logró root con 948 fallas del kernel Linux, y los parches se están publicando por tandas.
 5. Mantén el kernel de tus servidores actualizado y reinicia después de cada actualización.
