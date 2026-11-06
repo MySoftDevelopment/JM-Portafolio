@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
     <url>
         <loc>https://juanmolina.dev/</loc>
-        <lastmod>2026-11-05</lastmod>
+        <lastmod>2026-11-06</lastmod>
         <image:image><image:loc>https://juanmolina.dev/images/og-image.jpg</image:loc></image:image>
         <image:image><image:loc>https://juanmolina.dev/images/projects/inces.webp</image:loc></image:image>
         <image:image><image:loc>https://juanmolina.dev/images/projects/inces-app.webp</image:loc></image:image>
@@ -16,13 +16,17 @@
     </url>
     <url>
         <loc>https://juanmolina.dev/blog/</loc>
-        <lastmod>2026-11-05</lastmod>
+        <lastmod>2026-11-06</lastmod>
     </url>
     <url>
         <loc>https://juanmolina.dev/servicios/revision-seguridad/</loc>
     </url>
     <url>
         <loc>https://juanmolina.dev/privacidad/</loc>
+    </url>
+    <url>
+        <loc>https://juanmolina.dev/blog/gpt-6-cyber-openai-fallas-kernel-linux/</loc>
+        <lastmod>2026-11-06</lastmod>
     </url>
     <url>
         <loc>https://juanmolina.dev/blog/apt29-ataque-iphone-android-sitios-web-actualiza/</loc>
