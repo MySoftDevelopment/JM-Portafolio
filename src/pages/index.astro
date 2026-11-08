@@ -15,7 +15,11 @@ import { Skills } from '@components/views/inicio/views/Skills';
 import Base from '@/layouts/Base.astro';
 import { entradasPublicadas, resumen } from '@/lib/entradas';
 
-const entradas = (await entradasPublicadas()).slice(0, 3).map(resumen);
+const recientes = (await entradasPublicadas()).slice(0, 3);
+const entradas = recientes.map(resumen);
+
+// La portada cambia cuando entra o se actualiza una de las entradas que muestra; la fecha base cubre los cambios propios.
+const modificada = new Date(Math.max(Date.parse('2026-10-28T00:00:00-05:00'), ...recientes.map((e) => (e.data.actualizado ?? e.data.fecha).getTime())));
 
 const jsonLd = {
     '@context': 'https://schema.org',
@@ -38,7 +42,7 @@ const jsonLd = {
             isPartOf: { '@id': 'https://juanmolina.dev/#website' },
             mainEntity: { '@id': 'https://juanmolina.dev/#persona' },
             primaryImageOfPage: 'https://juanmolina.dev/images/og-image.jpg',
-            dateModified: '2026-10-28',
+            dateModified: modificada.toISOString(),
         },
         {
             '@type': 'Person',
