@@ -1,0 +1,75 @@
+---
+import { Footer } from '@components/views/inicio/views/Footer';
+import { Navbar } from '@components/views/inicio/views/Navbar';
+import ListaEntradas from '@components/views/blog/ListaEntradas.astro';
+import NavCategorias from '@components/views/blog/NavCategorias.astro';
+import Base from '@/layouts/Base.astro';
+import { CATEGORIAS, DESCRIPCIONES, type Categoria } from '@/lib/blog';
+import { categoriasConEntradas, entradasPublicadas, type Entrada } from '@/lib/entradas';
+
+// Solo existen las páginas de las categorías que ya tienen entradas: no se publican listados vacíos.
+export async function getStaticPaths() {
+    const entradas = await entradasPublicadas();
+    return categoriasConEntradas(entradas).map((c) => ({ params: { categoria: c.clave }, props: { clave: c.clave, entradas: entradas.filter((e) => e.data.categoria === c.clave) } }));
+}
+
+interface Props {
+    clave: Categoria;
+    entradas: Entrada[];
+}
+
+const { clave, entradas } = Astro.props;
+const nombre = CATEGORIAS[clave];
+const path = `/blog/categoria/${clave}/`;
+const url = new URL(path, Astro.site).href;
+
+const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+        {
+            '@type': 'CollectionPage',
+            '@id': `${url}#pagina`,
+            url,
+            name: `${nombre} | Blog de Juan Molina`,
+            description: DESCRIPCIONES[clave],
+            inLanguage: 'es-CO',
+            isPartOf: { '@id': 'https://juanmolina.dev/blog/#blog' },
+            hasPart: entradas.map((e) => ({
+                '@type': 'BlogPosting',
+                headline: e.data.titulo,
+                url: `https://juanmolina.dev/blog/${e.id}/`,
+                datePublished: e.data.fecha.toISOString(),
+            })),
+        },
+        {
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+                { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://juanmolina.dev/' },
+                { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://juanmolina.dev/blog/' },
+                { '@type': 'ListItem', position: 3, name: nombre, item: url },
+            ],
+        },
+    ],
+};
+---
+
+<Base title={`${nombre} | Blog de Juan Molina`} description={DESCRIPCIONES[clave]} path={path} jsonLd={jsonLd} anuncios>
+    <Navbar client:idle pagina='blog' />
+    <main id='contenido' class='pb-24 pt-28 md:pb-36 md:pt-36'>
+        <div class='container-page'>
+            <header class='max-w-3xl'>
+                <nav aria-label='Ruta' class='mb-8 font-mono text-[11px] uppercase tracking-[0.14em] text-faint'>
+                    <a href='/blog/' class='transition-colors hover:text-ink'>Blog</a>
+                    <span class='mx-2' aria-hidden='true'>/</span>
+                    <span class='text-accent'>Categoría</span>
+                </nav>
+                <h1 class='text-[2.9rem] font-semibold leading-[0.98] tracking-[-0.035em] sm:text-[4.2rem]'>{nombre}</h1>
+                <p class='mt-8 max-w-[60ch] text-[17px] leading-relaxed text-muted'>{DESCRIPCIONES[clave]}</p>
+            </header>
+
+            <NavCategorias actual={clave} />
+            <ListaEntradas entradas={entradas} />
+        </div>
+    </main>
+    <Footer pagina='blog' />
+</Base>

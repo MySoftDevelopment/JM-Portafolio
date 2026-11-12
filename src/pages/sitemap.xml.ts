@@ -1,4 +1,4 @@
-import { entradasPublicadas } from '@/lib/entradas';
+import { categoriasConEntradas, entradasPublicadas } from '@/lib/entradas';
 
 const SITIO = 'https://juanmolina.dev';
 
@@ -25,9 +25,18 @@ ${IMAGENES_INICIO.map((i) => `        <image:image><image:loc>${SITIO}${i}</imag
         `    <url>
         <loc>${SITIO}/servicios/revision-seguridad/</loc>
     </url>`,
-        `    <url>
-        <loc>${SITIO}/privacidad/</loc>
+        ...categoriasConEntradas(entradas).map((c) => {
+            const reciente = entradas.find((e) => e.data.categoria === c.clave)!;
+            return `    <url>
+        <loc>${SITIO}/blog/categoria/${c.clave}/</loc>
+        <lastmod>${dia(reciente.data.actualizado ?? reciente.data.fecha)}</lastmod>
+    </url>`;
+        }),
+        ...['sobre-mi', 'contacto', 'privacidad', 'terminos'].map(
+            (p) => `    <url>
+        <loc>${SITIO}/${p}/</loc>
     </url>`,
+        ),
         ...entradas.map(
             (e) => `    <url>
         <loc>${SITIO}/blog/${e.id}/</loc>

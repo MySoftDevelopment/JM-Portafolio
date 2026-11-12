@@ -1,7 +1,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-import type { EntradaResumen } from './blog';
+import { CATEGORIAS, type Categoria, type EntradaResumen } from './blog';
 
 export type Entrada = CollectionEntry<'blog'>;
 
@@ -9,6 +9,17 @@ export type Entrada = CollectionEntry<'blog'>;
 export async function entradasPublicadas(): Promise<Entrada[]> {
     const todas = await getCollection('blog', ({ data }) => !data.borrador);
     return todas.sort((a, b) => b.data.fecha.getTime() - a.data.fecha.getTime());
+}
+
+/** Categorías que ya tienen entradas, en el orden de CATEGORIAS, con cuántas hay en cada una. */
+export function categoriasConEntradas(entradas: Entrada[]): { clave: Categoria; nombre: string; total: number }[] {
+    return (Object.keys(CATEGORIAS) as Categoria[]).map((clave) => ({ clave, nombre: CATEGORIAS[clave], total: entradas.filter((e) => e.data.categoria === clave).length })).filter((c) => c.total > 0);
+}
+
+/** Las entradas más cercanas a una: primero las de su misma categoría y luego las más recientes. */
+export function relacionadas(entrada: Entrada, todas: Entrada[], cuantas = 3): Entrada[] {
+    const otras = todas.filter((e) => e.id !== entrada.id);
+    return [...otras.filter((e) => e.data.categoria === entrada.data.categoria), ...otras.filter((e) => e.data.categoria !== entrada.data.categoria)].slice(0, cuantas);
 }
 
 /**

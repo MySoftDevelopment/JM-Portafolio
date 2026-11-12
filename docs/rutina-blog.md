@@ -61,6 +61,22 @@ Dentro de `seguridad` se mantiene el orden: explotada activamente > crítica o a
 - `ia` y `tecnologia`: qué se anunció, qué cambia de verdad frente a lo anterior (con datos, no con el discurso de la empresa), quién lo puede usar, cuánto cuesta si aplica y qué significa para quien trabaja en tecnología.
 - `lanzamientos` y `ecosistema`: qué cambia, qué rompe y cómo migrar o decidir.
 
+### Aporte propio (obligatorio)
+
+Una entrada que solo resume el comunicado no aporta nada que no esté ya en la fuente, y Google la trata como contenido de bajo valor. Cada entrada debe tener **algo que la fuente no trae**. Antes de escribir, define cuál de estos aportes lleva (al menos uno, mejor dos) y dale su propia sección `##`:
+
+- **Cómo comprobarlo en tu proyecto.** Los pasos concretos para saber si te afecta en el stack de la portada: qué archivo mirar, qué comando ejecutar, qué versión buscar. Solo con comandos que existan tal cual (paso 3).
+- **Qué cambia en un caso típico de aquí.** Aterriza la noticia en la realidad de quien lee: un sitio Laravel o WordPress en hosting compartido, un VPS con Debian y Nginx, una pyme sin equipo de sistemas, un proyecto que cobra en pesos y paga servicios en dólares. Si hay un ángulo para Colombia o Latinoamérica que se pueda sustentar con una fuente (disponibilidad en la región, regulación local como la Ley 1581 o la SIC, precios), inclúyelo.
+- **Comparación o contexto que el anuncio omite.** La versión anterior, la alternativa, el incidente parecido de hace unos meses (enlaza la entrada del blog si existe), lo que el comunicado no dice. Con datos y fuente.
+- **Criterio para decidir.** Cuándo conviene actualizar ya y cuándo esperar, cuándo vale la pena pagar el producto nuevo y cuándo no, con las condiciones explícitas («si tu proyecto usa X, entonces…»).
+
+Límites:
+
+- El aporte es análisis razonado a partir de hechos verificados, y se presenta como análisis, separado de los hechos.
+- **No inventes experiencias de Juan** («en un proyecto mío pasó…», «a un cliente le ocurrió…»), ni opiniones personales en primera persona. Las vivencias propias solo aparecen en las guías, que escribe él.
+- Si para una noticia no encuentras ningún aporte real, es señal de que no era publicable: descártala.
+- Enlaza una o dos entradas anteriores del blog cuando de verdad se relacionen (`/blog/<slug>/`).
+
 ## 3. Verificar
 
 - Cada dato concreto (número de CVE, versiones afectadas y corregidas, fechas, puntuación CVSS, configuraciones) debe estar en una fuente primaria que hayas leído. Si dos fuentes no coinciden, manda la oficial. Si no puedes confirmar algo, no lo escribas.
@@ -152,7 +168,7 @@ Estilo:
 - Español de Colombia, tuteando, claro y directo. Frases cortas. Sin emojis ni signos de exclamación.
 - Escribe para alguien que trabaja en tecnología y quiere entender la noticia, no solo enterarse. Sigue el enfoque de la categoría (paso 2). Ese enfoque práctico es lo que diferencia la entrada de una noticia más.
 - En `ia`, `tecnologia` y `ciberataques` puedes dar contexto y explicar por qué importa, pero separa claramente los hechos (con fuente) del análisis. No exageres ni hagas predicciones presentadas como hechos.
-- Entre 600 y 1200 palabras. Secciones con `##`, pasos con `###`, una tabla (versiones, comparación de modelos, cronología del ataque) si aplica y bloques de código con su lenguaje (` ```bash `, ` ```php `, ` ```ts `).
+- Entre 800 y 1500 palabras, contando la sección de aporte propio (paso 2). No estires para llegar: si no da, la noticia no era publicable. Secciones con `##`, pasos con `###`, una tabla (versiones, comparación de modelos, cronología del ataque) si aplica y bloques de código con su lenguaje (` ```bash `, ` ```php `, ` ```ts `).
 - Redacción propia. No copies párrafos de las fuentes; como mucho, una cita corta entre comillas y atribuida.
 - El cierre es un resumen en pasos. No añadas una llamada a contactar: la página ya la incluye.
 
@@ -160,7 +176,7 @@ Estilo:
 
 1. Ejecuta `yarn install --frozen-lockfile` y `yarn build`. Si el build falla, corrige la entrada (normalmente el frontmatter). Si no logras que pase, no publiques.
 2. Crea la rama `blog/AAAA-MM-DD-slug` desde `main` y haz commit solo del archivo de la entrada. Mensaje: `Blog: <titulo de la entrada>`.
-3. Antes de publicar, relee la entrada contra las fuentes y decide:
+3. Antes de publicar, relee la entrada contra las fuentes, confirma que tiene su sección de aporte propio (paso 2) y decide:
     - **Todo verificado** en fuentes primarias: fusiona en `main` con avance rápido (`git checkout main && git pull && git merge --ff-only blog/...`), haz push de `main` y borra la rama.
     - **Hay algún dato que no pudiste confirmar** o las fuentes se contradicen sin que una oficial lo resuelva: no publiques. Sube la rama y abre un Pull Request con una sección **«Para revisar»** que diga qué dato quedó en duda, para que Juan decida.
 4. No toques ningún otro archivo del repositorio.

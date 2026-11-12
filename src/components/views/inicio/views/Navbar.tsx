@@ -17,7 +17,8 @@ interface Props {
 
 export const Navbar: FC<Props> = ({ pagina = 'inicio' }) => {
     const base = pagina === 'inicio' ? '' : '/';
-    const enlaces = [...SECCIONES.map((e) => ({ ...e, href: base + e.href })), { texto: 'Blog', href: '/blog/' }];
+    // Fuera del inicio, «Sobre mí» lleva a su página propia (autor y cómo se hace el blog), no a la sección de la portada.
+    const enlaces = [...SECCIONES.map((e) => ({ ...e, href: pagina !== 'inicio' && e.href === '#sobre-mi' ? '/sobre-mi/' : base + e.href })), { texto: 'Blog', href: '/blog/' }];
 
     const [abierto, setAbierto] = useState(false);
     const [desplazado, setDesplazado] = useState(false);

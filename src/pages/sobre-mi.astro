@@ -1,0 +1,100 @@
+---
+import { Footer } from '@components/views/inicio/views/Footer';
+import { Navbar } from '@components/views/inicio/views/Navbar';
+import Base from '@/layouts/Base.astro';
+import { PERFIL } from '@/data/portfolio';
+import { CATEGORIAS, DESCRIPCIONES } from '@/lib/blog';
+import { categoriasConEntradas, entradasPublicadas } from '@/lib/entradas';
+
+const entradas = await entradasPublicadas();
+const categorias = categoriasConEntradas(entradas);
+
+const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+        {
+            '@type': 'AboutPage',
+            '@id': 'https://juanmolina.dev/sobre-mi/#pagina',
+            url: 'https://juanmolina.dev/sobre-mi/',
+            name: 'Sobre mí y cómo se hace este blog | Juan Molina',
+            inLanguage: 'es-CO',
+            isPartOf: { '@id': 'https://juanmolina.dev/#website' },
+            about: { '@id': 'https://juanmolina.dev/#persona' },
+        },
+        {
+            '@type': 'Person',
+            '@id': 'https://juanmolina.dev/#persona',
+            name: PERFIL.nombre,
+            url: 'https://juanmolina.dev/sobre-mi/',
+            jobTitle: PERFIL.rol,
+            email: `mailto:${PERFIL.correo}`,
+            address: { '@type': 'PostalAddress', addressCountry: 'CO' },
+            sameAs: [PERFIL.github, PERFIL.instagram],
+        },
+    ],
+};
+---
+
+<Base title='Sobre mí y cómo se hace este blog | Juan Molina' description='Quién es Juan Molina, desarrollador fullstack en Colombia, qué publica en su blog, cómo se preparan y verifican las entradas y cómo reportar un error.' path='/sobre-mi/' jsonLd={jsonLd}>
+    <Navbar client:idle pagina='otra' />
+    <main id='contenido' class='pb-24 pt-28 md:pb-36 md:pt-36'>
+        <article class='container-page'>
+            <header class='mx-auto max-w-[72ch]'>
+                <p class='kicker mb-8'>Sobre mí</p>
+                <h1 class='text-[2.3rem] font-semibold leading-[1.05] tracking-[-0.035em] md:text-[3.4rem]'>Juan Molina, desarrollador fullstack en Colombia</h1>
+                <p class='mt-6 border-b border-line pb-8 text-lg leading-relaxed text-muted md:text-xl'>Quién escribe aquí, de qué trata el blog y cómo se prepara cada entrada.</p>
+            </header>
+
+            <div class='prosa mx-auto mt-10 max-w-[72ch]'>
+                <h2 id='quien'>Quién soy</h2>
+                <p>Soy <strong>{PERFIL.nombre}</strong>, desarrollador fullstack en Colombia. Llevo más de diez años construyendo software para negocios que dependen de él todos los días: colegios, academias, fábricas, ópticas y tiendas.</p>
+                <p>No entrego un proyecto y desaparezco. Me quedo para desplegarlo, vigilarlo y hacerlo crecer: varios de los sistemas que muestro en el <a href='/#proyectos'>portafolio</a> llevan años en producción y siguen sumando módulos. También soy el creador de <strong>MySoft</strong>, mi marca de software para pequeñas y medianas empresas.</p>
+                <p>Trabajo sobre todo con PHP y Laravel, Node.js, React, React Native y TypeScript, sobre servidores Linux y Windows Server que yo mismo administro. De ahí sale el blog: de lo que tengo que vigilar para que esos sistemas sigan funcionando.</p>
+
+                <h2 id='blog'>Cómo se hace este blog</h2>
+                <p>El blog cuenta lo que pasa en la tecnología con la que trabajo y a su alrededor. Cada entrada intenta responder lo mismo: qué pasó, a quién le afecta y qué hay que hacer.</p>
+
+                <h3>Qué publico</h3>
+                <ul>
+                    {
+                        categorias.map((c) => (
+                            <li>
+                                <a href={`/blog/categoria/${c.clave}/`}>
+                                    <strong>{CATEGORIAS[c.clave]}</strong>
+                                </a>
+                                . {DESCRIPCIONES[c.clave]}
+                            </li>
+                        ))
+                    }
+                </ul>
+
+                <h3>Cómo se prepara una entrada</h3>
+                <p>Prefiero decirlo sin rodeos: <strong>las entradas de noticias las redacta un asistente de inteligencia artificial</strong> y se publican de forma automática. Lo que hago yo es definir qué se cubre, con qué reglas, y responder por lo publicado. Las reglas son estas:</p>
+                <ul>
+                    <li><strong>Fuentes primarias.</strong> Cada dato concreto (versiones, fechas, cifras, identificadores de vulnerabilidad) sale del aviso oficial, la nota de versión, el comunicado o el documento público, y esa fuente queda enlazada al final de la entrada. Los medios sirven para descubrir la noticia, no para citarla como hecho.</li>
+                    <li><strong>Lo que no se puede confirmar no se publica.</strong> Si un dato queda en duda o las fuentes se contradicen, la entrada no sale hasta que yo la revise.</li>
+                    <li><strong>Sin relleno.</strong> Como mucho hay una entrada al día, y solo si hay algo con alcance o impacto real. Si no lo hay, ese día no se publica.</li>
+                    <li><strong>Redacción propia.</strong> No se copian párrafos de las fuentes y se separan los hechos del análisis.</li>
+                    <li><strong>Nada de comandos inventados.</strong> Un comando o una opción de configuración solo aparece si existe tal cual en la documentación.</li>
+                </ul>
+                <p>Las <strong>guías</strong> son distintas: las escribo yo, a partir de problemas que he resuelto en proyectos reales.</p>
+
+                <h3>Correcciones</h3>
+                <p>Un proceso automático puede equivocarse. Si encuentras un error, escríbeme a <a href={`mailto:${PERFIL.correo}?subject=${encodeURIComponent('Corrección en el blog')}`}>{PERFIL.correo}</a> con el enlace de la entrada. Lo corrijo y dejo la fecha de actualización visible en la entrada.</p>
+
+                <h3>Publicidad e independencia</h3>
+                <p>Las páginas del blog muestran anuncios de Google AdSense. Los anuncios los elige Google, no yo, y no influyen en qué se publica ni en cómo se cuenta. No hay entradas patrocinadas. Cuando una entrada menciona uno de mis servicios, se nota: va al final, separado del contenido. Los detalles sobre cookies y datos están en la <a href='/privacidad/'>política de privacidad</a>.</p>
+
+                <h2 id='contacto'>Dónde encontrarme</h2>
+                <ul>
+                    <li>Correo: <a href={`mailto:${PERFIL.correo}`}>{PERFIL.correo}</a></li>
+                    <li>GitHub: <a href={PERFIL.github} target='_blank' rel='noopener me'>{PERFIL.githubUsuario}</a></li>
+                    <li>Instagram: <a href={PERFIL.instagram} target='_blank' rel='noopener me'>@juanmolinadev</a></li>
+                    <li>Novedades del blog: <a href='/rss.xml'>RSS</a></li>
+                </ul>
+                <p>Si quieres hablar de un proyecto, todo está en la página de <a href='/contacto/'>contacto</a>.</p>
+            </div>
+        </article>
+    </main>
+    <Footer pagina='blog' />
+</Base>

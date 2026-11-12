@@ -17,18 +17,24 @@ export const Footer: FC<Props> = ({ pagina = 'inicio' }) => {
                         © {new Date().getFullYear()} {PERFIL.nombre}
                     </span>
                 </p>
-                <nav className='flex gap-6' aria-label='Pie de página'>
-                    <a href={`mailto:${PERFIL.correo}`} className='hover:text-ink'>
-                        Correo
-                    </a>
+                <nav className='flex flex-wrap gap-x-6 gap-y-3' aria-label='Pie de página'>
                     <a href='/blog/' className='hover:text-ink'>
                         Blog
+                    </a>
+                    <a href='/sobre-mi/' className='hover:text-ink'>
+                        Sobre mí
+                    </a>
+                    <a href='/contacto/' className='hover:text-ink'>
+                        Contacto
                     </a>
                     <a href={PERFIL.github} target='_blank' rel='noopener noreferrer' className='hover:text-ink'>
                         GitHub
                     </a>
                     <a href='/privacidad/' className='hover:text-ink'>
                         Privacidad
+                    </a>
+                    <a href='/terminos/' className='hover:text-ink'>
+                        Términos
                     </a>
                     <a href={pagina === 'inicio' ? '#inicio' : '#'} className='hover:text-ink'>
                         Volver arriba

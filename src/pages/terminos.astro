@@ -1,0 +1,69 @@
+---
+import { Footer } from '@components/views/inicio/views/Footer';
+import { Navbar } from '@components/views/inicio/views/Navbar';
+import Base from '@/layouts/Base.astro';
+import { PERFIL } from '@/data/portfolio';
+import { fechaLarga } from '@/lib/blog';
+
+// Cambia esta fecha cada vez que edites los términos.
+const ACTUALIZADA = '2026-11-11';
+---
+
+<Base title='Términos de uso | Juan Molina' description='Condiciones para usar juanmolina.dev: alcance de la información del blog, propiedad del contenido, enlaces externos, publicidad y ley aplicable.' path='/terminos/'>
+    <Navbar client:idle pagina='otra' />
+    <main id='contenido' class='pb-24 pt-28 md:pb-36 md:pt-36'>
+        <article class='container-page'>
+            <header class='mx-auto max-w-[72ch]'>
+                <p class='kicker mb-8'>Legal</p>
+                <h1 class='text-[2.3rem] font-semibold leading-[1.05] tracking-[-0.035em] md:text-[3.4rem]'>Términos de uso</h1>
+                <p class='mt-8 border-b border-line pb-8 font-mono text-[11px] uppercase tracking-[0.14em] text-faint'>
+                    Última actualización: <time datetime={ACTUALIZADA}>{fechaLarga(ACTUALIZADA)}</time>
+                </p>
+            </header>
+
+            <div class='prosa mx-auto mt-10 max-w-[72ch]'>
+                <p>Estos términos aplican al uso de <strong>juanmolina.dev</strong>: la página de inicio, el blog y el resto de páginas de este dominio. Al navegar el sitio los aceptas. Si no estás de acuerdo, no lo uses.</p>
+
+                <h2>Quién está detrás</h2>
+                <p>El sitio es de <strong>{PERFIL.nombre}</strong>, desarrollador de software en Colombia. Puedes escribirme a <a href={`mailto:${PERFIL.correo}`}>{PERFIL.correo}</a> o desde la página de <a href='/contacto/'>contacto</a>.</p>
+
+                <h2>La información del blog</h2>
+                <p>El blog es informativo. Las entradas se preparan con el cuidado que describo en <a href='/sobre-mi/#blog'>cómo se hace este blog</a>, a partir de las fuentes enlazadas en cada una, pero:</p>
+                <ul>
+                    <li><strong>No son asesoría profesional</strong> ni reemplazan una revisión de tu caso. Cada sistema es distinto.</li>
+                    <li><strong>Pueden quedar desactualizadas.</strong> Las versiones, los precios y el estado de una vulnerabilidad cambian. Mira la fecha de la entrada y confirma en la fuente oficial.</li>
+                    <li><strong>Prueba antes de aplicar.</strong> Antes de ejecutar un comando o cambiar una configuración en producción, haz una copia de seguridad y pruébalo en un entorno aparte.</li>
+                </ul>
+                <p>Usas la información del sitio bajo tu propia responsabilidad. En la medida en que la ley lo permita, no respondo por daños derivados de aplicarla. Si encuentras un error, <a href='/contacto/'>avísame</a> y lo corrijo.</p>
+
+                <h2>Propiedad del contenido</h2>
+                <p>Los textos, el diseño, el código propio del sitio y las ilustraciones de Michi son míos. Puedes:</p>
+                <ul>
+                    <li>Citar fragmentos breves de una entrada con un enlace a la página original.</li>
+                    <li>Compartir los enlaces del sitio donde quieras.</li>
+                </ul>
+                <p>No puedes copiar entradas completas, republicarlas en otro sitio ni usar las ilustraciones sin mi permiso por escrito.</p>
+                <p>Los nombres, logotipos y marcas de terceros que aparecen en el sitio (lenguajes, herramientas, empresas y clientes) pertenecen a sus dueños y se mencionan solo para identificarlos.</p>
+
+                <h2>Enlaces externos</h2>
+                <p>El sitio enlaza a páginas de terceros, como las fuentes de cada entrada. No controlo su contenido ni su disponibilidad, y al abrirlas aplican sus propias condiciones.</p>
+
+                <h2>Publicidad</h2>
+                <p>Las páginas del blog muestran anuncios de Google AdSense. Los anuncios los selecciona Google y no son una recomendación mía de los productos o servicios anunciados. El uso de cookies con fines publicitarios se explica en la <a href='/privacidad/'>política de privacidad</a>.</p>
+
+                <h2>Servicios profesionales</h2>
+                <p>Lo que se describe en las páginas de servicios es una presentación, no una oferta vinculante. Las condiciones de cada trabajo (alcance, precio, plazos y entregables) se acuerdan por escrito con cada cliente.</p>
+
+                <h2>Uso aceptable</h2>
+                <p>No uses el sitio para intentar vulnerar su seguridad, sobrecargarlo con peticiones automáticas ni extraer su contenido de forma masiva para republicarlo.</p>
+
+                <h2>Ley aplicable</h2>
+                <p>Estos términos se rigen por las leyes de la República de Colombia.</p>
+
+                <h2>Cambios</h2>
+                <p>Si estos términos cambian, actualizaré esta página y la fecha de arriba.</p>
+            </div>
+        </article>
+    </main>
+    <Footer pagina='blog' />
+</Base>

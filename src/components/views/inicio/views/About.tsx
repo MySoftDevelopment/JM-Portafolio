@@ -18,6 +18,11 @@ export const About: FC = () => {
                         <p>
                             También soy el creador de <span className='font-medium text-ink'>MySoft</span>, mi marca de software para pequeñas y medianas empresas.
                         </p>
+                        <p>
+                            <a href='/sobre-mi/' className='text-base text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-accent'>
+                                Más sobre mí y cómo se hace el blog
+                            </a>
+                        </p>
                     </div>
                 </Animation>
             </div>

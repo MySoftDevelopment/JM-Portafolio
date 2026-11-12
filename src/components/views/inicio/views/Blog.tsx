@@ -27,9 +27,9 @@ export const Blog: FC<Props> = ({ entradas }) => {
                     </a>
                 </Animation>
 
-                <ul className='mt-12 grid gap-4 md:grid-cols-3'>
+                <ul className='mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>
                     {entradas.map((e, i) => (
-                        <Animation key={e.slug} as='li' delay={i * 0.06} percha={i === 0}>
+                        <Animation key={e.slug} as='li' delay={(i % 3) * 0.06} percha={i === 0}>
                             <a href={`/blog/${e.slug}/`} className='card flex h-full flex-col p-6 md:p-7'>
                                 <span className='flex items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-[0.14em] text-faint'>
                                     <span className='text-accent'>{CATEGORIAS[e.categoria]}</span>

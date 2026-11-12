@@ -11,6 +11,17 @@ export const CATEGORIAS = {
 
 export type Categoria = keyof typeof CATEGORIAS;
 
+/** Qué cubre cada categoría: se muestra en su página (/blog/categoria/<clave>/) y sirve de meta description. */
+export const DESCRIPCIONES: Record<Categoria, string> = {
+    seguridad: 'Vulnerabilidades y parches en PHP, Laravel, Node.js, React, Nginx y el resto del stack: a quién afectan, cómo saber si te tocan y qué hacer hoy.',
+    ciberataques: 'Hackeos, filtraciones y ataques a empresas y servicios grandes: qué pasó, qué datos se expusieron y qué lección deja para quien desarrolla.',
+    ia: 'Modelos y productos de inteligencia artificial: qué se anunció, qué cambia de verdad frente a lo anterior, cuánto cuesta y cuándo conviene usarlo.',
+    tecnologia: 'Actualidad de la industria: big tech, chips, robótica, internet y regulación digital, contada con datos de las fuentes originales.',
+    lanzamientos: 'Versiones nuevas de las herramientas del stack: qué traen, qué rompen y cómo migrar.',
+    ecosistema: 'Cambios en la industria del desarrollo: fin de soporte, licencias, deprecaciones y encuestas.',
+    guias: 'Guías paso a paso escritas desde proyectos reales en producción.',
+};
+
 /** Escenas de Michi para las ilustraciones (las dibuja Marca/Utilidades/Creación Imágenes/blog.py). */
 export const ESCENAS = [
     'lupa', 'piensa', 'bicho', 'escudo', 'paquete', 'servidor', 'llave', 'alerta', 'robot', 'chip',

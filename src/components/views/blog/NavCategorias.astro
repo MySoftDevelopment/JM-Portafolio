@@ -1,0 +1,33 @@
+---
+import type { Categoria } from '@/lib/blog';
+import { categoriasConEntradas, entradasPublicadas } from '@/lib/entradas';
+
+interface Props {
+    /** Categoría de la página actual; sin ella se resalta «Todas». */
+    actual?: Categoria;
+}
+
+const { actual } = Astro.props;
+const todas = await entradasPublicadas();
+const categorias = categoriasConEntradas(todas);
+
+const base = 'rounded-full border px-3.5 py-1.5 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors';
+const clase = (activa: boolean) => `${base} ${activa ? 'border-sand text-ink' : 'border-line-strong text-muted hover:text-ink'}`;
+---
+
+<nav aria-label='Categorías del blog' class='mt-10'>
+    <ul class='flex flex-wrap gap-2.5'>
+        <li>
+            <a href='/blog/' class={clase(!actual)} aria-current={!actual ? 'page' : undefined}>Todas <span class='text-faint'>{todas.length}</span></a>
+        </li>
+        {
+            categorias.map((c) => (
+                <li>
+                    <a href={`/blog/categoria/${c.clave}/`} class={clase(actual === c.clave)} aria-current={actual === c.clave ? 'page' : undefined}>
+                        {c.nombre} <span class='text-faint'>{c.total}</span>
+                    </a>
+                </li>
+            ))
+        }
+    </ul>
+</nav>

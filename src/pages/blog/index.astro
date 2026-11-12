@@ -1,9 +1,10 @@
 ---
 import { Footer } from '@components/views/inicio/views/Footer';
 import { Navbar } from '@components/views/inicio/views/Navbar';
+import ListaEntradas from '@components/views/blog/ListaEntradas.astro';
+import NavCategorias from '@components/views/blog/NavCategorias.astro';
 import Base from '@/layouts/Base.astro';
-import { CATEGORIAS, fechaLarga } from '@/lib/blog';
-import { entradasPublicadas, imagenes } from '@/lib/entradas';
+import { entradasPublicadas } from '@/lib/entradas';
 
 const entradas = await entradasPublicadas();
 
@@ -39,33 +40,8 @@ const jsonLd = {
                 </p>
             </header>
 
-            {
-                entradas.length === 0 ? (
-                    <p class='mt-16 text-muted'>Pronto habrá entradas aquí.</p>
-                ) : (
-                    <ol class='mt-16 border-t border-line'>
-                        {entradas.map((e) => (
-                            <li class='border-b border-line'>
-                                <a href={`/blog/${e.id}/`} class='group grid gap-3 py-8 md:grid-cols-[180px_1fr_110px] md:items-center md:gap-10'>
-                                    <span class='flex gap-3 font-mono text-[11px] uppercase tracking-[0.14em] text-faint md:flex-col md:gap-2 md:pt-1.5'>
-                                        <time datetime={e.data.fecha.toISOString()}>{fechaLarga(e.data.fecha)}</time>
-                                        <span class='text-accent'>{CATEGORIAS[e.data.categoria]}</span>
-                                    </span>
-                                    <span>
-                                        <h2 class='text-2xl font-semibold leading-snug tracking-[-0.025em] transition-colors group-hover:text-accent md:text-[1.75rem]'>{e.data.titulo}</h2>
-                                        <p class='mt-3 max-w-[70ch] leading-relaxed text-muted'>{e.data.descripcion}</p>
-                                    </span>
-                                    {imagenes(e.id).escena ? (
-                                        <img src={imagenes(e.id).escena} alt='' width='110' height='110' loading='lazy' class='hidden h-[110px] w-[110px] object-contain transition-transform duration-300 group-hover:-translate-y-1 group-hover:rotate-[-3deg] md:block' />
-                                    ) : (
-                                        <span class='hidden md:block' />
-                                    )}
-                                </a>
-                            </li>
-                        ))}
-                    </ol>
-                )
-            }
+            <NavCategorias />
+            {entradas.length === 0 ? <p class='mt-16 text-muted'>Pronto habrá entradas aquí.</p> : <ListaEntradas entradas={entradas} />}
         </div>
     </main>
     <Footer pagina='blog' />

@@ -15,7 +15,7 @@ import { Skills } from '@components/views/inicio/views/Skills';
 import Base from '@/layouts/Base.astro';
 import { entradasPublicadas, resumen } from '@/lib/entradas';
 
-const recientes = (await entradasPublicadas()).slice(0, 3);
+const recientes = (await entradasPublicadas()).slice(0, 6);
 const entradas = recientes.map(resumen);
 
 // La portada cambia cuando entra o se actualiza una de las entradas que muestra; la fecha base cubre los cambios propios.
@@ -96,10 +96,10 @@ const jsonLd = {
         <Metrics client:visible={{ rootMargin: '300px' }} />
         <Projects client:visible={{ rootMargin: '300px' }} />
         <MoreProjects client:visible={{ rootMargin: '300px' }} />
+        <Blog client:visible={{ rootMargin: '300px' }} entradas={entradas} />
         <Services client:visible={{ rootMargin: '300px' }} />
         <Skills client:visible={{ rootMargin: '300px' }} />
         <Github client:visible={{ rootMargin: '300px' }} />
-        <Blog client:visible={{ rootMargin: '300px' }} entradas={entradas} />
         <About client:visible={{ rootMargin: '300px' }} />
         <Contact client:visible={{ rootMargin: '300px' }} />
     </main>

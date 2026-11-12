@@ -1,0 +1,69 @@
+---
+import { Footer } from '@components/views/inicio/views/Footer';
+import { Navbar } from '@components/views/inicio/views/Navbar';
+import Base from '@/layouts/Base.astro';
+import { PERFIL } from '@/data/portfolio';
+
+const correo = (asunto: string) => `mailto:${PERFIL.correo}?subject=${encodeURIComponent(asunto)}`;
+
+const MOTIVOS = [
+    { titulo: 'Tengo un proyecto', texto: 'Una plataforma web, un ERP, una app móvil o una integración con WhatsApp o pagos. Cuéntame qué hace tu negocio, qué quieres resolver y para cuándo.', accion: 'Escribir sobre un proyecto', href: correo('Proyecto') },
+    { titulo: 'Encontré un error en el blog', texto: 'Envíame el enlace de la entrada y el dato que está mal, con la fuente si la tienes. Lo corrijo y dejo visible la fecha de actualización.', accion: 'Reportar una corrección', href: correo('Corrección en el blog') },
+    { titulo: 'Quiero revisar la seguridad de mi sitio', texto: 'Reviso tu sitio y tu servidor contra las vulnerabilidades recientes y te entrego qué corregir y en qué orden.', accion: 'Ver la revisión de seguridad', href: '/servicios/revision-seguridad/' },
+    { titulo: 'Mis datos o la privacidad', texto: 'Para conocer, actualizar o eliminar los datos que tenga sobre ti, por ejemplo, los de un correo que me hayas enviado.', accion: 'Escribir sobre mis datos', href: correo('Datos personales') },
+];
+
+const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    '@id': 'https://juanmolina.dev/contacto/#pagina',
+    url: 'https://juanmolina.dev/contacto/',
+    name: 'Contacto | Juan Molina',
+    inLanguage: 'es-CO',
+    isPartOf: { '@id': 'https://juanmolina.dev/#website' },
+    mainEntity: {
+        '@type': 'Person',
+        '@id': 'https://juanmolina.dev/#persona',
+        name: PERFIL.nombre,
+        email: `mailto:${PERFIL.correo}`,
+        sameAs: [PERFIL.github, PERFIL.instagram],
+    },
+};
+---
+
+<Base title='Contacto | Juan Molina' description='Escríbeme para hablar de un proyecto, reportar un error en una entrada del blog, pedir una revisión de seguridad o consultar sobre tus datos.' path='/contacto/' jsonLd={jsonLd}>
+    <Navbar client:idle pagina='otra' />
+    <main id='contenido' class='pb-24 pt-28 md:pb-36 md:pt-36'>
+        <div class='container-page'>
+            <header class='max-w-3xl'>
+                <p class='kicker mb-8'>Contacto</p>
+                <h1 class='text-[2.9rem] font-semibold leading-[0.98] tracking-[-0.035em] sm:text-[4.2rem]'>
+                    Hablemos por <em class='not-italic text-sand'>correo</em>
+                </h1>
+                <p class='mt-8 max-w-[52ch] text-[17px] leading-relaxed text-muted'>Respondo yo, no un formulario ni un bot. Lo más rápido es escribirme directamente.</p>
+                <div class='mt-10 flex flex-wrap gap-3.5'>
+                    <a href={`mailto:${PERFIL.correo}`} class='btn-primary'>{PERFIL.correo}</a>
+                    <a href={PERFIL.github} target='_blank' rel='noopener noreferrer me' class='btn-ghost'>GitHub</a>
+                    <a href={PERFIL.instagram} target='_blank' rel='noopener noreferrer me' class='btn-ghost'>Instagram</a>
+                </div>
+            </header>
+
+            <ul class='mt-16 grid gap-4 md:grid-cols-2'>
+                {
+                    MOTIVOS.map((m) => (
+                        <li class='card flex flex-col p-6 md:p-7'>
+                            <h2 class='text-xl font-semibold leading-snug tracking-[-0.02em]'>{m.titulo}</h2>
+                            <p class='mt-3 flex-1 leading-relaxed text-muted'>{m.texto}</p>
+                            <a href={m.href} class='mt-6 font-mono text-[11px] uppercase tracking-[0.14em] text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-accent'>
+                                {m.accion}
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+
+            <p class='mt-12 max-w-[60ch] leading-relaxed text-muted'>Trabajo desde Colombia, en español, con clientes dentro y fuera del país. Si quieres saber quién soy y cómo se hace el blog antes de escribir, está en <a href='/sobre-mi/' class='text-ink underline decoration-line-strong underline-offset-4 hover:decoration-accent'>sobre mí</a>.</p>
+        </div>
+    </main>
+    <Footer pagina='blog' />
+</Base>
