@@ -2,6 +2,7 @@
 titulo: 'testmetest: el gusano de npm que convirtió 42 repositorios de GitHub en trampas para Claude, Cursor y VS Code'
 descripcion: 'Un gusano de npm roba tokens, se propaga a tus paquetes y borra tu carpeta personal si revocas el token sin limpiar antes. Cómo revisarte y en qué orden actuar.'
 fecha: 2026-10-28T11:00:00-05:00
+actualizado: 2026-11-11
 categoria: seguridad
 michi: paquete
 etiquetas: ['npm', 'Node.js', 'GitHub', 'cadena de suministro', 'malware', 'Claude Code', 'Cursor']
@@ -86,6 +87,29 @@ Este no será el último gusano de npm del año. Algunos hábitos que reducen el
 - **Sospecha de las dependencias nuevas,** sobre todo de paquetes recién publicados, con pocas descargas o con módulos nativos que en realidad no necesitan.
 - **Usa tokens con permisos mínimos y caducidad corta:** tokens *fine-grained* en GitHub y tokens granulares de npm. Si te los roban, el daño es menor.
 - **Activa la autenticación en dos pasos para publicar en npm,** para que un token robado no baste para sacar una versión nueva de tu paquete.
+
+## Revisa también el servidor y el CI, no solo tu portátil
+
+Esto es análisis, no parte de los informes. Las comprobaciones de arriba piensan en el equipo del desarrollador, pero el paquete se ejecuta en cualquier lugar donde corra una instalación, y hay dos que se suelen olvidar:
+
+- **El servidor de producción.** Si despliegas entrando por SSH y ejecutando `npm install` en el VPS, el código de cada dependencia corre en la misma máquina donde están el `.env`, las credenciales de la base de datos y las llaves para llegar a otros servidores. Es más seguro construir en el CI y subir solo el resultado. Si no puedes, usa `npm ci`, que instala exactamente lo que dice el lockfile.
+- **El pipeline.** Un *runner* de CI tiene los secretos del despliegue. Si en las fechas del ataque instalaste dependencias allí, rota esos secretos aunque tu equipo esté limpio.
+
+Lo que sí puedes revisar en cualquier sistema, incluido Windows, son los lockfiles y los repositorios. Para buscar en todos tus proyectos de una vez:
+
+```bash
+grep -rl "testmetest" --include=package-lock.json --include=yarn.lock --include=pnpm-lock.yaml ~/proyectos
+```
+
+Y para ver si alguien tocó las carpetas de configuración que usa el gusano:
+
+```bash
+git log --since="2026-10-01" --stat -- .github .claude .cursor .gemini .vscode
+```
+
+Si sale un commit que no reconoces, revisa su contenido antes de volver a abrir ese repositorio con tu editor.
+
+Una idea para llevarse: tu portátil no es el único equipo con permisos. Si trabajas para varios clientes, cada uno te dio alguna llave, y un equipo infectado las entrega todas al tiempo.
 
 ## En resumen
 

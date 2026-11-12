@@ -2,6 +2,7 @@
 titulo: 'Claude Fable 5.2 y Mythos 5.2: qué cambia, cuánto cuesta y cuándo usarlo en vez de Opus 5.5'
 descripcion: 'Anthropic lanzó Claude Fable 5.2 y Mythos 5.2: más capaces que Opus 5.5 en casi todo, 20 % más baratos que la versión 5.1 y con modo rápido. Lo que cambia para ti.'
 fecha: 2026-11-10
+actualizado: 2026-11-11
 categoria: ia
 michi: nuevo
 etiquetas: ['Anthropic', 'Claude', 'Claude Fable 5.2', 'Claude Mythos 5.2', 'Opus 5.5', 'API', 'agentes de IA']
@@ -94,6 +95,32 @@ Esto es análisis, no parte del anuncio.
 **Si haces seguridad, no esperes que Fable te ayude con exploits.** Para eso está Mythos, y hay que pasar por el programa de verificación. Si tienes Claude Enterprise, Claude Security ya usa Mythos 5.2 para revisar repositorios.
 
 **Mide con tus propios casos.** Las cifras de la tabla son de Anthropic. Antes de migrar, corre tus pruebas con tus prompts y compara costo por tarea terminada, no por token.
+
+## La cuenta con un caso concreto
+
+Esto es análisis hecho con los precios de la tabla. Las cifras de la tarea son un ejemplo inventado para ilustrar la cuenta, no una medición.
+
+Supón una tarea de un agente que lee 200.000 tokens (código, documentos, resultados de herramientas) y escribe 30.000:
+
+| Modelo | Entrada | Salida | Costo por tarea |
+| --- | --- | --- | --- |
+| Sonnet 5.5 | 0,40 | 0,30 | 0,70 dólares |
+| Opus 5.5 | 0,80 | 0,60 | 1,40 dólares |
+| Fable 5.2 | 1,60 | 1,20 | 2,80 dólares |
+| Fable 5.1 | 2,00 | 1,50 | 3,50 dólares |
+| Fable 5.2 (modo rápido) | 3,20 | 2,40 | 5,60 dólares |
+
+Con 500 tareas al mes, la diferencia entre Opus 5.5 y Fable 5.2 es de 700 dólares mensuales (700 contra 1.400).
+
+Pero el costo que importa no es por intento, sino por tarea terminada: costo del intento dividido por la tasa de éxito. Si en tus tareas difíciles Opus 5.5 acertara el 60 % de las veces y Fable 5.2 el 90 %, la cuenta sería 1,40 / 0,60 = 2,33 dólares contra 2,80 / 0,90 = 3,11. Opus seguiría siendo más barato, siempre que reintentar no te cueste nada más. Si cada fallo le quita diez minutos a una persona que revisa, Fable gana de lejos.
+
+De ahí sale un criterio:
+
+- **Tareas en volumen donde un fallo se reintenta solo:** el modelo más barato que alcance. Fable casi nunca.
+- **Tareas largas donde un fallo se descubre tarde o lo revisa una persona:** ahí se paga solo el modelo más capaz.
+- **Modo rápido:** solo cuando hay alguien esperando frente a la pantalla. En procesos por lotes es pagar el doble por nada.
+
+Un detalle si cobras en pesos y pagas la API en dólares: tu costo se mueve con la tasa de cambio aunque el precio por token no cambie. Deja margen para eso en lo que le cobras a tu cliente.
 
 ## Resumen en pasos
 

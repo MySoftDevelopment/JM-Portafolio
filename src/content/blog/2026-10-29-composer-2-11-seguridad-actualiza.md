@@ -2,6 +2,7 @@
 titulo: 'Composer 2.11.0 y 2.2.31 corrigen dos fallos de seguridad: tokens en composer.lock y escritura fuera de vendor'
 descripcion: 'Composer publicó 2.11.0 y 2.2.31 con dos avisos de seguridad y otros arreglos. Cómo saber si tu composer.lock filtró un token y qué actualizar hoy.'
 fecha: 2026-10-29T08:00:00-05:00
+actualizado: 2026-11-11
 categoria: seguridad
 michi: escudo
 etiquetas: ['Composer', 'PHP', 'Laravel', 'GHSA-c968-33g3-wh7p', 'GHSA-fm2w-xgf2-f9fh', 'CI/CD']
@@ -125,6 +126,20 @@ Los locks existentes conservan las cabeceras hasta que se reescriben, por eso es
 ### 4. Revisa tus cachés de CI
 
 Si tu pipeline restaura la carpeta `vendor/` completa desde un caché compartido, sobre todo uno en el que pueden escribir *pull requests* de *forks*, considera generar `vendor/` en cada ejecución con `composer install` a partir del lock. Así nadie puede colarte un `installed.json` alterado.
+
+## Cómo aterriza esto en un despliegue típico de Laravel
+
+Esto es análisis, no parte de los avisos.
+
+**Qué Composer es el que importa.** Depende de cómo despliegues. Si subes la carpeta `vendor/` ya armada (por FTP o desde el administrador de archivos del hosting), el que cuenta es el de tu máquina. Si el servidor o el pipeline ejecuta `composer install`, el que cuenta es ese. En Docker, fíjate en cómo llega Composer a la imagen: una línea como esta toma la versión 2 más reciente cada vez que reconstruyes bajando la imagen base, pero una etiqueta fija de una versión anterior se queda donde está.
+
+```dockerfile
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+```
+
+**El fallo del token, en la práctica.** Los paquetes de pago más comunes en Laravel se configuran con `composer config http-basic.<dominio> <usuario> <clave>`, que guarda la credencial en `auth.json`. Según el aviso, eso nunca se copió al lock. El caso expuesto es más raro: un repositorio privado con cabeceras escritas a mano en la configuración global. Corre el `grep` de todos modos, porque toma segundos.
+
+**Cuándo activar `cooldown`.** Tiene sentido en proyectos que ya están en producción y se actualizan por rutina: esperar una semana casi nunca duele y te saca de la ventana en que una versión maliciosa sigue publicada. El costo aparece el día de un parche urgente, como el de [Symfony](/blog/symfony-cve-2026-108082-laravel/): con el `cooldown` activo, esa versión corregida también queda retenida. Para ese caso está `--no-cooldown`. Úsalo solo para el paquete que necesitas subir, no como costumbre.
 
 ## En resumen
 

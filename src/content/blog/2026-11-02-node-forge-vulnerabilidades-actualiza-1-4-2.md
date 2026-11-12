@@ -2,6 +2,7 @@
 titulo: 'node-forge corrige 17 vulnerabilidades, ocho altas: revisa si está en tu proyecto y actualiza a 1.4.2'
 descripcion: 'node-forge 1.4.1 corrige firmas RSA falsificables, PKCS#12 sin contraseña real y fallos que tumban procesos de Node.js. Cómo saber si la usas y qué actualizar.'
 fecha: 2026-11-02T08:00:00-05:00
+actualizado: 2026-11-11
 categoria: seguridad
 michi: paquete
 etiquetas: ['npm', 'Node.js', 'node-forge', 'TLS', 'CVE-2026-85393', 'CVE-2026-119191', 'CVE-2026-118779']
@@ -135,6 +136,25 @@ Los avisos traen medidas temporales parciales:
 - Para firmas RSA, no verifiques con llaves de exponente 3.
 
 Para la mayoría de los fallos de PKI y PKCS no hay alternativa: la solución es actualizar.
+
+## Dónde suele aparecer y cuándo de verdad preocupa
+
+Esto es análisis, no parte de los avisos. `npm ls node-forge` te dice si está, pero no si corre en producción. Esta variante sí:
+
+```bash
+npm ls node-forge --omit=dev
+```
+
+Si con `--omit=dev` no aparece, solo la traen tus herramientas de desarrollo, por ejemplo las que generan un certificado autofirmado para servir HTTPS en local. Es el caso de riesgo bajo de la tabla: actualiza cuando toques el proyecto.
+
+Si aparece, mira qué paquete la trae. Suele llegar por librerías que manejan llaves de cuentas de servicio, certificados o firmas. Ahí la pregunta que decide la urgencia es una sola: **¿de dónde viene el material criptográfico que procesa?**
+
+- **De ti.** Un certificado propio, cargado desde el disco o desde una variable de entorno. Los fallos de PEM, ASN.1 y PKCS#12 necesitan una entrada manipulada, y tú no te la vas a enviar. Prioridad media.
+- **De tus usuarios.** Este es el caso que conviene mirar con lupa en sistemas de facturación electrónica o de firma de documentos con varios clientes: cada cliente sube su propio certificado `.p12` con su contraseña, y el servidor lo abre. Eso es exactamente «importar PKCS#12 de fuentes que no controlas». Un archivo manipulado puede tumbar el proceso para todos los clientes (CVE-2026-119191) o pasar la verificación con cualquier contraseña (CVE-2026-118782). Prioridad alta: actualiza hoy.
+
+Mientras despliegas, limita el tamaño de lo que aceptas en ese formulario de carga. El aviso habla de unos 198 KB para provocar el error de memoria, y un certificado normal pesa pocos kilobytes.
+
+Si node-forge también va en el código del navegador, recuerda que el arreglo no llega hasta que vuelvas a construir y publicar el frontend.
 
 ## En resumen
 

@@ -2,6 +2,7 @@
 titulo: 'Node.js 26 ya es LTS (Lithium): qué cambia, cuándo muere Node.js 22 y cómo migrar tu servidor'
 descripcion: 'Node.js 26.13.0 marca el paso de la rama 26 a LTS con soporte hasta abril de 2029. Qué rompe frente a 22 y 24, qué pasa con esas versiones y cómo migrar.'
 fecha: 2026-11-03T08:00:00-05:00
+actualizado: 2026-11-11
 categoria: lanzamientos
 michi: piensa
 etiquetas: ['Node.js', 'LTS', 'Node.js 26', 'Node.js 22', 'Node.js 24', 'Debian']
@@ -114,6 +115,32 @@ Cambia la versión de Node.js en tu pipeline y en tus imágenes de Docker al mis
 ### 4. Despliega y vigila
 
 Sube primero un servicio de bajo riesgo, revisa logs y memoria durante unos días y luego sigue con el resto.
+
+## A cuál saltar y cuándo: un criterio
+
+Esto es análisis hecho con las fechas del calendario oficial.
+
+**Si estás en Node.js 20 o anterior.** Ya no hay nada que esperar. La duda es si ir a la 24 o a la 26. La 24 implica menos cambios de golpe, pero su soporte termina en abril de 2028; la 26 llega hasta abril de 2029. Si el proyecto tiene pruebas y lo mantienes activo, ve a la 26 y te ahorras una migración. Si es un sistema viejo que casi no se toca y no tiene pruebas, la 24 es el salto con menos sorpresas, sabiendo que en un año y medio tendrás que repetirlo.
+
+**Si estás en la 22.** Tienes hasta el 30 de abril de 2027. No lo dejes para abril: el momento barato es ahora, sin un aviso de seguridad encima.
+
+**Si estás en la 24.** No hay afán. Puedes saltarte la 26 solo si te comprometes a migrar antes de abril de 2028.
+
+**¿Es muy pronto para usar la 26 en producción?** Acaba de pasar a LTS, pero lleva desde mayo como versión *Current*: las librerías con código nativo han tenido seis meses para publicar versiones compatibles. Para comprobarlo en tu proyecto, instala con Node.js 26 y busca las advertencias que da npm cuando un paquete declara que no soporta esa versión:
+
+```bash
+npm install 2>&1 | grep EBADENGINE
+```
+
+Si no sale nada, tus dependencias dicen ser compatibles. Las pruebas confirman el resto.
+
+Antes de planear, revisa una restricción que no depende de ti: si despliegas en una plataforma administrada o en un plan compartido con selector de versiones, confirma que ya ofrece la 26.
+
+Y deja la versión por escrito en el repositorio, para que el servidor, el CI y tu equipo no terminen en versiones distintas:
+
+```bash
+echo "26" > .nvmrc
+```
 
 ## En resumen
 

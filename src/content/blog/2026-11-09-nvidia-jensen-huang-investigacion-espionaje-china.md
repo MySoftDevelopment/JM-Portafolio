@@ -2,6 +2,7 @@
 titulo: 'Nvidia investiga a Jensen Huang por un presunto caso de espionaje chino: qué está confirmado y qué no'
 descripcion: 'La junta de Nvidia abrió una investigación independiente tras los reportes de que Jensen Huang fue blanco de inteligencia china. Hechos, versiones y por qué importa.'
 fecha: 2026-11-09
+actualizado: 2026-11-11
 categoria: tecnologia
 michi: chip
 etiquetas: ['Nvidia', 'Jensen Huang', 'China', 'Chips', 'Espionaje', 'Controles de exportación']
@@ -86,6 +87,20 @@ Esto es análisis, no hechos confirmados.
 **El gobierno corporativo también es seguridad.** La junta reaccionó con un comité independiente y asesoría externa. Es el procedimiento estándar cuando el problema toca al máximo responsable: quien está bajo sospecha no puede ser quien se investiga a sí mismo.
 
 Lo que no sabemos: si hubo fuga de información, qué tanto sabía Huang y qué concluirá la investigación. La junta dice que no tiene razones para creer que hubo compromiso de secretos, y China niega todo.
+
+## Cómo seguir esta historia sin tragarse los rumores
+
+Esto es análisis. Es una noticia que se está desarrollando y en la que casi todo lo llamativo viene de fuentes anónimas. Si quieres seguirla con criterio, hay documentos que valen más que cualquier titular.
+
+**Las fechas que ya están en el calendario.** El 11 de noviembre es el plazo que los comités le dieron a Huang para responder, y el 18 es la reunión que pidieron. Que se haga, se aplace o se rechace es el primer hecho verificable que viene.
+
+**Dónde se confirmaría un cambio de verdad.** Nvidia cotiza en bolsa en Estados Unidos, y eso la obliga a informar los hechos relevantes a la SEC. La salida o el reemplazo de un directivo principal se reporta en un formulario 8-K. Mientras no exista ese documento, cualquier versión de que «Huang se va» es especulación. Lo mismo con las conclusiones de la investigación: valen cuando las publique la junta, no cuando las adelante una fuente.
+
+**Qué movería algo para ti.** Si usas GPU en la nube o API de modelos, un comunicado de la junta no cambia tu factura. Lo que sí cambia la disponibilidad y el precio del hardware son las reglas de exportación, que publica el Departamento de Comercio de Estados Unidos. Ese es el documento que hay que vigilar si esta historia termina endureciendo los controles.
+
+**Lo que se puede aplicar a una empresa pequeña.** La idea de que se ataca a la persona con acceso no es exclusiva de un CEO. Vale la pena hacerse tres preguntas: quién tiene acceso a producción y a las cuentas bancarias, si esas cuentas tienen verificación en dos pasos y qué pasa con los accesos cuando alguien se va. En la mayoría de los negocios pequeños la tercera no tiene respuesta.
+
+Mientras tanto, lo honesto es decir «no se sabe» sobre lo que no se sabe.
 
 ## Resumen en pasos
 

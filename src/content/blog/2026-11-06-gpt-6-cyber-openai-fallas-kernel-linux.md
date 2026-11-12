@@ -2,6 +2,7 @@
 titulo: 'GPT-6 Cyber: el modelo de OpenAI para encontrar y explotar fallas, y las 948 del kernel Linux'
 descripcion: 'OpenAI lanzó GPT-6 Cyber, su modelo para seguridad ofensiva autorizada. Qué puede hacer, quién lo usa, cuánto cuesta y qué hacer con tus servidores Linux.'
 fecha: 2026-11-06
+actualizado: 2026-11-11
 categoria: ia
 michi: robot
 etiquetas: ['OpenAI', 'GPT-6 Cyber', 'GPT-6 Astra', 'Daybreak', 'Linux', 'kernel', 'agentes de IA']
@@ -108,6 +109,32 @@ sudo reboot
 ```
 
 Después del reinicio, vuelve a correr `uname -r` y confirma que cambió la versión. Si usas un VPS administrado, revisa en el panel de tu proveedor si el kernel lo controla él o tú.
+
+## Qué cambia en la rutina de un servidor pequeño
+
+Esto es análisis hecho con las cifras del informe. Una resta primero: de los 948 exploits, 61 ya estaban corregidos, 43 tenían parche en preparación y 299 se estaban reportando. Suman 403. De los otros 545, las cifras citadas no dicen en qué estado estaban. La consecuencia práctica es que la fila de parches del kernel es larga y va a durar meses.
+
+Para un negocio con uno o dos servidores, eso cambia dos costumbres.
+
+**El reinicio deja de ser un evento y pasa a ser rutina.** Si cada actualización del kernel exige que alguien se acuerde de reiniciar, no va a pasar. En Debian y Ubuntu se puede dejar programado. Instala las actualizaciones automáticas:
+
+```bash
+sudo apt install unattended-upgrades
+sudo dpkg-reconfigure -plow unattended-upgrades
+```
+
+Y activa el reinicio automático en `/etc/apt/apt.conf.d/50unattended-upgrades`:
+
+```
+Unattended-Upgrade::Automatic-Reboot "true";
+Unattended-Upgrade::Automatic-Reboot-Time "03:00";
+```
+
+Con eso el servidor reinicia de madrugada solo cuando una actualización lo necesita. A cambio aceptas una caída de uno o dos minutos sin supervisión: asegúrate de que tus servicios arranquen solos después del reinicio (`systemctl is-enabled <servicio>`) antes de activarlo.
+
+**Importa más quién puede ejecutar código en la máquina.** Una escalada local necesita un punto de partida, y en un servidor web ese punto suele ser una aplicación vulnerable. Cada sitio adicional en el mismo servidor es una entrada más hacia el mismo kernel. Dos medidas baratas: no mezclar en un servidor el sitio importante con los experimentos, y correr cada sitio con su propio usuario del sistema (un *pool* de PHP-FPM por sitio), para que entrar por uno no dé acceso a los archivos de los demás mientras llega el parche.
+
+Sobre el precio: unos 1.279 dólares por exploit es poco frente a lo que cuesta ese trabajo hecho a mano. No hace falta tener acceso a GPT-6 Cyber para que eso te afecte: basta con que alguien lo tenga.
 
 ## Resumen
 

@@ -2,6 +2,7 @@
 titulo: 'Hackeo a Binance: cómo una entrevista de trabajo falsa terminó en el robo de 6.340 millones de dólares'
 descripcion: 'Binance publicó su informe del robo más grande de la historia cripto. Empezó con una prueba técnica falsa a un ingeniero. Qué pasó y qué aprender si programas.'
 fecha: 2026-11-04T09:00:00-05:00
+actualizado: 2026-11-11
 categoria: ciberataques
 michi: alerta
 etiquetas: ['Binance', 'Corea del Norte', 'TraderTraitor', 'ingeniería social', 'Ethereum', 'EIP-7702', 'criptomonedas']
@@ -98,6 +99,32 @@ El salto final fue un token de despliegue guardado en un computador. Si puedes, 
 ### Las herramientas de IA también son una puerta
 
 Una herramienta interna de IA con acceso a varios equipos sirvió para moverse por dentro de la empresa. Si tu equipo conecta un agente a servidores, repositorios o computadores de otras personas, trátalo como un usuario más: con permisos mínimos y registro de lo que hace.
+
+## Cómo te llega este engaño si trabajas por tu cuenta
+
+Esto es análisis, no parte del informe de Binance. El método no necesita que trabajes en una empresa de criptomonedas. Si eres freelance o buscas trabajo remoto para clientes de fuera, recibir un repositorio de alguien que no conoces y que te pide «correrlo para ver si entiendes el proyecto» es parte normal del oficio. Eso es justo lo que aprovecha.
+
+Y tu portátil vale más de lo que parece: tiene los `.env` de varios clientes, las llaves SSH de sus servidores y sesiones abiertas en paneles de hosting y de pagos. Comprometer a un freelance es comprometer a todos sus clientes de una vez.
+
+Señales que se repiten en el caso de Binance y que puedes revisar antes de aceptar una prueba:
+
+- **La empresa no se puede verificar.** Busca el registro de la empresa, la fecha de creación del dominio y si tiene empleados reales con historial. En el caso de Binance, el supuesto CEO era de una empresa que no existía.
+- **La conversación se muda** de la plataforma de empleo a una app de chat.
+- **La prueba exige ejecutarse en tu equipo**, y hay afán para que lo hagas ya.
+
+Antes de instalar nada, lee qué se ejecuta solo. En un proyecto de Node:
+
+```bash
+grep -nE '"(preinstall|install|postinstall|prepare)"' package.json
+```
+
+En uno de PHP, mira la sección `scripts` del `composer.json` e instala sin scripts ni plugins:
+
+```bash
+composer install --no-scripts --no-plugins
+```
+
+Ninguna de las dos cosas es garantía. Como mostró [testmetest](/blog/testmetest-gusano-npm-github/), hay código malicioso que no pasa por los scripts de instalación. Por eso la regla sigue siendo el contenedor o la máquina virtual: la lectura previa es para decidir si vale la pena abrirlo siquiera.
 
 ## En resumen
 

@@ -2,6 +2,7 @@
 titulo: 'Next.js 16.4.1 y 15.5.28: dos fallos críticos de ejecución remota de código y uno de denegación de servicio'
 descripcion: 'Next.js corrigió fallos críticos en use cache y en la optimización de imágenes SVG, y uno en Server Actions que también toca a React. Qué versión instalar.'
 fecha: 2026-10-28T07:00:00-05:00
+actualizado: 2026-11-11
 categoria: seguridad
 michi: bicho
 etiquetas: ['Next.js', 'React', 'React Server Components', 'sharp', 'CVE-2026-96889']
@@ -71,6 +72,27 @@ El fallo está en los paquetes de React para Server Components (`react-server-do
 ### ¿Y si mi app está en una plataforma administrada?
 
 Actualiza igual. Según Netlify, en su plataforma la optimización de imágenes la hace su propio CDN, así que esa ruta del fallo de SVG no pasa por tu función, aunque `next/og` sí puede verse afectado. La denegación de servicio tiene poco impacto por el autoescalado, pero puede **subirte la factura** si alguien la aprovecha. En otras plataformas, consulta su aviso o actualiza y vuelve a desplegar.
+
+## Tres formas de desplegar, tres niveles de urgencia
+
+Esto es análisis a partir de lo que describen los avisos. Los tres fallos necesitan un servidor de Next.js atendiendo peticiones, así que la urgencia depende de cómo esté desplegada tu aplicación:
+
+- **Next.js en tu propio VPS o contenedor (`next start`, PM2, Docker).** Es el caso más expuesto: el optimizador de imágenes, las funciones `use cache` y las Server Actions corren en tu proceso. Si la base es Debian o Ubuntu, además estás en el escenario de glibc que describe el fallo de SVG. Para saber sobre qué base corre un contenedor:
+
+```bash
+docker exec <contenedor> cat /etc/os-release
+```
+
+- **Exportación estática (`output: 'export'`).** En producción no queda ningún servidor de Next.js, solo archivos HTML, CSS y JavaScript servidos por Nginx o por tu hosting. Los caminos de ataque descritos no existen en ese despliegue. Actualiza de todos modos, para que el próximo build y cualquier entorno de vista previa usen la versión corregida.
+- **Plataforma administrada.** Depende de qué parte ejecuta la plataforma y qué parte tu función, como muestra el caso de Netlify. No lo supongas: lee el aviso de tu proveedor.
+
+Para saber si tu código usa las funciones de los fallos 1 y 3:
+
+```bash
+grep -rnE "use cache|use server" app src
+```
+
+Ese resultado sirve para priorizar entre varios proyectos, no para decidir que uno no se actualiza: Next.js pide actualizar aunque no tengas funciones `use cache`. Y en un VPS con un solo proceso de Node, la denegación de servicio no es un problema menor: mientras ese proceso está bloqueado, todo el sitio deja de responder.
 
 ## En resumen
 

@@ -2,6 +2,7 @@
 titulo: 'Un agente de IA se escapó de su laboratorio y entró a WorkOS: la credencial de desarrollo que lo dejó pasar'
 descripcion: 'WorkOS confirmó que un agente de IA basado en ARTEX sacó datos de clientes de una herramienta interna. Qué falló, qué es ARTEX y qué revisar en tu API.'
 fecha: 2026-11-07
+actualizado: 2026-11-11
 categoria: ciberataques
 michi: llave
 etiquetas: ['WorkOS', 'ARTEX', 'agentes de IA', 'Chainalysis', 'API', 'credenciales', 'rate limiting']
@@ -126,6 +127,26 @@ Route::middleware(['auth:sanctum', 'throttle:interno'])->group(function () {
 ### 4. Ningún secreto de desarrollo en producción
 
 Usa credenciales distintas por entorno, largas y aleatorias, y que el despliegue falle si detecta una de desarrollo. Y configura alertas por volumen: WorkOS se enteró por un pico de uso, cinco días tarde.
+
+## Una revisión de diez minutos desde afuera
+
+Esto es análisis, no parte de los boletines. Lo que hizo el agente con WorkOS lo puedes hacer contra tu propio sitio antes de que lo haga otro. Estas peticiones deben responder 403 o 404, nunca 200:
+
+```bash
+curl -s -o /dev/null -w "%{http_code}\n" https://tusitio.com/.env
+curl -s -o /dev/null -w "%{http_code}\n" https://tusitio.com/.git/HEAD
+curl -s -o /dev/null -w "%{http_code}\n" https://tusitio.com/api/documentation
+curl -s -o /dev/null -w "%{http_code}\n" https://tusitio.com/telescope
+```
+
+Cuatro equivalentes de las fallas de WorkOS que aparecen seguido en proyectos Laravel:
+
+- **El `.env` público.** Pasa en hosting compartido cuando se sube el proyecto completo a `public_html` en lugar de apuntar el dominio a la carpeta `public/`. Si la primera petición devuelve 200, cualquiera puede leer tus credenciales: corrige la raíz del sitio y cambia todas las claves.
+- **Herramientas de desarrollo en producción.** La documentación de la API, los paneles de depuración y un `APP_DEBUG=true` que muestra variables de entorno en la página de error. Son el equivalente de la herramienta interna expuesta.
+- **Usuarios de prueba.** Un administrador creado por un *seeder* con una contraseña de ejemplo, que se ejecutó también en producción. Es la «credencial débil de desarrollo» del boletín. Revisa la tabla de usuarios y busca cuentas que nadie reconoce.
+- **Inicios de sesión hechos a mano.** Los paquetes de autenticación de Laravel limitan los intentos por defecto. Un endpoint de login propio para la app móvil no tiene ese límite, a menos que se lo pongas con `throttle`.
+
+Lo que cambió con los agentes es el tiempo. Antes, un proyecto pequeño contaba con que nadie se tomaría el trabajo de revisarlo. Ahora revisarlo no le cuesta trabajo a nadie.
 
 ## Resumen
 

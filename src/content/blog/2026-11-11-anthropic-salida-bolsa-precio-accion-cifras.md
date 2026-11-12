@@ -86,6 +86,26 @@ Esto es análisis, no parte del prospecto.
 
 **Cuidado con el ruido.** Las cifras de valoración que circulan son cálculos de medios a partir del rango de precio. El precio final, y lo que pase el primer día, todavía no se sabe.
 
+## Tres cuentas que salen de las cifras del prospecto
+
+Esto es análisis: son divisiones hechas con las cifras de las tablas de arriba, no datos adicionales del prospecto.
+
+**Cuánto cómputo cuesta cada dólar de ingreso.** Dividiendo el gasto en cómputo e infraestructura por los ingresos de cada periodo:
+
+| Periodo | Gasto en cómputo por cada dólar de ingreso |
+| --- | --- |
+| Año 2024 | 6,53 dólares |
+| Año 2025 | 1,60 dólares |
+| Enero a septiembre de 2026 | 0,57 dólares |
+
+Esa es la tendencia que sostiene toda la historia: el cómputo pasó de costar seis veces lo que entraba a costar algo más de la mitad. Para quien usa la API, es también el límite de hasta dónde pueden bajar los precios: mientras más de la mitad de cada dólar se vaya en cómputo, las rebajas dependen de que el cómputo se abarate.
+
+**Cuánto pesan los compromisos del próximo año.** Los 70.700 millones que vencen en los 12 meses siguientes equivalen a cerca del 87 % de los ingresos anualizados que la empresa informa (81.000 millones). Son magnitudes parecidas: la empresa necesita seguir creciendo para pagar la capacidad que ya contrató.
+
+**Para cuánto alcanza lo que recauda.** Los 84.600 millones netos que calcula recibir cubren unos 14 meses de esos compromisos. La salida a bolsa no resuelve el gasto en cómputo: compra tiempo.
+
+Sobre comprar acciones desde Colombia o el resto de Latinoamérica: el prospecto no lista ningún país de la región entre los que tendrán oferta pública, así que no hay forma de participar en la colocación inicial desde aquí. Cuando la acción ya se negocie en Nasdaq, se podrá comprar como cualquier otra acción de Estados Unidos, por medio de un comisionista o una plataforma con acceso a ese mercado. Nada de esto es una recomendación de inversión: una empresa puede ser importante para tu trabajo y aun así ser una mala compra al precio que salga.
+
 ## Resumen en pasos
 
 1. Anthropic presentó el 10 de noviembre ante la SEC un rango de 70 a 78 dólares por acción para su salida a Nasdaq con el símbolo `ANT`.

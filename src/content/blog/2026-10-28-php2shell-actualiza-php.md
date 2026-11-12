@@ -2,6 +2,7 @@
 titulo: 'PHP2Shell: las dos fallas críticas de PHP que ya se están explotando y cómo parchear tu servidor'
 descripcion: 'CVE-2026-109618 y CVE-2026-109619 permiten ejecutar código en tu servidor sin autenticación. Qué versiones de PHP están afectadas y qué hacer hoy.'
 fecha: 2026-10-28T09:00:00-05:00
+actualizado: 2026-11-11
 categoria: seguridad
 michi: alerta
 etiquetas: ['PHP', 'CVE-2026-109618', 'CVE-2026-109619', 'Laravel', 'PHP-FPM', 'Apache']
@@ -88,6 +89,32 @@ Una advertencia: `memory_limit=-1` quita el tope de memoria de PHP, así que con
 Este es el momento de migrar. PHP publicó parches mínimos en código fuente para 7.4, 8.0 y 8.1 por la gravedad del caso, pero **no habrá versiones compiladas**: tendrías que compilar PHP tú mismo o depender de un proveedor con soporte extendido. La próxima falla grave puede no tener ni eso.
 
 En la práctica, pasar un proyecto de 7.4 a 8.3 o 8.4 suele implicar revisar funciones obsoletas y actualizar dependencias de Composer. Es trabajo, pero bastante menos que recuperarse de un servidor comprometido.
+
+## Cómo saber qué tipo de instalación tienes
+
+Esto es análisis, no parte del aviso. El riesgo cambia según cómo se ejecuta PHP, y mucha gente no sabe cuál es su caso. El `phpinfo()` temporal del paso 1 lo dice en la línea **Server API**:
+
+| Server API | Qué significa |
+| --- | --- |
+| `Apache 2.0 Handler` | Apache con `mod_php`: el caso de mayor riesgo según PHP |
+| `FPM/FastCGI` | PHP-FPM, lo habitual detrás de Nginx |
+| `CGI/FastCGI` | `php-cgi`, lo habitual en IIS |
+| `LiteSpeed` | LiteSpeed, común en hosting compartido |
+
+Dos situaciones frecuentes en las que se actualiza una parte y se queda otra:
+
+**Varias versiones de PHP en el mismo servidor.** En Debian y Ubuntu cada versión tiene su carpeta y su servicio, y cada sitio puede usar una distinta:
+
+```bash
+ls /etc/php/
+systemctl list-units 'php*-fpm*'
+```
+
+Todas las que estén atendiendo sitios necesitan el parche y el reinicio, no solo la más nueva.
+
+**Varios sitios en un plan compartido.** El panel deja elegir la versión de PHP por dominio o por carpeta. Revisa cada sitio y cada subdominio: el blog que montaste hace tres años en un subdominio suele ser el que se quedó en la versión antigua.
+
+Para decidir el orden cuando tienes varios servidores: primero los que usan `mod_php` y están de cara a internet, después los de PHP-FPM públicos y al final los que solo se alcanzan desde una red interna. Y si un sitio viejo ya no se usa, apagarlo es más rápido que parchearlo.
 
 ## En resumen
 

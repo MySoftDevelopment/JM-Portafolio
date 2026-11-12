@@ -2,6 +2,7 @@
 titulo: 'APT29 infectó sitios web para robar datos de iPhone y Android: por qué actualizar el celular te protege'
 descripcion: 'Sekoia descubrió una campaña rusa que atacaba celulares desde sitios web legítimos y un script de analítica hackeado. Qué robaba, a quién afecta y qué hacer.'
 fecha: 2026-11-05
+actualizado: 2026-11-11
 categoria: ciberataques
 michi: antifaz
 etiquetas: ['APT29', 'Rusia', 'iOS', 'Android', 'Chrome', 'watering hole', 'cadena de suministro', 'CVE-2024-27834']
@@ -101,6 +102,34 @@ Cada `<script src="...">` de un tercero corre en tu página con los mismos permi
 - **Vigila los cambios**: si un script externo empieza a cargar otros dominios que no conoces, es una señal de alerta.
 
 Si ya leíste sobre el [hackeo a Binance](/blog/hackeo-binance-entrevista-falsa-corea-del-norte), el patrón se repite: los grupos patrocinados por Estados atacan a los proveedores y a las herramientas de confianza, no solo al objetivo final.
+
+## Cómo hacer el inventario de scripts de tu sitio
+
+Esto es análisis, no parte del informe. «Haz inventario» suena fácil, pero en un sitio con varios años nadie recuerda qué se instaló. Tres formas de sacarlo, de la más rápida a la más completa.
+
+Desde afuera, lo que carga la página de inicio:
+
+```bash
+curl -s https://tusitio.com | grep -oE 'src="https?://[^"]+"' | sort -u
+```
+
+Desde el código, lo que está escrito en las plantillas:
+
+```bash
+grep -rnoE "<script[^>]+src=[\"']https?://[^\"']+" --include=*.html --include=*.php .
+```
+
+Y lo que carga de verdad el navegador: abre las herramientas de desarrollo, ve a la pestaña de red, recarga y filtra por peticiones de terceros. Esta es la única que muestra lo que agregan **otros scripts**.
+
+Ese último punto es el que más se escapa. Si el sitio usa un gestor de etiquetas, alguien de mercadeo puede agregar un píxel o un mapa de calor sin pasar por el código ni por un despliegue. El inventario del repositorio queda incompleto por diseño: hay que revisar también el contenedor del gestor de etiquetas y decidir quién puede publicar en él. En WordPress pasa lo mismo con los plugins, que insertan sus propios scripts.
+
+Para empezar con CSP sin romper el sitio, usa primero el modo de solo reporte. El navegador no bloquea nada, pero deja en la consola cada script que la política habría rechazado:
+
+```nginx
+add_header Content-Security-Policy-Report-Only "script-src 'self' https://www.googletagmanager.com" always;
+```
+
+Déjalo unos días, navega el sitio completo, agrega los dominios que sí necesitas y solo entonces cambia la cabecera a `Content-Security-Policy`. Cada dominio que tengas que agregar es una pregunta: ¿este proveedor todavía lo usamos?
 
 ## Resumen
 

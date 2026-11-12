@@ -2,6 +2,7 @@
 titulo: 'Node.js corrige 10 vulnerabilidades, una con ejecución de código: actualiza a 22.23.4, 24.22.1 o 26.12.1'
 descripcion: 'La actualización de octubre de Node.js corrige un fallo de Brotli que permite ejecutar código y tres fallos de TLS y DNS. Qué versión instalar y cómo revisarlo.'
 fecha: 2026-10-28T10:00:00-05:00
+actualizado: 2026-11-11
 categoria: seguridad
 michi: escudo
 etiquetas: ['Node.js', 'CVE-2026-111497', 'TLS', 'SSRF', 'Docker']
@@ -77,6 +78,32 @@ Después de actualizar, **reinicia los procesos** (PM2, systemd o el contenedor)
 ### 3. Si sigues en Node.js 20
 
 Node.js 20 ya no tiene soporte y está afectado por estos fallos: no recibirá parche. Es el momento de pasar a la 22 o la 24, que son las LTS. En la mayoría de proyectos el salto es directo, pero corre tus pruebas y revisa las dependencias con binarios nativos (`bcrypt`, `sharp`, `sqlite3`), que deben recompilarse.
+
+## Dónde se queda pegada la versión vieja
+
+Esto es análisis, no parte del aviso. En un servidor con Node.js, instalar la versión nueva y usarla son dos cosas distintas. Tres comprobaciones que no dependen de lo que diga `node -v` en tu terminal:
+
+Cuándo arrancó cada proceso. Si la fecha es anterior a la actualización, sigue corriendo el binario viejo:
+
+```bash
+ps -eo pid,lstart,cmd | grep "[n]ode"
+```
+
+Con PM2, qué binario usa cada aplicación. La salida trae las líneas `node.js version` e `interpreter`:
+
+```bash
+pm2 show <nombre-de-la-app>
+```
+
+Con systemd, a qué ruta apunta el servicio. Si instalaste con nvm, es común que el servicio siga apuntando a la carpeta de la versión anterior:
+
+```bash
+systemctl cat <servicio> | grep ExecStart
+```
+
+Sobre el orden: no todos los servicios corren el mismo riesgo. Empieza por los que **hacen peticiones a direcciones que les pasa otro**: webhooks configurables, vistas previas de enlaces, importadores de URL, proxys. Esos reúnen los tres problemas a la vez. Resuelven nombres que no eligieron (el fallo de DNS), validan certificados de servidores ajenos (los de TLS) y reciben respuestas comprimidas que no controlan (el de Brotli, porque los clientes HTTP suelen aceptar y descomprimir Brotli sin que lo configures).
+
+Una API interna que solo habla con tu propia base de datos está bastante menos expuesta. Va en la misma actualización, pero no es la que justifica trasnochar.
 
 ## En resumen
 
