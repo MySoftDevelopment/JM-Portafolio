@@ -1,0 +1,212 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- Tema antes de pintar: el guardado o, por defecto, el oscuro (evita el parpadeo). --><script>
+            (function () {
+                var tema = null;
+                try {
+                    tema = localStorage.getItem('tema');
+                } catch (e) {}
+                if (tema !== 'light' && tema !== 'dark') tema = 'dark';
+                document.documentElement.dataset.theme = tema;
+            })();
+        </script><title>Qwen4-Max: el nuevo modelo de Alibaba, cuánto cuesta en la API y cómo se compara con Claude y Gemini | Juan Molina</title><meta name="description" content="Alibaba lanzó Qwen4-Max: 1M de tokens de contexto, 1,50 y 4,50 dólares por millón de tokens y API compatible con OpenAI y Anthropic. Qué cambia y qué revisar."><meta name="author" content="Juan Molina"><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><meta name="color-scheme" content="dark light"><meta name="theme-color" content="#141414"><meta name="generator" content="Astro v7.4.2"><meta name="google-adsense-account" content="ca-pub-2298253947440344"><link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://juanmolina.dev/blog/qwen4-max-alibaba-precio-api-claude-gemini/"><link rel="alternate" hreflang="es" href="https://juanmolina.dev/blog/qwen4-max-alibaba-precio-api-claude-gemini/"><link rel="alternate" hreflang="x-default" href="https://juanmolina.dev/blog/qwen4-max-alibaba-precio-api-claude-gemini/"><link rel="sitemap" type="application/xml" href="/sitemap.xml"><link rel="alternate" type="application/rss+xml" title="Blog de Juan Molina" href="/rss.xml"><meta property="og:type" content="article"><meta property="og:url" content="https://juanmolina.dev/blog/qwen4-max-alibaba-precio-api-claude-gemini/"><meta property="og:locale" content="es_CO"><meta property="og:site_name" content="Juan Molina"><meta property="og:title" content="Qwen4-Max: el nuevo modelo de Alibaba, cuánto cuesta en la API y cómo se compara con Claude y Gemini | Juan Molina"><meta property="og:description" content="Alibaba lanzó Qwen4-Max: 1M de tokens de contexto, 1,50 y 4,50 dólares por millón de tokens y API compatible con OpenAI y Anthropic. Qué cambia y qué revisar."><meta property="og:image" content="https://juanmolina.dev/images/og-image.jpg"><meta property="og:image:secure_url" content="https://juanmolina.dev/images/og-image.jpg"><meta property="og:image:alt" content="Juan Molina, desarrollador fullstack en Colombia, con Michi tecleando en su escritorio"><meta property="article:published_time" content="2026-11-16T00:00:00.000Z"><meta property="article:modified_time" content="2026-11-16T00:00:00.000Z"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Qwen4-Max: el nuevo modelo de Alibaba, cuánto cuesta en la API y cómo se compara con Claude y Gemini | Juan Molina"><meta name="twitter:description" content="Alibaba lanzó Qwen4-Max: 1M de tokens de contexto, 1,50 y 4,50 dólares por millón de tokens y API compatible con OpenAI y Anthropic. Qué cambia y qué revisar."><meta name="twitter:image" content="https://juanmolina.dev/images/og-image.jpg"><meta name="twitter:image:alt" content="Juan Molina, desarrollador fullstack en Colombia, con Michi tecleando en su escritorio"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","@id":"https://juanmolina.dev/blog/qwen4-max-alibaba-precio-api-claude-gemini/#entrada","headline":"Qwen4-Max: el nuevo modelo de Alibaba, cuánto cuesta en la API y cómo se compara con Claude y Gemini","description":"Alibaba lanzó Qwen4-Max: 1M de tokens de contexto, 1,50 y 4,50 dólares por millón de tokens y API compatible con OpenAI y Anthropic. Qué cambia y qué revisar.","url":"https://juanmolina.dev/blog/qwen4-max-alibaba-precio-api-claude-gemini/","mainEntityOfPage":"https://juanmolina.dev/blog/qwen4-max-alibaba-precio-api-claude-gemini/","datePublished":"2026-11-16T00:00:00.000Z","dateModified":"2026-11-16T00:00:00.000Z","inLanguage":"es-CO","image":"https://juanmolina.dev/images/og-image.jpg","keywords":"Alibaba, Qwen, Qwen4-Max, China, Modelos de IA, Precios","articleSection":"Inteligencia artificial","author":{"@id":"https://juanmolina.dev/#persona"},"publisher":{"@id":"https://juanmolina.dev/#persona"},"isPartOf":{"@id":"https://juanmolina.dev/blog/#blog"},"citation":["https://qwen.ai/blog?id=qwen4-max","https://www.alibabacloud.com/blog/qwen4-max-new-ai-teammate-for-work-creativity-and-discovery_603783","https://www.qwencloud.com/models/qwen4-max","https://docs.qwencloud.com/developer-guides/getting-started/latest-model","https://docs.qwencloud.com/developer-guides/getting-started/regions","https://docs.qwencloud.com/resources/free-quota","https://docs.qwencloud.com/api-reference/chat/anthropic","https://platform.claude.com/docs/en/about-claude/pricing","https://aistudio.google.com/docs/pricing"]},{"@type":"Person","@id":"https://juanmolina.dev/#persona","name":"Juan Molina","url":"https://juanmolina.dev/sobre-mi/","jobTitle":"Desarrollador Fullstack"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://juanmolina.dev/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://juanmolina.dev/blog/"},{"@type":"ListItem","position":3,"name":"Inteligencia artificial","item":"https://juanmolina.dev/blog/categoria/ia/"},{"@type":"ListItem","position":4,"name":"Qwen4-Max: el nuevo modelo de Alibaba, cuánto cuesta en la API y cómo se compara con Claude y Gemini","item":"https://juanmolina.dev/blog/qwen4-max-alibaba-precio-api-claude-gemini/"}]}]}</script><script>(function(){const src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2298253947440344";
+
+                    (function () {
+                        var hecho = false;
+                        var eventos = ['scroll', 'pointerdown', 'keydown', 'touchstart'];
+                        function cargar() {
+                            if (hecho) return;
+                            hecho = true;
+                            eventos.forEach(function (e) {
+                                removeEventListener(e, cargar);
+                            });
+                            var s = document.createElement('script');
+                            s.async = true;
+                            s.src = src;
+                            s.crossOrigin = 'anonymous';
+                            document.head.appendChild(s);
+                        }
+                        eventos.forEach(function (e) {
+                            addEventListener(e, cargar, { once: true, passive: true });
+                        });
+                        addEventListener('load', function () {
+                            setTimeout(cargar, 4000);
+                        });
+                    })();
+                })();</script><link rel="stylesheet" href="/_astro/Base.DpBP3u5x.css"></head><body><div id="root"><style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(function(){let e=(e,t)=>{let n=async()=>{await(await e())()},r=typeof t.value==`object`?t.value:void 0,i={timeout:r==null?void 0:r.timeout};`requestIdleCallback`in window?window.requestIdleCallback(n,i):setTimeout(n,i.timeout||200)};(self.Astro||(self.Astro={})).idle=e,window.dispatchEvent(new Event(`astro:idle`))})();</script><script>(function(){function e(t){"@babel/helpers - typeof";return e=typeof Symbol==`function`&&typeof Symbol.iterator==`symbol`?function(e){return typeof e}:function(e){return e&&typeof Symbol==`function`&&e.constructor===Symbol&&e!==Symbol.prototype?`symbol`:typeof e},e(t)}function t(t,n){if(e(t)!=`object`||!t)return t;var r=t[Symbol.toPrimitive];if(r!==void 0){var i=r.call(t,n||`default`);if(e(i)!=`object`)return i;throw TypeError(`@@toPrimitive must return a primitive value.`)}return(n===`string`?String:Number)(t)}function n(n){var r=t(n,`string`);return e(r)==`symbol`?r:r+``}function r(e,t,r){return(t=n(t))in e?Object.defineProperty(e,t,{value:r,enumerable:!0,configurable:!0,writable:!0}):e[t]=r,e}let i=/* @__PURE__ */ new Set([`__proto__`,`constructor`,`prototype`]);{let e={0:e=>a(e),1:e=>n(e),2:e=>new RegExp(e),3:e=>new Date(e),4:e=>new Map(n(e)),5:e=>new Set(n(e)),6:e=>BigInt(e),7:e=>new URL(e),8:e=>new Uint8Array(e),9:e=>new Uint16Array(e),10:e=>new Uint32Array(e),11:e=>1/0*e},t=t=>{let[n,r]=t;return n in e?e[n](r):void 0},n=e=>e.map(t),a=e=>typeof e!=`object`||!e?e:Object.fromEntries(Object.entries(e).map(([e,n])=>[e,t(n)]));class o extends HTMLElement{constructor(...e){super(...e),r(this,`Component`,void 0),r(this,`hydrator`,void 0),r(this,`hydrate`,async()=>{var e;if(!this.hydrator||!this.isConnected)return;let t=(e=this.parentElement)==null?void 0:e.closest(`astro-island[ssr]`);if(t){t.addEventListener(`astro:hydrate`,this.hydrate,{once:!0});return}let n=this.querySelectorAll(`astro-slot`),r={},i=this.querySelectorAll(`template[data-astro-template]`);for(let e of i){let t=e.closest(this.tagName);t!=null&&t.isSameNode(this)&&(r[e.getAttribute(`data-astro-template`)||`default`]=e.innerHTML,e.remove())}for(let e of n){let t=e.closest(this.tagName);t!=null&&t.isSameNode(this)&&(r[e.getAttribute(`name`)||`default`]=e.innerHTML)}let o;try{o=this.hasAttribute(`props`)?a(JSON.parse(this.getAttribute(`props`))):{}}catch(e){let t=this.getAttribute(`component-url`)||`<unknown>`,n=this.getAttribute(`component-export`);throw n&&(t+=` (export ${n})`),console.error(`[hydrate] Error parsing props for component ${t}`,this.getAttribute(`props`),e),e}await this.hydrator(this)(this.Component,o,r,{client:this.getAttribute(`client`)}),this.removeAttribute(`ssr`),this.dispatchEvent(new CustomEvent(`astro:hydrate`))}),r(this,`unmount`,()=>{this.isConnected||this.dispatchEvent(new CustomEvent(`astro:unmount`))})}disconnectedCallback(){document.removeEventListener(`astro:after-swap`,this.unmount),document.addEventListener(`astro:after-swap`,this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute(`await-children`)||document.readyState===`interactive`||document.readyState===`complete`)this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener(`DOMContentLoaded`,e),t.disconnect(),this.childrenConnectedCallback()},t=new MutationObserver(()=>{var t;((t=this.lastChild)==null?void 0:t.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue===`astro:end`&&(this.lastChild.remove(),e())});t.observe(this,{childList:!0}),document.addEventListener(`DOMContentLoaded`,e)}}async childrenConnectedCallback(){let e=this.getAttribute(`before-hydration-url`);e&&await import(e),this.start()}getRetryImportUrl(e){let t=new URL(e,document.baseURI);return t.searchParams.set(`astro-retry`,Date.now().toString()),t.toString()}async importWithRetry(e){try{return await import(e)}catch(t){return await new Promise(e=>setTimeout(e,1e3)),import(this.getRetryImportUrl(e))}}handleHydrationError(e){let t=this.getAttribute(`component-url`),n=new CustomEvent(`astro:hydration-error`,{cancelable:!0,bubbles:!0,composed:!0,detail:{error:e,componentUrl:t}});this.dispatchEvent(n)&&console.error(`[astro-island] Error hydrating ${t}`,e)}async start(){let e=JSON.parse(this.getAttribute(`opts`)),t=this.getAttribute(`client`);if(Astro[t]===void 0)window.addEventListener(`astro:${t}`,()=>this.start(),{once:!0});else try{await Astro[t](async()=>{let e=this.getAttribute(`renderer-url`);try{let[t,{default:n}]=await Promise.all([this.importWithRetry(this.getAttribute(`component-url`)),e?this.importWithRetry(e):Promise.resolve({default:()=>()=>{}})]),r=this.getAttribute(`component-export`)||`default`;if(r.includes(`.`)){this.Component=t;for(let e of r.split(`.`)){if(i.has(e)||!this.Component||typeof this.Component!=`object`&&typeof this.Component!=`function`||!Object.hasOwn(this.Component,e))throw Error(`Invalid component export path: ${r}`);this.Component=this.Component[e]}}else{if(i.has(r))throw Error(`Invalid component export path: ${r}`);this.Component=t[r]}return this.hydrator=n,this.hydrate}catch(e){return this.handleHydrationError(e),()=>{}}},e,this)}catch(e){this.handleHydrationError(e)}}attributeChangedCallback(){this.hydrate()}}r(o,`observedAttributes`,[`props`]),customElements.get(`astro-island`)||customElements.define(`astro-island`,o)}})();</script><astro-island uid="Z1ouOTd" prefix="r2" component-url="/_astro/Navbar.CHe-47lL.js" component-export="Navbar" renderer-url="/_astro/client.DzQbusUi.js" props="{&quot;pagina&quot;:[0,&quot;blog&quot;]}" ssr client="idle" opts="{&quot;name&quot;:&quot;Navbar&quot;,&quot;value&quot;:true}" await-children><header class="fixed inset-x-0 top-0 z-40 transition-colors duration-300 border-b border-transparent"><nav class="container-page flex h-16 items-center justify-between gap-6" aria-label="Principal"><a href="/" class="font-mono text-[15px] font-semibold tracking-tight" aria-label="Juan Molina, ir al inicio"><span class="text-accent">&lt;</span>JM<span class="text-accent">/&gt;</span></a><div class="hidden items-center gap-1 md:flex"><a href="/#proyectos" class="relative rounded-full px-3.5 py-2 font-mono text-[11.5px] uppercase tracking-[0.14em] transition-colors duration-200 text-muted hover:text-ink">Proyectos<span class="absolute inset-x-3.5 -bottom-0.5 h-px origin-left bg-sand transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] scale-x-0" aria-hidden="true"></span></a><a href="/#servicios" class="relative rounded-full px-3.5 py-2 font-mono text-[11.5px] uppercase tracking-[0.14em] transition-colors duration-200 text-muted hover:text-ink">Servicios<span class="absolute inset-x-3.5 -bottom-0.5 h-px origin-left bg-sand transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] scale-x-0" aria-hidden="true"></span></a><a href="/#stack" class="relative rounded-full px-3.5 py-2 font-mono text-[11.5px] uppercase tracking-[0.14em] transition-colors duration-200 text-muted hover:text-ink">Stack<span class="absolute inset-x-3.5 -bottom-0.5 h-px origin-left bg-sand transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] scale-x-0" aria-hidden="true"></span></a><a href="/sobre-mi/" class="relative rounded-full px-3.5 py-2 font-mono text-[11.5px] uppercase tracking-[0.14em] transition-colors duration-200 text-muted hover:text-ink">Sobre mí<span class="absolute inset-x-3.5 -bottom-0.5 h-px origin-left bg-sand transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] scale-x-0" aria-hidden="true"></span></a><a href="/blog/" aria-current="true" class="relative rounded-full px-3.5 py-2 font-mono text-[11.5px] uppercase tracking-[0.14em] transition-colors duration-200 text-ink">Blog<span class="absolute inset-x-3.5 -bottom-0.5 h-px origin-left bg-sand transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] scale-x-100" aria-hidden="true"></span></a></div><div class="flex items-center gap-3"><button type="button" class="grid h-10 w-10 place-items-center rounded-full border border-line-strong text-muted transition-[color,transform] duration-200 hover:text-ink active:scale-95" aria-label="Cambiar a tema claro"><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" viewBox="0 0 256 256" class="hidden dark:block"><path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" viewBox="0 0 256 256" class="dark:hidden"><path d="M233.54,142.23a8,8,0,0,0-8-2,88.08,88.08,0,0,1-109.8-109.8,8,8,0,0,0-10-10,104.84,104.84,0,0,0-52.91,37A104,104,0,0,0,136,224a103.09,103.09,0,0,0,62.52-20.88,104.84,104.84,0,0,0,37-52.91A8,8,0,0,0,233.54,142.23ZM188.9,190.34A88,88,0,0,1,65.66,67.11a89,89,0,0,1,31.4-26A106,106,0,0,0,96,56,104.11,104.11,0,0,0,200,160a106,106,0,0,0,14.92-1.06A89,89,0,0,1,188.9,190.34Z"></path></svg></button><a href="/#contacto" class="btn-primary hidden h-[34px] [--relieve:transparent] sm:inline-flex">Escríbeme</a><button type="button" class="grid h-10 w-10 place-items-center rounded-full border border-line-strong text-ink transition-transform active:scale-95 md:hidden" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"></path></svg></button></div></nav></header><!--astro:end--></astro-island><main id="contenido" class="pb-24 pt-28 md:pb-36 md:pt-36"><article class="container-page"><header class="mx-auto max-w-[72ch]"><div><nav aria-label="Ruta" class="font-mono text-[11px] uppercase tracking-[0.14em] text-faint"><a href="/blog/" class="transition-colors hover:text-ink">Blog</a><span class="mx-2" aria-hidden="true">/</span><a href="/blog/categoria/ia/" class="text-accent underline-offset-4 hover:underline">Inteligencia artificial</a></nav><h1 class="mt-6 text-[2.3rem] font-semibold leading-[1.05] tracking-[-0.035em] md:text-[3.4rem]">Qwen4-Max: el nuevo modelo de Alibaba, cuánto cuesta en la API y cómo se compara con Claude y Gemini</h1><p class="mt-6 text-lg leading-relaxed text-muted md:text-xl">Alibaba lanzó Qwen4-Max: 1M de tokens de contexto, 1,50 y 4,50 dólares por millón de tokens y API compatible con OpenAI y Anthropic. Qué cambia y qué revisar.</p></div><p class="col-span-2 mt-8 flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-line pb-8 font-mono text-[11px] uppercase tracking-[0.14em] text-faint"><a href="/sobre-mi/" rel="author" class="transition-colors hover:text-ink">Juan Molina</a><time datetime="2026-11-16T00:00:00.000Z">16 de noviembre de 2026</time><span>7 min de lectura</span></p></header><div class="prosa mx-auto mt-10 max-w-[72ch]"><p>El 16 de noviembre Alibaba lanzó <strong>Qwen4-Max</strong>, el primer modelo de la familia Qwen4 y, según la empresa, el más capaz que ha hecho. Llega a la API de QwenCloud con un precio más bajo que su antecesor, Qwen3.8-Max, y con compatibilidad con los SDK de OpenAI y de Anthropic.</p>
+<p>Llega una semana después de <a href="/blog/claude-fable-5-2-mythos-precio-novedades/">Claude Fable 5.2</a> y <a href="/blog/gemini-4-hydrogen-precio-api-migrar-flash/">Gemini 4 Hydrogen</a>, pero viene de China, y eso agrega una pregunta que con los otros dos no aparece: dónde se procesan tus datos.</p>
+<h2 id="qué-anunció-alibaba">Qué anunció Alibaba</h2>
+<p>Según el anuncio del equipo de Qwen y la documentación de QwenCloud:</p>
+<ul>
+<li><strong>Tamaño:</strong> es un modelo de mezcla de expertos (MoE) con 2,4 billones de parámetros en total, de los que activa 71.000 millones por token. Son 25 % menos parámetros activos que Qwen3.8-Max, que tiene el mismo tamaño total.</li>
+<li><strong>Contexto:</strong> un millón de tokens. La salida máxima es de 131.072 tokens sin razonamiento y de 262.144 sumando razonamiento y respuesta.</li>
+<li><strong>Entrada y salida:</strong> entra texto, imagen y video; sale texto. También entiende PDF.</li>
+<li><strong>Razonamiento:</strong> viene activado por defecto en el nivel <code>high</code>. Se puede bajar a <code>low</code>, subir a <code>xhigh</code> o apagar con <code>enable_thinking=false</code>.</li>
+<li><strong>Identificador en la API:</strong> <code>qwen4-max</code>.</li>
+<li><strong>Dónde está:</strong> en la API de QwenCloud, en el plan de créditos Token Plan y en los productos de Alibaba QwenWork, QwenStudio y Qoder.</li>
+<li><strong>Pesos abiertos:</strong> Max no los tiene. Alibaba dice que los modelos pequeños de la familia Qwen4 saldrán como código abierto, pero no dio fecha.</li>
+<li><strong>Lo que no soporta:</strong> procesamiento por lotes (<em>batch</em>), ajuste fino (<em>fine-tuning</em>) ni despliegue propio.</li>
+</ul>
+<h3 id="lo-que-dice-alibaba-de-su-rendimiento">Lo que dice Alibaba de su rendimiento</h3>
+<p>Estas cifras son de Alibaba y varias salen de pruebas propias, así que tómalas como lo que la empresa afirma, no como una medición independiente:</p>
+<ul>
+<li>En <strong>Work360</strong>, un benchmark que creó Alibaba con tareas de 721 especialidades, Qwen4-Max saca 52,69 puntos contra 47,74 de Qwen3.8-Max.</li>
+<li>En esa misma prueba, el costo promedio por tarea baja de 4,43 a 1,67 dólares (62 % menos) y usa entre 24 % y 35 % menos tokens, según el nivel de razonamiento.</li>
+<li>Alibaba dice que quedó sexto en Code Arena, una clasificación de programación con tareas reales.</li>
+<li>En seguridad, dice que filtró los datos de entrenamiento para quitar material de ataque y dejar el de defensa, y que en una prueba de código seguro la tasa de funciones correctas y sin vulnerabilidades subió de 22 % a 31,8 %.</li>
+</ul>
+<h2 id="cuánto-cuesta">Cuánto cuesta</h2>
+<p>QwenCloud cobra distinto según la región. Estos son los precios de la región de Singapur, en dólares por millón de tokens, sacados de la ficha del modelo y de la tabla de precios el 16 de noviembre:</p>
+<table>
+<thead>
+<tr>
+<th>Concepto</th>
+<th>Qwen4-Max</th>
+<th>Qwen3.8-Max</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Entrada</td>
+<td>1,50</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Salida (razonamiento + respuesta)</td>
+<td>4,50</td>
+<td>6</td>
+</tr>
+<tr>
+<td>Entrada en caché implícita</td>
+<td>0,075</td>
+<td>0,25</td>
+</tr>
+<tr>
+<td>Lectura de caché explícita</td>
+<td>0,075</td>
+<td>0,17</td>
+</tr>
+<tr>
+<td>Escritura de caché explícita (5 minutos)</td>
+<td>1,875</td>
+<td>2,50</td>
+</tr>
+</tbody>
+</table>
+<p>La bajada es de 25 % en entrada y salida, y de 70 % en la caché implícita. Eso importa si tu aplicación repite en cada petición un prompt de sistema largo, definiciones de herramientas o documentos de referencia.</p>
+<p>En Singapur hay una cuota gratuita de un millón de tokens para este modelo, que por lo general vence a los 90 días: si ya tenías cuenta, se cuentan desde el lanzamiento del modelo; si eres nuevo, desde que activas la cuenta. Solo aplica a llamadas en tiempo real hechas con una clave de Singapur, y hay que registrar un medio de pago para activarla.</p>
+<h2 id="comparación-con-claude-y-gemini">Comparación con Claude y Gemini</h2>
+<p>Con los precios estándar publicados por cada empresa, en dólares por millón de tokens:</p>
+<table>
+<thead>
+<tr>
+<th>Modelo</th>
+<th>Entrada</th>
+<th>Salida</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Qwen4-Max (Singapur)</td>
+<td>1,50</td>
+<td>4,50</td>
+</tr>
+<tr>
+<td>Gemini 4 Hydrogen</td>
+<td>1,50</td>
+<td>7,50</td>
+</tr>
+<tr>
+<td>Gemini 4 Carbon (desde el 1 de diciembre)</td>
+<td>4</td>
+<td>20</td>
+</tr>
+<tr>
+<td>Claude Sonnet 5.5</td>
+<td>2</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Claude Opus 5.5</td>
+<td>4</td>
+<td>20</td>
+</tr>
+</tbody>
+</table>
+<p>Un ejemplo con números redondos: 1.000 peticiones al día de 5.000 tokens de entrada y 1.000 de salida suman 5 millones de entrada y 1 millón de salida diarios. Con Qwen4-Max serían 7,50 + 4,50 = 12 dólares al día; con Gemini 4 Hydrogen, 15; con Claude Opus 5.5, 40. Es una cuenta ilustrativa: en la práctica cambia según cuántos tokens de razonamiento gaste cada modelo para la misma tarea, y eso solo lo sabes probando.</p>
+<p>Lo que la tabla no dice: Hydrogen es el modelo rápido de Google y Qwen4-Max es el grande de Alibaba. Que el grande de uno cueste menos que el rápido de otro llama la atención, pero no garantiza la misma calidad en tus tareas.</p>
+<h2 id="dónde-se-procesan-tus-datos-la-región-importa">Dónde se procesan tus datos: la región importa</h2>
+<p>Este es el punto que el anuncio no menciona y que más debería revisar quien trabaja con datos de clientes.</p>
+<p>En QwenCloud cada región tiene su propia URL, sus propias claves y su lista de modelos. Además, existe el <strong>alcance de despliegue</strong>, que decide dónde corre la inferencia. Según la documentación:</p>
+<table>
+<thead>
+<tr>
+<th>Región</th>
+<th>Alcance</th>
+<th>Dónde corre la inferencia</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Singapur</td>
+<td>Internacional</td>
+<td>Nodos fuera de China continental</td>
+</tr>
+<tr>
+<td>Pekín</td>
+<td>China continental</td>
+<td>China continental</td>
+</tr>
+<tr>
+<td>Fráncfort, Hong Kong, Tokio, Virginia (EE. UU.)</td>
+<td>Global</td>
+<td>Cualquier nodo disponible, incluida China continental</td>
+</tr>
+<tr>
+<td>Fráncfort, Hong Kong, Tokio, Virginia (EE. UU.)</td>
+<td>Local (UE, Hong Kong, Japón o EE. UU.)</td>
+<td>Solo ese territorio</td>
+</tr>
+</tbody>
+</table>
+<p>El detalle está en que el espacio de trabajo por defecto en Fráncfort, Hong Kong, Tokio y Virginia usa el alcance <strong>Global</strong>, y el alcance no se puede cambiar después de crear el espacio de trabajo. Es decir: elegir la URL de Virginia no basta para que tus datos se queden en Estados Unidos. Además, la documentación dice que Qwen4-Max está en Singapur, Pekín y en el alcance Global de las otras cuatro regiones; no lo lista en los alcances locales.</p>
+<h3 id="cómo-comprobarlo-en-tu-proyecto">Cómo comprobarlo en tu proyecto</h3>
+<p>Esto es análisis a partir de la documentación oficial.</p>
+<ol>
+<li><strong>Mira la URL base</strong> que usa tu código. Si empieza por <code>ap-southeast-1.maas.qwencloudapi.com</code>, estás en Singapur; la inferencia corre fuera de China continental y aplica la cuota gratuita.</li>
+<li><strong>Si usas otra región</strong>, entra a la consola, revisa el alcance del espacio de trabajo al que pertenece tu clave y confirma que coincide con lo que le prometiste a tu cliente.</li>
+<li><strong>Si tu aplicación maneja datos personales</strong> de usuarios en Colombia, la Ley 1581 tiene reglas para transferir datos fuera del país. Cambiar de proveedor de IA es un cambio de a dónde van esos datos, así que vale la pena revisarlo con quien te asesore en protección de datos antes de pasar a producción, no después.</li>
+</ol>
+<h2 id="qué-cambia-para-quien-desarrolla">Qué cambia para quien desarrolla</h2>
+<p>La compatibilidad es lo práctico. QwenCloud acepta las API de Chat Completions y Responses de OpenAI, la API Messages de Anthropic y su propia API, DashScope. Si tu proyecto Node.js ya usa el SDK de OpenAI, probar Qwen4-Max es cambiar la URL base, la clave y el modelo:</p>
+<pre class="astro-code astro-code-themes github-light github-dark" style="--shiki-light:#24292e;--shiki-dark:#e1e4e8;--shiki-light-bg:#fff;--shiki-dark-bg:#24292e; overflow-x: auto;" tabindex="0" data-language="ts"><code><span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">import</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> OpenAI </span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">from</span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF"> 'openai'</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#6A737D;--shiki-dark:#6A737D">// Región Singapur. Para otra región, cambia ap-southeast-1 en la URL.</span></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">const</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> client</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> =</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> new</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0"> OpenAI</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">({</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    apiKey: process.env.</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">DASHSCOPE_API_KEY</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    baseURL: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">'https://ap-southeast-1.maas.qwencloudapi.com/compatible-mode/v1'</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#D73A49;--shiki-dark:#F97583">const</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF"> respuesta</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> =</span><span style="--shiki-light:#D73A49;--shiki-dark:#F97583"> await</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> client.chat.completions.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0">create</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">({</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    model: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">'qwen4-max'</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">,</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">    messages: [{ role: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">'user'</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">, content: </span><span style="--shiki-light:#032F62;--shiki-dark:#9ECBFF">'Resume este contrato en cinco puntos.'</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8"> }],</span></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">console.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B392F0">log</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">(respuesta.choices[</span><span style="--shiki-light:#005CC5;--shiki-dark:#79B8FF">0</span><span style="--shiki-light:#24292E;--shiki-dark:#E1E4E8">].message.content);</span></span></code></pre>
+<p>Si usas el SDK de Anthropic, la URL base es <code>https://ap-southeast-1.maas.qwencloudapi.com/apps/anthropic</code>. La documentación avisa que ese endpoint solo ofrece <code>/v1/messages</code> y no lista modelos, así que el nombre del modelo va escrito a mano.</p>
+<h3 id="criterio-para-decidir">Criterio para decidir</h3>
+<p>Esto es análisis, no una recomendación de la empresa.</p>
+<ul>
+<li><strong>Si tu costo está en tokens de entrada repetidos</strong> (prompts de sistema largos, RAG con los mismos documentos), el precio de caché de Qwen4-Max es de lo más bajo de la tabla y vale la pena medirlo.</li>
+<li><strong>Si necesitas procesar por lotes o afinar el modelo</strong>, hoy no se puede con Qwen4-Max.</li>
+<li><strong>Si un cliente te exige que los datos no salgan de cierto territorio</strong>, usa Singapur o descártalo hasta revisar el alcance; no asumas que la región de la URL lo resuelve.</li>
+<li><strong>Si quieres correrlo en tu propio servidor</strong>, Max no sirve: no tiene pesos abiertos. Toca esperar los modelos pequeños de Qwen4, que no tienen fecha.</li>
+<li><strong>En todos los casos</strong>, compara con tus propios prompts. Los benchmarks del anuncio los eligió Alibaba, como Google y Anthropic eligen los suyos.</li>
+</ul>
+<h2 id="resumen">Resumen</h2>
+<ol>
+<li><strong>Qué salió:</strong> Qwen4-Max, el modelo más grande de Alibaba, con un millón de tokens de contexto, visión nativa y razonamiento ajustable. Identificador: <code>qwen4-max</code>.</li>
+<li><strong>Cuánto cuesta:</strong> en Singapur, 1,50 dólares por millón de tokens de entrada y 4,50 de salida, 25 % menos que Qwen3.8-Max, con lectura de caché a 0,075.</li>
+<li><strong>Cómo se usa:</strong> con los SDK de OpenAI o de Anthropic, cambiando URL, clave y modelo.</li>
+<li><strong>Qué revisar:</strong> la región y el alcance de despliegue. En el alcance Global la inferencia puede correr en China continental.</li>
+<li><strong>Qué falta:</strong> pesos abiertos, procesamiento por lotes y ajuste fino. Antes de cambiar, prueba con tus casos reales.</li>
+</ol>
+</div><footer class="mx-auto mt-14 max-w-[72ch] space-y-6"><section aria-labelledby="fuentes" class="card p-6 md:p-7"><h2 id="fuentes" class="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">Fuentes</h2><ul class="mt-4 space-y-2.5 text-[15px] leading-snug"><li><a href="https://qwen.ai/blog?id=qwen4-max" target="_blank" rel="noopener" class="text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-accent">Qwen: Qwen4-Max: Your New Teammate Has Arrived (16 de noviembre de 2026)</a></li><li><a href="https://www.alibabacloud.com/blog/qwen4-max-new-ai-teammate-for-work-creativity-and-discovery_603783" target="_blank" rel="noopener" class="text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-accent">Alibaba Cloud: Alibaba Unveils Qwen4-Max (comunicado)</a></li><li><a href="https://www.qwencloud.com/models/qwen4-max" target="_blank" rel="noopener" class="text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-accent">QwenCloud: ficha y precios de qwen4-max</a></li><li><a href="https://docs.qwencloud.com/developer-guides/getting-started/latest-model" target="_blank" rel="noopener" class="text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-accent">QwenCloud Docs: Latest model: Qwen4-Max</a></li><li><a href="https://docs.qwencloud.com/developer-guides/getting-started/regions" target="_blank" rel="noopener" class="text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-accent">QwenCloud Docs: Regions, deployment scopes, and endpoints</a></li><li><a href="https://docs.qwencloud.com/resources/free-quota" target="_blank" rel="noopener" class="text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-accent">QwenCloud Docs: Free quota</a></li><li><a href="https://docs.qwencloud.com/api-reference/chat/anthropic" target="_blank" rel="noopener" class="text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-accent">QwenCloud Docs: Anthropic Messages API</a></li><li><a href="https://platform.claude.com/docs/en/about-claude/pricing" target="_blank" rel="noopener" class="text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-accent">Claude: precios de la API</a></li><li><a href="https://aistudio.google.com/docs/pricing" target="_blank" rel="noopener" class="text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-accent">Gemini API: precios</a></li></ul><p class="mt-5 text-[13px] leading-relaxed text-faint">Entrada preparada con ayuda de IA a partir de las fuentes enlazadas arriba, con las reglas de verificación que explico en <a href="/sobre-mi/#blog" class="underline decoration-line-strong underline-offset-4 hover:text-ink">cómo se hace este blog</a>. ¿Ves un error? <a href="/contacto/" class="underline decoration-line-strong underline-offset-4 hover:text-ink">Escríbeme</a> y lo corrijo.</p></section><ul class="flex flex-wrap gap-2" aria-label="Etiquetas"><li class="chip">Alibaba</li><li class="chip">Qwen</li><li class="chip">Qwen4-Max</li><li class="chip">China</li><li class="chip">Modelos de IA</li><li class="chip">Precios</li></ul><section class="card flex flex-col items-start gap-5 p-6 md:flex-row md:items-center md:justify-between md:p-7"><p class="max-w-[44ch] text-lg leading-snug">¿No sabes si tu sitio o tu servidor está expuesto? <span class="text-muted">Lo reviso y te digo qué corregir.</span></p><a href="/servicios/revision-seguridad/" class="btn-primary shrink-0">Ver la revisión</a></section></footer></article><aside aria-labelledby="mas-entradas" class="container-page mt-24"><h2 id="mas-entradas" class="kicker">Más del blog</h2><ul class="mt-6 grid gap-4 md:grid-cols-3"><li><a href="/blog/gemini-4-hydrogen-precio-api-migrar-flash/" class="card flex h-full flex-col p-6 md:p-7"><span class="flex items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-[0.14em] text-faint"><span class="text-accent">Inteligencia artificial</span><time datetime="2026-11-14T00:00:00.000Z">14 de noviembre de 2026</time></span><span class="mt-4 flex items-end justify-between gap-4"><span class="text-xl font-semibold leading-snug tracking-[-0.02em]">Gemini 4 Hydrogen: precio, plan gratuito y lo que rompe al migrar desde Gemini 3.8 Flash</span><img src="/images/blog/gemini-4-hydrogen-precio-api-migrar-flash/escena.webp" alt="" width="72" height="72" loading="lazy" class="h-[72px] w-[72px] shrink-0 object-contain"></span></a></li><li><a href="/blog/claude-fable-5-2-mythos-precio-novedades/" class="card flex h-full flex-col p-6 md:p-7"><span class="flex items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-[0.14em] text-faint"><span class="text-accent">Inteligencia artificial</span><time datetime="2026-11-10T00:00:00.000Z">10 de noviembre de 2026</time></span><span class="mt-4 flex items-end justify-between gap-4"><span class="text-xl font-semibold leading-snug tracking-[-0.02em]">Claude Fable 5.2 y Mythos 5.2: qué cambia, cuánto cuesta y cuándo usarlo en vez de Opus 5.5</span><img src="/images/blog/claude-fable-5-2-mythos-precio-novedades/escena.webp" alt="" width="72" height="72" loading="lazy" class="h-[72px] w-[72px] shrink-0 object-contain"></span></a></li><li><a href="/blog/gpt-6-cyber-openai-fallas-kernel-linux/" class="card flex h-full flex-col p-6 md:p-7"><span class="flex items-center justify-between gap-3 font-mono text-[11px] uppercase tracking-[0.14em] text-faint"><span class="text-accent">Inteligencia artificial</span><time datetime="2026-11-06T00:00:00.000Z">6 de noviembre de 2026</time></span><span class="mt-4 flex items-end justify-between gap-4"><span class="text-xl font-semibold leading-snug tracking-[-0.02em]">GPT-6 Cyber: el modelo de OpenAI para encontrar y explotar fallas, y las 948 del kernel Linux</span><img src="/images/blog/gpt-6-cyber-openai-fallas-kernel-linux/escena.webp" alt="" width="72" height="72" loading="lazy" class="h-[72px] w-[72px] shrink-0 object-contain"></span></a></li></ul></aside></main><footer class="border-t border-line py-10"><div class="container-page flex flex-col gap-4 font-mono text-[11px] uppercase tracking-[0.12em] text-faint sm:flex-row sm:items-center sm:justify-between"><p><span class="text-[13px] font-semibold normal-case tracking-normal text-ink"><span class="text-accent">&lt;</span>JM<span class="text-accent">/&gt;</span></span><span class="ml-3">© <!-- -->2026<!-- --> <!-- -->Juan Molina</span></p><nav class="flex flex-wrap gap-x-6 gap-y-3" aria-label="Pie de página"><a href="/blog/" class="hover:text-ink">Blog</a><a href="/sobre-mi/" class="hover:text-ink">Sobre mí</a><a href="/contacto/" class="hover:text-ink">Contacto</a><a href="https://github.com/OuisVN" target="_blank" rel="noopener noreferrer" class="hover:text-ink">GitHub</a><a href="/privacidad/" class="hover:text-ink">Privacidad</a><a href="/terminos/" class="hover:text-ink">Términos</a><a href="#" class="hover:text-ink">Volver arriba</a></nav></div></footer></div><!-- La configuración en tiempo de ejecución se carga en segundo plano: la página no la espera. --><script type="module">fetch(`/config.json`).then(e=>e.json()).then(e=>{window.Config=e}).catch(()=>void 0);</script></body></html>
