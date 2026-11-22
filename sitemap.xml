@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
     <url>
         <loc>https://juanmolina.dev/</loc>
-        <lastmod>2026-11-21</lastmod>
+        <lastmod>2026-11-22</lastmod>
         <image:image><image:loc>https://juanmolina.dev/images/og-image.jpg</image:loc></image:image>
         <image:image><image:loc>https://juanmolina.dev/images/projects/inces.webp</image:loc></image:image>
         <image:image><image:loc>https://juanmolina.dev/images/projects/inces-app.webp</image:loc></image:image>
@@ -16,14 +16,14 @@
     </url>
     <url>
         <loc>https://juanmolina.dev/blog/</loc>
-        <lastmod>2026-11-21</lastmod>
+        <lastmod>2026-11-22</lastmod>
     </url>
     <url>
         <loc>https://juanmolina.dev/servicios/revision-seguridad/</loc>
     </url>
     <url>
         <loc>https://juanmolina.dev/blog/categoria/seguridad/</loc>
-        <lastmod>2026-11-19</lastmod>
+        <lastmod>2026-11-22</lastmod>
     </url>
     <url>
         <loc>https://juanmolina.dev/blog/categoria/ciberataques/</loc>
@@ -52,6 +52,10 @@
     </url>
     <url>
         <loc>https://juanmolina.dev/terminos/</loc>
+    </url>
+    <url>
+        <loc>https://juanmolina.dev/blog/php-8-5-13-fallas-criticas-php-fpm-actualiza/</loc>
+        <lastmod>2026-11-22</lastmod>
     </url>
     <url>
         <loc>https://juanmolina.dev/blog/comision-europea-ataque-ia-artex/</loc>
